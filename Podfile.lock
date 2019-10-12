@@ -1,0 +1,28 @@
+PODS:
+  - Alamofire (4.9.0)
+  - Arcane (2.1)
+  - ObjectMapper (3.5.1)
+  - Starscream (3.0.6)
+
+DEPENDENCIES:
+  - Alamofire
+  - Arcane
+  - ObjectMapper
+  - Starscream (~> 3.0.2)
+
+SPEC REPOS:
+  trunk:
+    - Alamofire
+    - Arcane
+    - ObjectMapper
+    - Starscream
+
+SPEC CHECKSUMS:
+  Alamofire: afc3e7c6db61476cb45cdd23fed06bad03bbc321
+  Arcane: 3a2e2f773a112911693ad4dcf4bec4293fac63e7
+  ObjectMapper: 70187b8941977c62ccfb423caf6b50be405cabf0
+  Starscream: ef3ece99d765eeccb67de105bfa143f929026cf5
+
+PODFILE CHECKSUM: bd3ab3f69aa143db0f928a5e4dd55bc79ed9f31b
+
+COCOAPODS: 1.8.0

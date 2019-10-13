@@ -108,14 +108,22 @@ class PlaceNewOrderViewController: UIViewController {
         super.viewDidAppear(animated)
         initalTextfields()
         
-        viewModel.checkQuantityAndPlaceNewOrder(type: .LIMIT, asset: "MATIC", currency: "BTC", side: .BUY, percentage: "5", price: "0.00000188") { (responseObject, error) in
-            
+        viewModel.checkQuantityAndPlaceNewOrder(type: .OCO, asset: "ETH", currency: "BTC", side: .BUY, percentage: "100", price: "0.021700", stopPrice: "0.022000", stopLimitPrice: "0.022010") { (responseObject, error) in
+
             if responseObject != nil {
                 AlertUtility.showAlert(title: "Successfully placed new order!")
             } else {
                 AlertUtility.showAlert(title: error!)
             }
         }
+//        viewModel.checkQuantityAndPlaceNewOrder(type: .OCO, asset: "LINK", currency: "BTC", side: .BUY, percentage: "25", price: "0.00030500") { (responseObject, error) in
+//
+//            if responseObject != nil {
+//                AlertUtility.showAlert(title: "Successfully placed new order!")
+//            } else {
+//                AlertUtility.showAlert(title: error!)
+//            }
+//        }
         
 
 

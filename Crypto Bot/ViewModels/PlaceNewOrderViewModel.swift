@@ -28,7 +28,7 @@ public class PlaceNewOrderViewModel: NSObject {
                     return
                 }
                 
-                self.placeNewOrder(type: type, Symbol: "\(asset)\(currency)", side: side, price: price, quantity: quantity ?? 0, stopPrice: stopPrice, stopLimitPrice: stopLimitPrice) { (result, error) in
+                OrderHandler.shared.placeNewOrderWith(type: type, Symbol: "\(asset)\(currency)", side: side, price: price, quantity: quantity ?? 0, stopPrice: stopPrice, stopLimitPrice: stopLimitPrice) { (result, error) in
                     response(result, error)
                 }
             }
@@ -37,57 +37,6 @@ public class PlaceNewOrderViewModel: NSObject {
                 //TODO: Get market price and place order
             }
         }
-        
-    }
-    
-    func placeNewOrder(type: OrderTypes, Symbol: String, side: OrderSide, price: String? = nil, quantity: Double, stopPrice: String? = nil, stopLimitPrice: String? = nil, response: @escaping(_ order: OrderResponseObject?, _ error: String?) -> Swift.Void) {
-        
-        let timeStamp = NSDate().timeIntervalSince1970 * 1000
-        
-        GeneralServices.shared.checkServerTime { (time, error) in
-
-            switch type {
-            case .LIMIT:
-                AccountServices.shared.postNew_LIMIT_Order(symbol: Symbol, side: side, timeInForce: .GTC, quantity: quantity, price: price ?? "", timestamp: timeStamp) { (responce, error) in
-                    guard error == nil else {
-                        response(nil, error?.description)
-                        return
-                    }
-                    
-                    
-                }
-                break
-            case .LIMIT_MAKER:
-                
-                break
-            case .MARKET:
-                
-                break
-            case .OCO:
-                AccountServices.shared.postNewOCOOrder(symbol: Symbol, side: .BUY, quantity: quantity, price: price ?? "", stopPrice: stopPrice ?? "", timestamp: timeStamp) { (responce, error) in
-                    guard error == nil else {
-                        response(nil, error?.description)
-                        return
-                    }
-                }
-                
-                break
-            case .STOP_LOSS:
-                
-                break
-            case .STOP_LOSS_LIMIT:
-                
-                break
-            case .TAKE_PROFIT:
-                
-                break
-            case .TAKE_PROFIT_LIMIT:
-                
-                break
-            }
-
-        }
-//        response(OrderResponseObject(), nil)
         
     }
     
@@ -123,7 +72,6 @@ public class PlaceNewOrderViewModel: NSObject {
                     let lotSizeFilter = lotSizeArray[0]
                     
                     var quantity = round((balance!.free!.doubleValue * 0.99 * percent.doubleValue) / price.doubleValue / 100 * 100) / 100
-                    response(quantity, nil)
                                         
                     if quantity < lotSizeFilter.minQty!.doubleValue {
                         response(nil, "Order quantity is less than minimum size")
@@ -140,13 +88,9 @@ public class PlaceNewOrderViewModel: NSObject {
                     response(quantity, nil)
                     
                 }
-                
             }
-            
-
         }
     }
-    
 }
 
 extension String {

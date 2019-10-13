@@ -9,7 +9,7 @@
 import Foundation
 import ObjectMapper
 
-class executionReport: BaseApiModel {
+class ExecutionReport: BaseApiModel {
     
     var eventType: String?
     var eventTime: TimeInterval?

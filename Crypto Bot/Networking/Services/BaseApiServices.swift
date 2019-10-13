@@ -52,13 +52,9 @@ public class BaseApiServices: NSObject
             }
         }
         
-        //        finalUrl = URL(string: "https://api.binance.com/api/v3/order/oco?timestamp=1570791153666&quantity=153.0&recvWindow=60000&symbol=AEBTC&stopLimitPrice=0.00002230&side=BUY&price=0.00002030&stopPrice=0.00002025&stopLimitTimeInForce=GTC")
-
         var finalUrl = URL(string: "\(baseURL)\(endpoint)")
         finalUrl = appendParametersIfNeeded(baseUrl: finalUrl!, params: parameters)
-        if endpoint == "/api/v3/order/oco" {
-                    finalUrl = URL(string: "https://api.binance.com/api/v3/order/oco?timestamp=1570791153666&quantity=153.0&recvWindow=60000&symbol=AEBTC&stopLimitPrice=0.00002230&side=BUY&price=0.00002030&stopPrice=0.00002025&stopLimitTimeInForce=GTC")
-        }
+
         let queryString = "\(finalUrl!)".components(separatedBy: "?").last
         
         if embedSignature! {
@@ -122,6 +118,8 @@ public class BaseApiServices: NSObject
                     error = ApiError()
                     error?.statusCode = 0
                     error?.description = err.localizedDescription
+                    response(.failure)
+                    return
                 }
                 
                 var value: ServerResponse

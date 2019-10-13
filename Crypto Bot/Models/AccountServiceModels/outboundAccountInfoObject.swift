@@ -9,7 +9,7 @@
 import Foundation
 import ObjectMapper
 
-class outboundAccountInfo: BaseApiModel {
+class OutboundAccountInfo: BaseApiModel {
     
     var eventType: String?
     var eventTime: TimeInterval?

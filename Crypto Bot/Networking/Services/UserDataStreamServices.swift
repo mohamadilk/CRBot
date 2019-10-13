@@ -20,9 +20,17 @@ fileprivate struct Keys
     }
 }
 
+protocol UserDataStreamServicesDelegate {
+    
+    func didReceiveExecutionReport(object: ExecutionReport)
+    func didReceiveOutboundAccount(Info: OutboundAccountInfo)
+    
+}
+
 class UserDataStreamServices: BaseApiServices {
     
     static let shared = UserDataStreamServices()
+    var delegate: UserDataStreamServicesDelegate?
     var socket: WebSocket?
     
     // Start a new user data stream. The stream will close after 60 minutes unless a keepalive is sent.
@@ -34,7 +42,9 @@ class UserDataStreamServices: BaseApiServices {
                 return
             }
             
-            response(value.dictionary[Keys.parameterKeys.listenKey] as? String, nil)
+            let key = value.dictionary[Keys.parameterKeys.listenKey]
+            self.initializeWebSocket(listenKey: key as! String)
+            response(key as? String, nil)
         }
         
     }
@@ -44,20 +54,23 @@ class UserDataStreamServices: BaseApiServices {
         
         self.request(endpoint: Keys.endPoints.userDataStream, type: .mappableJsonType, method: .put, body: nil, parameters: [Keys.parameterKeys.listenKey: listenKey], embedApiKey: true) { (result: Result<mappableJson>) in
             guard let _ = result.value else {
-                // Show error
+                print("Failed to send keep alive")
                 return
             }
+            print("Seuccessfuly sent kepp alive")
         }
     }
     
     // Close out a user data stream.
-    func closeAliveUserDataStream(listenKey: String) {
+    func closeAliveUserDataStream(listenKey: String, response: @escaping(_ success: Bool) -> Swift.Void) {
         
         self.request(endpoint: Keys.endPoints.userDataStream, type: .mappableJsonType, method: .delete, body: nil, parameters: [Keys.parameterKeys.listenKey: listenKey], embedApiKey: true) { (result: Result<mappableJson>) in
             guard let _ = result.value else {
-                // Show error
+                response(false)
                 return
             }
+            
+            response(true)
         }
     }
     
@@ -86,12 +99,14 @@ extension UserDataStreamServices: WebSocketDelegate {
             {
                 switch json["e"] as! String {
                 case "outboundAccountPosition", "outboundAccountInfo":
-                    let update = outboundAccountInfo(JSON: json as [String : Any])
-                    print(update!)
+                    if let update = OutboundAccountInfo(JSON: json as [String : Any]) {
+                        delegate?.didReceiveOutboundAccount(Info: update)
+                    }
                     break
                 case "executionReport":
-                    let update = executionReport(JSON: json as [String : Any])
-                    print(update!)
+                    if let update = ExecutionReport(JSON: json as [String : Any]) {
+                        delegate?.didReceiveExecutionReport(object: update)
+                    }
                     break
                 default:
                     break
@@ -102,7 +117,6 @@ extension UserDataStreamServices: WebSocketDelegate {
         } catch let error as NSError {
             print(error)
         }
-        print("got some text: \(text)")
     }
     
     func websocketDidReceiveData(socket: WebSocketClient, data: Data) {

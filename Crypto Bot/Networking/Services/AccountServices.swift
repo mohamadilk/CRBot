@@ -80,7 +80,7 @@ class AccountServices: BaseApiServices {
         }
     }
     
-    func postNew_MARKET_Order(symbol: String, side: OrderSide, timeInForce: TimeInForce? = nil, quantity: Double, price: Double? = nil, newClientOrderId: String? = nil, newOrderRespType: newOrderRespType? = nil, recvWindow: UInt? = nil, timestamp: TimeInterval, response: @escaping(_ order: OrderResponseObject?, _ error: ApiError?) -> Swift.Void) {
+    func postNew_MARKET_Order(symbol: String, side: OrderSide, timeInForce: TimeInForce? = nil, quantity: Double, price: String? = nil, newClientOrderId: String? = nil, newOrderRespType: newOrderRespType? = nil, recvWindow: UInt? = nil, timestamp: TimeInterval, response: @escaping(_ order: OrderResponseObject?, _ error: ApiError?) -> Swift.Void) {
         
         var parameters = [Keys.parameterKeys.symbol: symbol,
                           Keys.parameterKeys.side: side,
@@ -99,7 +99,7 @@ class AccountServices: BaseApiServices {
         }
     }
     
-    func postNew_STOP_LOSS_Order(symbol: String, side: OrderSide, timeInForce: TimeInForce? = nil, quantity: Double, price: Double? = nil, newClientOrderId: String? = nil, stopPrice: Double, newOrderRespType: newOrderRespType? = nil, recvWindow: UInt? = nil, timestamp: TimeInterval, response: @escaping(_ order: OrderResponseObject?, _ error: ApiError?) -> Swift.Void) {
+    func postNew_STOP_LOSS_Order(symbol: String, side: OrderSide, timeInForce: TimeInForce? = nil, quantity: Double, price: String? = nil, newClientOrderId: String? = nil, stopPrice: String, newOrderRespType: newOrderRespType? = nil, recvWindow: UInt? = nil, timestamp: TimeInterval, response: @escaping(_ order: OrderResponseObject?, _ error: ApiError?) -> Swift.Void) {
         
         var parameters = [Keys.parameterKeys.symbol: symbol,
                           Keys.parameterKeys.side: side,
@@ -119,7 +119,7 @@ class AccountServices: BaseApiServices {
         }
     }
     
-    func postNew_STOP_LOSS_LIMIT_Order(symbol: String, side: OrderSide, timeInForce: TimeInForce, quantity: Double, price: Double, newClientOrderId: String? = nil, stopPrice: Double, icebergQty: Int? = nil, newOrderRespType: newOrderRespType? = nil, recvWindow: UInt? = nil, timestamp: TimeInterval, response: @escaping(_ order: OrderResponseObject?, _ error: ApiError?) -> Swift.Void) {
+    func postNew_STOP_LOSS_LIMIT_Order(symbol: String, side: OrderSide, timeInForce: TimeInForce, quantity: Double, price: String, newClientOrderId: String? = nil, stopPrice: String, icebergQty: Int? = nil, newOrderRespType: newOrderRespType? = nil, recvWindow: UInt? = nil, timestamp: TimeInterval, response: @escaping(_ order: OrderResponseObject?, _ error: ApiError?) -> Swift.Void) {
         
         var parameters = [Keys.parameterKeys.symbol: symbol,
                           Keys.parameterKeys.side: side,
@@ -140,7 +140,7 @@ class AccountServices: BaseApiServices {
         }
     }
     
-    func postNew_TAKE_PROFIT_Order(symbol: String, side: OrderSide, timeInForce: TimeInForce? = nil, quantity: Double, price: Double? = nil, newClientOrderId: String? = nil, stopPrice: Double, newOrderRespType: newOrderRespType? = nil, recvWindow: UInt? = nil, timestamp: TimeInterval, response: @escaping(_ order: OrderResponseObject?, _ error: ApiError?) -> Swift.Void) {
+    func postNew_TAKE_PROFIT_Order(symbol: String, side: OrderSide, timeInForce: TimeInForce? = nil, quantity: Double, price: String? = nil, newClientOrderId: String? = nil, stopPrice: String, newOrderRespType: newOrderRespType? = nil, recvWindow: UInt? = nil, timestamp: TimeInterval, response: @escaping(_ order: OrderResponseObject?, _ error: ApiError?) -> Swift.Void) {
         
         var parameters = [Keys.parameterKeys.symbol: symbol,
                           Keys.parameterKeys.side: side,
@@ -160,7 +160,7 @@ class AccountServices: BaseApiServices {
         }
     }
     
-    func postNew_TAKE_PROFIT_LIMIT_Order(symbol: String, side: OrderSide, timeInForce: TimeInForce, quantity: Double, price: Double, newClientOrderId: String? = nil, stopPrice: Double, icebergQty: Int? = nil, newOrderRespType: newOrderRespType? = nil, recvWindow: UInt? = nil, timestamp: TimeInterval, response: @escaping(_ order: OrderResponseObject?, _ error: ApiError?) -> Swift.Void) {
+    func postNew_TAKE_PROFIT_LIMIT_Order(symbol: String, side: OrderSide, timeInForce: TimeInForce, quantity: Double, price: String, newClientOrderId: String? = nil, stopPrice: String, icebergQty: Int? = nil, newOrderRespType: newOrderRespType? = nil, recvWindow: UInt? = nil, timestamp: TimeInterval, response: @escaping(_ order: OrderResponseObject?, _ error: ApiError?) -> Swift.Void) {
         
         var parameters = [Keys.parameterKeys.symbol: symbol,
                           Keys.parameterKeys.side: side,
@@ -181,7 +181,7 @@ class AccountServices: BaseApiServices {
         }
     }
     
-    func postNew_LIMIT_MAKER_Order(symbol: String, side: OrderSide, timeInForce: TimeInForce? = nil, quantity: Double, price: Double, newClientOrderId: String? = nil, newOrderRespType: newOrderRespType? = nil, recvWindow: UInt? = nil, timestamp: TimeInterval, response: @escaping(_ order: OrderResponseObject?, _ error: ApiError?) -> Swift.Void) {
+    func postNew_LIMIT_MAKER_Order(symbol: String, side: OrderSide, timeInForce: TimeInForce? = nil, quantity: Double, price: String, newClientOrderId: String? = nil, newOrderRespType: newOrderRespType? = nil, recvWindow: UInt? = nil, timestamp: TimeInterval, response: @escaping(_ order: OrderResponseObject?, _ error: ApiError?) -> Swift.Void) {
         
         var parameters = [Keys.parameterKeys.symbol: symbol,
                           Keys.parameterKeys.side: side,
@@ -326,8 +326,10 @@ class AccountServices: BaseApiServices {
                       Keys.parameterKeys.quantity: quantity,
                       Keys.parameterKeys.price: price,
                       Keys.parameterKeys.stopPrice: stopPrice,
-                      Keys.parameterKeys.timestamp: "\(timestamp)".components(separatedBy: ".").first!] as [String : Any]
-        
+                      Keys.parameterKeys.timestamp: "\(Int(round(timestamp)))".components(separatedBy: ".").first!] as [String : Any]
+        //        "accountType": "MAIN",
+
+        print(Int(round(timestamp)))
         if let listClientOrderId = listClientOrderId { params[Keys.parameterKeys.listClientOrderId] = listClientOrderId }
         if let limitClientOrderId = limitClientOrderId { params[Keys.parameterKeys.limitClientOrderId] = limitClientOrderId }
         if let limitIcebergQty = limitIcebergQty { params[Keys.parameterKeys.limitIcebergQty] = limitIcebergQty }

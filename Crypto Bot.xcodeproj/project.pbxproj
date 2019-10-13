@@ -51,6 +51,9 @@
 		CBC1BCFE234DC441009F6E2C /* OrderObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBC1BCFD234DC441009F6E2C /* OrderObject.swift */; };
 		CBC1BD00234DDC6A009F6E2C /* AccountInformation.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBC1BCFF234DDC6A009F6E2C /* AccountInformation.swift */; };
 		CBC1BD02234DDD2A009F6E2C /* BalanceObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBC1BD01234DDD29009F6E2C /* BalanceObject.swift */; };
+		D192FE092351D6520090A194 /* UserStreamHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = D192FE082351D6520090A194 /* UserStreamHandler.swift */; };
+		D192FE0B2351DCF10090A194 /* systemBRAIN.swift in Sources */ = {isa = PBXBuildFile; fileRef = D192FE0A2351DCF10090A194 /* systemBRAIN.swift */; };
+		D192FE0D23520A630090A194 /* OrderHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = D192FE0C23520A630090A194 /* OrderHandler.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -102,6 +105,9 @@
 		CBC1BCFD234DC441009F6E2C /* OrderObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderObject.swift; sourceTree = "<group>"; };
 		CBC1BCFF234DDC6A009F6E2C /* AccountInformation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountInformation.swift; sourceTree = "<group>"; };
 		CBC1BD01234DDD29009F6E2C /* BalanceObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BalanceObject.swift; sourceTree = "<group>"; };
+		D192FE082351D6520090A194 /* UserStreamHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserStreamHandler.swift; sourceTree = "<group>"; };
+		D192FE0A2351DCF10090A194 /* systemBRAIN.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = systemBRAIN.swift; sourceTree = "<group>"; };
+		D192FE0C23520A630090A194 /* OrderHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderHandler.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -138,6 +144,9 @@
 			children = (
 				CB8AACCE234F67500096DD07 /* AccountManager.swift */,
 				CB8AACD32350B9B10096DD07 /* ExchangeManager.swift */,
+				D192FE082351D6520090A194 /* UserStreamHandler.swift */,
+				D192FE0A2351DCF10090A194 /* systemBRAIN.swift */,
+				D192FE0C23520A630090A194 /* OrderHandler.swift */,
 			);
 			path = Handlers;
 			sourceTree = "<group>";
@@ -145,8 +154,9 @@
 		CB23D508234F07270053E6DE /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				CB2571872345DFB9007DBD6F /* Main.storyboard */,
 				CB8AACD0234F73EE0096DD07 /* CustomViews */,
-				CB23D50C234F075D0053E6DE /* NewOrder */,
+				CB23D50C234F075D0053E6DE /* PlaceNewOrder */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -159,12 +169,12 @@
 			path = ViewModels;
 			sourceTree = "<group>";
 		};
-		CB23D50C234F075D0053E6DE /* NewOrder */ = {
+		CB23D50C234F075D0053E6DE /* PlaceNewOrder */ = {
 			isa = PBXGroup;
 			children = (
 				CB7D48E5234F19F700F31172 /* PlaceNewOrderViewController.swift */,
 			);
-			path = NewOrder;
+			path = PlaceNewOrder;
 			sourceTree = "<group>";
 		};
 		CB2571752345DFB9007DBD6F = {
@@ -190,7 +200,6 @@
 			children = (
 				CB23D509234F07310053E6DE /* ViewModels */,
 				CB23D508234F07270053E6DE /* Views */,
-				CB2571872345DFB9007DBD6F /* Main.storyboard */,
 				CB23D505234F03E20053E6DE /* Handlers */,
 				D1BEA61B23465EEE00677FA7 /* Utilities */,
 				CB2571992345E0F2007DBD6F /* Models */,
@@ -445,6 +454,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D192FE0D23520A630090A194 /* OrderHandler.swift in Sources */,
 				CB711F58234B3A87008F7A33 /* UserDataStreamServices.swift in Sources */,
 				CBC1BCE5234C7E0D009F6E2C /* CandleObject.swift in Sources */,
 				CB711F6A234B5BC6008F7A33 /* BidAskObject.swift in Sources */,
@@ -459,6 +469,7 @@
 				CBC1BCFC234DC375009F6E2C /* OCOOrderResponse.swift in Sources */,
 				CBC1BD02234DDD2A009F6E2C /* BalanceObject.swift in Sources */,
 				CB711F6C234B5DAB008F7A33 /* OrderBookObject.swift in Sources */,
+				D192FE092351D6520090A194 /* UserStreamHandler.swift in Sources */,
 				CB711F68234B5AD1008F7A33 /* OrderBookResponseObject.swift in Sources */,
 				CB711F62234B4A68008F7A33 /* SymbolObject.swift in Sources */,
 				CB8AACCD234F629A0096DD07 /* AlertUtility.swift in Sources */,
@@ -477,6 +488,7 @@
 				CBC1BCFE234DC441009F6E2C /* OrderObject.swift in Sources */,
 				CB23D504234E164C0053E6DE /* executionReportObject.swift in Sources */,
 				CBC1BCF6234CCE7F009F6E2C /* EnumValues.swift in Sources */,
+				D192FE0B2351DCF10090A194 /* systemBRAIN.swift in Sources */,
 				CB711F5B234B3C71008F7A33 /* ExchangeInformationResponce.swift in Sources */,
 				CBC1BCF8234CD41A009F6E2C /* OrderDetailObject.swift in Sources */,
 				CB711F5E234B3D8B008F7A33 /* RateLimitObject.swift in Sources */,

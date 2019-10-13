@@ -76,9 +76,9 @@ class PlaceNewOrderViewController: UIViewController {
         super.viewDidLoad()
         
         viewModel = PlaceNewOrderViewModel(viewController: self)
-        GeneralServices.shared.exchangeInformation { (response, error) in
+        GeneralServices.shared.exchangeInformation { (result, error) in
             guard error == nil else { return }
-            self.symbolObjects = response?.symbols ?? []
+            self.symbolObjects = result?.symbols ?? []
             
             for symbol in self.symbolObjects {
                 self.assetValues.append(symbol.baseAsset ?? "")
@@ -108,7 +108,8 @@ class PlaceNewOrderViewController: UIViewController {
         super.viewDidAppear(animated)
         initalTextfields()
         
-        viewModel.checkQuantityAndPlaceNewOrder(type: .OCO, asset: "ETH", currency: "BTC", side: .BUY, percentage: "100", price: "0.021700", stopPrice: "0.022000", stopLimitPrice: "0.022010") { (responseObject, error) in
+        
+        viewModel.checkQuantityAndPlaceNewOrder(type: .OCO, asset: "ETH", currency: "BTC", side: .SELL, percentage: "50", price: "0.021850", stopPrice: "0.021740", stopLimitPrice: "0.021750") { (responseObject, error) in
 
             if responseObject != nil {
                 AlertUtility.showAlert(title: "Successfully placed new order!")
@@ -116,6 +117,15 @@ class PlaceNewOrderViewController: UIViewController {
                 AlertUtility.showAlert(title: error!)
             }
         }
+//
+//        viewModel.checkQuantityAndPlaceNewOrder(type: .OCO, asset: "ETH", currency: "BTC", side: .BUY, percentage: "100", price: "0.021700", stopPrice: "0.022000", stopLimitPrice: "0.022010") { (responseObject, error) in
+//
+//            if responseObject != nil {
+//                AlertUtility.showAlert(title: "Successfully placed new order!")
+//            } else {
+//                AlertUtility.showAlert(title: error!)
+//            }
+//        }
 //        viewModel.checkQuantityAndPlaceNewOrder(type: .OCO, asset: "LINK", currency: "BTC", side: .BUY, percentage: "25", price: "0.00030500") { (responseObject, error) in
 //
 //            if responseObject != nil {
@@ -252,9 +262,21 @@ class PlaceNewOrderViewController: UIViewController {
 
             self.confirmButton.isEnabled = true
         }
-        if textField == currencyTextField || textField == percentageTextfield || textField == priceTextfield || textField == assetTextfield {
-            if let currency = currencyTextField.text, currency.count > 0, let asset = assetTextfield.text, asset.count > 0, let percentage = percentageTextfield.text, percentage.count > 0, let price = priceTextfield.text, price.count > 0 {
-                viewModel.quantityFor(asset: asset, currency: currency, percent: percentage, price: price) { (quantity, error) in
+        if textField == currencyTextField || textField == percentageTextfield || textField == priceTextfield || textField == assetTextfield || textField == sideTextfield {
+            if let currency = currencyTextField.text, currency.count > 0, let asset = assetTextfield.text, asset.count > 0, let percentage = percentageTextfield.text, percentage.count > 0, let price = priceTextfield.text, price.count > 0, let side = sideTextfield.text, side.count > 0 {
+                
+                var baseAsset: String = ""
+                var quoteAsset: String = ""
+                
+                if side == OrderSide.BUY.rawValue {
+                    baseAsset = asset
+                    quoteAsset = currency
+                } else {
+                    baseAsset = currency
+                    quoteAsset = asset
+                }
+                
+                OrderHandler.shared.quantityFor(asset: asset, currency: currency, baseAssset: baseAsset, quoteAsset: quoteAsset, side: OrderSide(rawValue: side)!, percent: percentage, price: price) { (quantity, error) in
                     guard error == nil else { return }
                     self.quantityValueLabel.text = "\(quantity ?? 0)"
                 }

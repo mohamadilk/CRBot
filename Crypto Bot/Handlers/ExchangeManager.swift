@@ -12,7 +12,7 @@ class ExchangeManager {
     
     static let shared = ExchangeManager()
     
-    private var exchangeInfo: ExchangeInformationResponce?
+    private var exchangeInfo: ExchangeInformationresponse?
     
     func getAllAvailableSymbols(result:@escaping (_ info: [SymbolObject]?, _ error: ApiError?) -> Swift.Void) {
         

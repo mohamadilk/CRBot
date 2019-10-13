@@ -1,5 +1,5 @@
 //
-//  ExchangeInformationResponce.swift
+//  ExchangeInformationresponse.swift
 //  Crypto Bot
 //
 //  Created by Mohammad Ilkhani on 10/7/19.
@@ -9,7 +9,7 @@
 import Foundation
 import ObjectMapper
 
-class ExchangeInformationResponce: BaseApiModel {
+class ExchangeInformationresponse: BaseApiModel {
     
     var timezone: String?
     var serverTime: TimeInterval?

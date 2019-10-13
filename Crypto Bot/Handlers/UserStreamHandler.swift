@@ -34,7 +34,7 @@ class UserStreamHandler {
             }
             
             self.listenKey = key
-            self.pingTimer = Timer.scheduledTimer(withTimeInterval: 60 * 29, repeats: true, block: { _ in
+            self.pingTimer = Timer.scheduledTimer(withTimeInterval: 60 * 2, repeats: true, block: { _ in
                 self.streamService.keepAliveUserDataStream(listenKey: self.listenKey!)
             })
             

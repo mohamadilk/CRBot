@@ -51,14 +51,14 @@ class GeneralServices: BaseApiServices {
         }
     }
     
-    func exchangeInformation(response:@escaping (_ info: ExchangeInformationResponce?, _ error: ApiError?) -> Swift.Void) {
+    func exchangeInformation(response:@escaping (_ info: ExchangeInformationresponse?, _ error: ApiError?) -> Swift.Void) {
         self.request(endpoint: Keys.endPoints.exchangeInformation, type: .mappableJsonType, method: .get, body: nil, parameters: nil) { (result: Result<mappableJson>) in
             
             guard let value = result.value else {
                 response(nil, nil)
                 return
             }
-            let excInfo = ExchangeInformationResponce(JSON: value.dictionary as [String : Any])
+            let excInfo = ExchangeInformationresponse(JSON: value.dictionary as [String : Any])
             response(excInfo, nil)
         }
     }

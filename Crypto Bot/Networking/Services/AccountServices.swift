@@ -319,13 +319,14 @@ class AccountServices: BaseApiServices {
         }
     }
     
-    func postNewOCOOrder(symbol: String, listClientOrderId: String? = nil, side: OrderSide, quantity: Double, limitClientOrderId: String? = nil, price: String, limitIcebergQty: Int? = nil, stopClientOrderId: String? = nil, stopPrice: String, stopLimitPrice: String? = nil, stopIcebergQty: Int? = nil, stopLimitTimeInForce: TimeInForce? = .GTC, newOrderRespType: responseType? = nil, recvWindow: Int? = 60000, timestamp: TimeInterval, response: @escaping(_ orderBook: OCOOrderResponse?, _ error: ApiError?) -> Swift.Void) {
+    func postNewOCOOrder(symbol: String, listClientOrderId: String? = nil, side: OrderSide, quantity: Double, limitClientOrderId: String? = nil, price: String, limitIcebergQty: Int? = nil, stopClientOrderId: String? = nil, stopPrice: String, stopLimitPrice: String, stopIcebergQty: Int? = nil, stopLimitTimeInForce: TimeInForce? = .GTC, newOrderRespType: responseType? = nil, recvWindow: Int? = 60000, timestamp: TimeInterval, response: @escaping(_ orderBook: OCOOrderResponse?, _ error: ApiError?) -> Swift.Void) {
         
         var params = [Keys.parameterKeys.symbol: symbol,
                       Keys.parameterKeys.side: side,
                       Keys.parameterKeys.quantity: quantity,
                       Keys.parameterKeys.price: price,
                       Keys.parameterKeys.stopPrice: stopPrice,
+                      Keys.parameterKeys.stopLimitPrice: stopLimitPrice,
                       Keys.parameterKeys.timestamp: "\(Int(round(timestamp)))".components(separatedBy: ".").first!] as [String : Any]
         //        "accountType": "MAIN",
 
@@ -335,7 +336,6 @@ class AccountServices: BaseApiServices {
         if let limitIcebergQty = limitIcebergQty { params[Keys.parameterKeys.limitIcebergQty] = limitIcebergQty }
         if let stopClientOrderId = stopClientOrderId { params[Keys.parameterKeys.stopClientOrderId] = stopClientOrderId }
         if let recvWindow = recvWindow { params[Keys.parameterKeys.recvWindow] = recvWindow } else { params[Keys.parameterKeys.recvWindow] = 6000 }
-        if let stopLimitPrice = stopLimitPrice { params[Keys.parameterKeys.stopLimitPrice] = stopLimitPrice }
         if let stopIcebergQty = stopIcebergQty { params[Keys.parameterKeys.stopIcebergQty] = stopIcebergQty }
         if let stopLimitTimeInForce = stopLimitTimeInForce { params[Keys.parameterKeys.stopLimitTimeInForce] = stopLimitTimeInForce }
         if let newOrderRespType = newOrderRespType { params[Keys.parameterKeys.newOrderRespType] = newOrderRespType }

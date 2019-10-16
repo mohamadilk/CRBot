@@ -291,12 +291,12 @@ class PlaceNewOrderViewController: UIViewController {
 
         
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-            for textfield in self.textfieldsArray {
-                if textfield.isHidden == false, (textfield.text == nil || textfield.text == "") {
-                    self.confirmButton.isEnabled = false
-                    return
-                }
-            }
+//            for textfield in self.textfieldsArray {
+//                if textfield.isHidden == false, (textfield.text == nil || textfield.text == "") {
+//                    self.confirmButton.isEnabled = false
+//                    return
+//                }
+//            }
 
             self.confirmButton.isEnabled = true
         }

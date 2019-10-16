@@ -70,19 +70,6 @@ public class BaseApiServices: NSObject
             }
         }
         
-        if endpoint == "/api/v3/order/oco" {
-            print(finalUrl!)
-//                    finalUrl = URL(string: "https://api.binance.com/api/v3/order/oco?quantity=0.14&recvWindow=60000&symbol=ETHBTC&stopLimitPrice=0.021750&side=SELL&price=0.021807&stopPrice=0.021740&stopLimitTimeInForce=GTC")
-
-//https://api.binance.com/api/v3/order/oco?stopLimitPrice=0.021750&stopLimitTimeInForce=GTC&stopPrice=0.021740&quantity=6.38&symbol=ETHBTC&side=BUY&price=0.021800&timestamp=1570990521987&recvWindow=60000
-
-//
-//            finalUrl = finalUrl?.appending("timestamp", value: "\(Int(round(NSDate().timeIntervalSince1970 * 1000)))".components(separatedBy: ".").first!)
-//
-//            let encodedKey = HMAC.SHA256("\(finalUrl!)".components(separatedBy: "?").last!, key: secretKey!)
-//            finalUrl = finalUrl?.appending(signature, value: encodedKey)
-        }
-        
         Alamofire.request( finalUrl!,
                            method: method,
                            parameters: body,

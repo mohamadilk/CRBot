@@ -24,6 +24,13 @@ class OrderResponseObject: BaseApiModel {
     var type: String?
     var side: String?
     var fills: [OrderFillObject]?
+    var contingencyType: String?
+    var listStatusType: String?
+    var listOrderStatus: String?
+    var listClientOrderId: String?
+    var transactionTime: TimeInterval?
+    var orders: [OrderSummaryObject]?
+    var orderReports: [OrderDetailObject]?
 
     public required init?(map: Map) {
         super.init(map: map)
@@ -47,5 +54,12 @@ class OrderResponseObject: BaseApiModel {
         type                  <- map["type"]
         side                  <- map["side"]
         fills                 <- map["fills"]
+        contingencyType       <- map["contingencyType"]
+        listStatusType        <- map["listStatusType"]
+        listOrderStatus       <- map["listOrderStatus"]
+        listClientOrderId     <- map["listClientOrderId"]
+        transactionTime       <- map["transactionTime"]
+        orders                <- map["orders"]
+        orderReports          <- map["orderReports"]
     }
 }

@@ -20,33 +20,60 @@ class PlaceNewOrderViewController: UIViewController {
             priceTextfield.keyboardType = .decimalPad
         }
     }
-    
-    @IBOutlet weak var stopPriceTextfield: UITextField! {
+    @IBOutlet weak var newTargetTextfield: UITextField! {
         didSet {
-            stopPriceTextfield.delegate = self
-            stopPriceTextfield.keyboardType = .decimalPad
+            newTargetTextfield.delegate = self
+            newTargetTextfield.keyboardType = .decimalPad
         }
     }
     
-    @IBOutlet weak var stopLimitPriceTextfield: UITextField! {
+    @IBOutlet weak var buyStopPriceTextfield: UITextField! {
         didSet {
-            stopLimitPriceTextfield.delegate = self
-            stopLimitPriceTextfield.keyboardType = .decimalPad
+            buyStopPriceTextfield.delegate = self
+            buyStopPriceTextfield.keyboardType = .decimalPad
+        }
+    }
+    
+    @IBOutlet weak var buyStopLimitPriceTextfield: UITextField! {
+        didSet {
+            buyStopLimitPriceTextfield.delegate = self
+            buyStopLimitPriceTextfield.keyboardType = .decimalPad
+        }
+    }
+    
+    
+    @IBOutlet weak var sellStopPriceTextfield: UITextField! {
+        didSet {
+            sellStopPriceTextfield.delegate = self
+            sellStopPriceTextfield.keyboardType = .decimalPad
+        }
+    }
+    
+    @IBOutlet weak var sellStopLimitPriceTextfield: UITextField! {
+        didSet {
+            sellStopLimitPriceTextfield.delegate = self
+            sellStopLimitPriceTextfield.keyboardType = .decimalPad
         }
     }
     
     @IBOutlet weak var percentageTextfield: UITextField!
     
     
-    @IBOutlet weak var assetLabel: UILabel!
-    @IBOutlet weak var currencyLabel: UILabel!
-    @IBOutlet weak var sideLabel: UILabel!
-    @IBOutlet weak var priceLabel: UILabel!
-    @IBOutlet weak var stopPriceLabel: UILabel!
-    @IBOutlet weak var stopLimitPriceLabel: UILabel!
+//    @IBOutlet weak var assetLabel: UILabel!
+//    @IBOutlet weak var currencyLabel: UILabel!
+//    @IBOutlet weak var sideLabel: UILabel!
+//    @IBOutlet weak var priceLabel: UILabel!
+//    @IBOutlet weak var stopPriceLabel: UILabel!
+//    @IBOutlet weak var stopLimitPriceLabel: UILabel!
     @IBOutlet weak var quantityValueLabel: UILabel!
-    
+    @IBOutlet weak var targetsLabel: UILabel!
     @IBOutlet weak var confirmButton: UIButton!
+    @IBOutlet weak var widthConstraint: NSLayoutConstraint!
+    @IBOutlet weak var scrollView: UIScrollView! {
+        didSet {
+            self.scrollView.delegate = self
+        }
+    }
     
     var orderTypePickerView = ToolbarPickerView()
     var assetPickerView = ToolbarPickerView()
@@ -63,7 +90,7 @@ class PlaceNewOrderViewController: UIViewController {
     var assetValues = [String]()
     var currencyValues = [String]()
     var textfieldsArray = [UITextField]()
-    
+    var targetsArray = [String]()
     var selectedTypeIndex: Int?
     var selectedAssetIndex: Int?
     var selectedCurrencyIndex: Int?
@@ -95,28 +122,33 @@ class PlaceNewOrderViewController: UIViewController {
             
         }
         
-        textfieldsArray = [orderTypeTextfield, assetTextfield, currencyTextField, sideTextfield, percentageTextfield, orderTypeTextfield, stopPriceTextfield, stopLimitPriceTextfield, priceTextfield]
+        textfieldsArray = [orderTypeTextfield, assetTextfield, currencyTextField, sideTextfield, percentageTextfield, orderTypeTextfield, buyStopPriceTextfield, buyStopLimitPriceTextfield, sellStopPriceTextfield, sellStopLimitPriceTextfield, priceTextfield, newTargetTextfield]
         confirmButton.isEnabled = false
         confirmButton.alpha = 0.5
-        updateUiInitialState()
         
         let gestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(tappedOnScreen))
         self.view.addGestureRecognizer(gestureRecognizer)
     }
-    
+        
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        initalTextfields()
         
+//        viewModel.SetTargetsAndPlaceNewOrder(targets: self.targetsArray,type: .OCO, asset: "ETH", currency: "BTC", side: .SELL, percentage: "50", price: "0.022050", stopPrice: "0.021740", stopLimitPrice: "0.021750") { (responseObject, error) in
+//                    if responseObject != nil {
+//                        AlertUtility.showAlert(title: "Successfully placed new order!")
+//                    } else {
+//                        AlertUtility.showAlert(title: error!)
+//                    }
+//                }
         
-        viewModel.checkQuantityAndPlaceNewOrder(type: .OCO, asset: "ETH", currency: "BTC", side: .SELL, percentage: "50", price: "0.021850", stopPrice: "0.021740", stopLimitPrice: "0.021750") { (responseObject, error) in
-
-            if responseObject != nil {
-                AlertUtility.showAlert(title: "Successfully placed new order!")
-            } else {
-                AlertUtility.showAlert(title: error!)
-            }
-        }
+//        viewModel.SetTargetsAndPlaceNewOrder(type: .OCO, asset: "ETH", currency: "BTC", side: .SELL, percentage: "50", price: "0.022050", stopPrice: "0.021740", stopLimitPrice: "0.021750") { (responseObject, error) in
+//
+//            if responseObject != nil {
+//                AlertUtility.showAlert(title: "Successfully placed new order!")
+//            } else {
+//                AlertUtility.showAlert(title: error!)
+//            }
+//        }
 //
 //        viewModel.checkQuantityAndPlaceNewOrder(type: .OCO, asset: "ETH", currency: "BTC", side: .BUY, percentage: "100", price: "0.021700", stopPrice: "0.022000", stopLimitPrice: "0.022010") { (responseObject, error) in
 //
@@ -126,17 +158,11 @@ class PlaceNewOrderViewController: UIViewController {
 //                AlertUtility.showAlert(title: error!)
 //            }
 //        }
-//        viewModel.checkQuantityAndPlaceNewOrder(type: .OCO, asset: "LINK", currency: "BTC", side: .BUY, percentage: "25", price: "0.00030500") { (responseObject, error) in
-//
-//            if responseObject != nil {
-//                AlertUtility.showAlert(title: "Successfully placed new order!")
-//            } else {
-//                AlertUtility.showAlert(title: error!)
-//            }
-//        }
-        
-
-
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        initalTextfields()
     }
     
     func initalTextfields() {
@@ -170,83 +196,95 @@ class PlaceNewOrderViewController: UIViewController {
         textfieldsArray.forEach({ $0.addTarget(self, action: #selector(editingChanged), for: .allEvents) })
     }
     
-    func updateUiInitialState() {
-        assetTextfield.alpha = 0
-        currencyTextField.alpha = 0
-        sideTextfield.alpha = 0
-        priceTextfield.alpha = 0
-        stopPriceTextfield.alpha = 0
-        stopLimitPriceTextfield.alpha = 0
-        assetLabel.alpha = 0
-        currencyLabel.alpha = 0
-        sideLabel.alpha = 0
-        priceLabel.alpha = 0
-        stopPriceLabel.alpha = 0
-        stopLimitPriceLabel.alpha = 0
+//    func updateUiInitialState() {
+//        assetTextfield.alpha = 0
+//        currencyTextField.alpha = 0
+//        sideTextfield.alpha = 0
+//        priceTextfield.alpha = 0
+//        stopPriceTextfield.alpha = 0
+//        stopLimitPriceTextfield.alpha = 0
+//        assetLabel.alpha = 0
+//        currencyLabel.alpha = 0
+//        sideLabel.alpha = 0
+//        priceLabel.alpha = 0
+//        stopPriceLabel.alpha = 0
+//        stopLimitPriceLabel.alpha = 0
+//    }
+    
+//    func updateUi(type: OrderTypes) {
+//
+//        UIView.animate(withDuration: 0.4) {
+//            self.assetTextfield.alpha = 1
+//            self.currencyTextField.alpha = 1
+//            self.sideTextfield.alpha = 1
+//            self.assetLabel.alpha = 1
+//            self.currencyLabel.alpha = 1
+//            self.sideLabel.alpha = 1
+//        }
+//
+//        switch type {
+//        case .LIMIT:
+//            setComponentsAlpha(price: 1, stop: 0, stopLimit: 0)
+//            break
+//
+//        case .LIMIT_MAKER:
+//            setComponentsAlpha(price: 1, stop: 0, stopLimit: 0)
+//            break
+//
+//        case .MARKET:
+//            setComponentsAlpha(price: 0, stop: 0, stopLimit: 0)
+//            break
+//
+//        case .STOP_LOSS:
+//            setComponentsAlpha(price: 0, stop: 1, stopLimit: 0)
+//            break
+//
+//        case .STOP_LOSS_LIMIT:
+//            setComponentsAlpha(price: 1, stop: 1, stopLimit: 0)
+//            break
+//
+//        case .TAKE_PROFIT:
+//            setComponentsAlpha(price: 0, stop: 1, stopLimit: 0)
+//            break
+//
+//        case .TAKE_PROFIT_LIMIT:
+//            setComponentsAlpha(price: 1, stop: 1, stopLimit: 0)
+//            break
+//
+//        case .OCO:
+//            setComponentsAlpha(price: 1, stop: 1, stopLimit: 1)
+//            break
+//        }
+//    }
+    
+//    func setComponentsAlpha(price: CGFloat, stop: CGFloat, stopLimit: CGFloat) {
+//        UIView.animate(withDuration: 0.4) {
+//            self.priceTextfield.alpha = price
+//            self.priceLabel.alpha = price
+//            self.stopPriceLabel.alpha = stop
+//            self.stopPriceTextfield.alpha = stop
+//            self.stopLimitPriceTextfield.alpha = stopLimit
+//            self.stopLimitPriceLabel.alpha = stopLimit
+//
+//            self.priceTextfield.isHidden = !Bool(truncating: price as NSNumber)
+//            self.priceLabel.isHidden = !Bool(truncating: price as NSNumber)
+//            self.stopPriceLabel.isHidden = !Bool(truncating: stop as NSNumber)
+//            self.stopPriceTextfield.isHidden = !Bool(truncating: stop as NSNumber)
+//            self.stopLimitPriceTextfield.isHidden = !Bool(truncating: stopLimit as NSNumber)
+//            self.stopLimitPriceLabel.isHidden = !Bool(truncating: stopLimit as NSNumber)
+//        }
+//    }
+    
+    @IBAction func addNewTargetPressed(_ sender: Any) {
+        if let target = newTargetTextfield.text, target.count > 0 {
+            targetsArray.append(target.decimalValue)
+            targetsLabel.text = (targetsLabel.text ?? "") + target + "-"
+        }
     }
     
-    func updateUi(type: OrderTypes) {
-        
-        UIView.animate(withDuration: 0.4) {
-            self.assetTextfield.alpha = 1
-            self.currencyTextField.alpha = 1
-            self.sideTextfield.alpha = 1
-            self.assetLabel.alpha = 1
-            self.currencyLabel.alpha = 1
-            self.sideLabel.alpha = 1
-        }
-        
-        switch type {
-        case .LIMIT:
-            setComponentsAlpha(price: 1, stop: 0, stopLimit: 0)
-            break
-            
-        case .LIMIT_MAKER:
-            setComponentsAlpha(price: 1, stop: 0, stopLimit: 0)
-            break
-            
-        case .MARKET:
-            setComponentsAlpha(price: 0, stop: 0, stopLimit: 0)
-            break
-            
-        case .STOP_LOSS:
-            setComponentsAlpha(price: 0, stop: 1, stopLimit: 0)
-            break
-            
-        case .STOP_LOSS_LIMIT:
-            setComponentsAlpha(price: 1, stop: 1, stopLimit: 0)
-            break
-            
-        case .TAKE_PROFIT:
-            setComponentsAlpha(price: 0, stop: 1, stopLimit: 0)
-            break
-            
-        case .TAKE_PROFIT_LIMIT:
-            setComponentsAlpha(price: 1, stop: 1, stopLimit: 0)
-            break
-            
-        case .OCO:
-            setComponentsAlpha(price: 1, stop: 1, stopLimit: 1)
-            break
-        }
-    }
-    
-    func setComponentsAlpha(price: CGFloat, stop: CGFloat, stopLimit: CGFloat) {
-        UIView.animate(withDuration: 0.4) {
-            self.priceTextfield.alpha = price
-            self.priceLabel.alpha = price
-            self.stopPriceLabel.alpha = stop
-            self.stopPriceTextfield.alpha = stop
-            self.stopLimitPriceTextfield.alpha = stopLimit
-            self.stopLimitPriceLabel.alpha = stopLimit
-            
-            self.priceTextfield.isHidden = !Bool(truncating: price as NSNumber)
-            self.priceLabel.isHidden = !Bool(truncating: price as NSNumber)
-            self.stopPriceLabel.isHidden = !Bool(truncating: stop as NSNumber)
-            self.stopPriceTextfield.isHidden = !Bool(truncating: stop as NSNumber)
-            self.stopLimitPriceTextfield.isHidden = !Bool(truncating: stopLimit as NSNumber)
-            self.stopLimitPriceLabel.isHidden = !Bool(truncating: stopLimit as NSNumber)
-        }
+    @IBAction func resetTargetsPressed(_ sender: UIButton) {
+        self.targetsArray.removeAll()
+        targetsLabel.text = nil
     }
     
     @objc func editingChanged(_ textField: UITextField) {
@@ -299,12 +337,14 @@ class PlaceNewOrderViewController: UIViewController {
             return
         }
                 
-        viewModel.checkQuantityAndPlaceNewOrder(type: OrderTypes(rawValue: orderTypeTextfield?.text ?? "")!, asset: assetTextfield?.text ?? "", currency: currencyTextField?.text ?? "", side: OrderSide(rawValue: sideTextfield?.text ?? "")!, percentage: percentageTextfield?.text ?? "100", price: priceTextfield.text, stopPrice: stopPriceTextfield.text , stopLimitPrice: stopLimitPriceTextfield?.text) { (responseObject, error) in
+        viewModel.SetTargetsAndPlaceNewOrder(targets: self.targetsArray, type: OrderTypes(rawValue: orderTypeTextfield?.text ?? "")!, asset: assetTextfield?.text ?? "", currency: currencyTextField?.text ?? "", side: OrderSide(rawValue: sideTextfield?.text ?? "")!, percentage: percentageTextfield?.text ?? "100", price: priceTextfield.text?.decimalValue, buyStopPrice: buyStopPriceTextfield.text?.decimalValue, buyStopLimitPrice: buyStopLimitPriceTextfield.text?.decimalValue, sellStopPrice: sellStopPriceTextfield.text?.decimalValue, sellStopLimitPrice: sellStopLimitPriceTextfield.text?.decimalValue) { (responseObject, error) in
             
             if responseObject != nil {
                 AlertUtility.showAlert(title: "Successfully placed new order!")
             } else {
-                AlertUtility.showAlert(title: error!)
+                if error != nil  {
+                    AlertUtility.showAlert(title: error!)
+                }
             }
         }
     }
@@ -341,7 +381,7 @@ extension PlaceNewOrderViewController: UIPickerViewDelegate {
         default:
             break
         }
-    }        
+    }
     
 }
 
@@ -403,7 +443,7 @@ extension PlaceNewOrderViewController: ToolbarPickerViewDelegate {
                case orderTypePickerView:
                    orderTypeTextfield.text = orderTypeValues[selectedTypeIndex ?? 0]
                    orderTypeTextfield.resignFirstResponder()
-                   updateUi(type: OrderTypes(rawValue: orderTypeValues[selectedTypeIndex ?? 0])!)
+//                   updateUi(type: OrderTypes(rawValue: orderTypeValues[selectedTypeIndex ?? 0])!)
                    break
                case assetPickerView:
                    assetTextfield.text = assetValues[selectedAssetIndex ?? 0]
@@ -429,8 +469,12 @@ extension PlaceNewOrderViewController: ToolbarPickerViewDelegate {
     func didTapCancel() {
         
     }
-    
-    
+}
+
+extension PlaceNewOrderViewController: UIScrollViewDelegate {
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        self.scrollView.contentOffset.x = 0
+    }
 }
 
 extension Array {
@@ -447,3 +491,4 @@ extension Array {
         return arrayOrdered
     }
 }
+

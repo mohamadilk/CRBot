@@ -42,6 +42,7 @@ class OrderHandler {
                         response(nil, error?.description)
                         return
                     }
+                    response(result, nil)
                 }
                 break
             case .LIMIT_MAKER:
@@ -50,6 +51,7 @@ class OrderHandler {
                         response(nil, error?.description)
                         return
                     }
+                    response(result, nil)
                 }
                 break
             case .MARKET:
@@ -58,6 +60,7 @@ class OrderHandler {
                         response(nil, error?.description)
                         return
                     }
+                    response(result, nil)
                 }
                 break
             case .OCO:
@@ -66,6 +69,7 @@ class OrderHandler {
                         response(nil, error?.description)
                         return
                     }
+                    response(result, nil)
                 }
                 
                 break
@@ -75,6 +79,7 @@ class OrderHandler {
                         response(nil, error?.description)
                         return
                     }
+                    response(result, nil)
                 }
                 
                 break
@@ -84,6 +89,7 @@ class OrderHandler {
                         response(nil, error?.description)
                         return
                     }
+                    response(result, nil)
                 }
                 break
             case .TAKE_PROFIT:
@@ -92,6 +98,7 @@ class OrderHandler {
                         response(nil, error?.description)
                         return
                     }
+                    response(result, nil)
                 }
                 break
             case .TAKE_PROFIT_LIMIT:
@@ -100,11 +107,16 @@ class OrderHandler {
                         response(nil, error?.description)
                         return
                     }
+                    response(result, nil)
                 }
                 break
             }
         }
         
+    }
+    
+    func addPricesForSymbol(symbol: String, targetsArray: [String]?, stopPrice: String?, stopLimitPrice: String?) {
+        systemBRAIN.shared.addPricesForSymbol(symbol: symbol, targetsArray: targetsArray, stopPrice: stopPrice, stopLimitPrice: stopLimitPrice)
     }
     
     private func currentUserCredit(currency: String, response: @escaping(_ balance: BalanceObject?, _ error: ApiError?) -> Swift.Void) {

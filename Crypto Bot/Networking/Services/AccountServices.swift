@@ -319,7 +319,7 @@ class AccountServices: BaseApiServices {
         }
     }
     
-    func postNewOCOOrder(symbol: String, listClientOrderId: String? = nil, side: OrderSide, quantity: Double, limitClientOrderId: String? = nil, price: String, limitIcebergQty: Int? = nil, stopClientOrderId: String? = nil, stopPrice: String, stopLimitPrice: String, stopIcebergQty: Int? = nil, stopLimitTimeInForce: TimeInForce? = .GTC, newOrderRespType: responseType? = nil, recvWindow: Int? = 60000, timestamp: TimeInterval, response: @escaping(_ orderBook: OCOOrderResponse?, _ error: ApiError?) -> Swift.Void) {
+    func postNewOCOOrder(symbol: String, listClientOrderId: String? = nil, side: OrderSide, quantity: Double, limitClientOrderId: String? = nil, price: String, limitIcebergQty: Int? = nil, stopClientOrderId: String? = nil, stopPrice: String, stopLimitPrice: String, stopIcebergQty: Int? = nil, stopLimitTimeInForce: TimeInForce? = .GTC, newOrderRespType: responseType? = nil, recvWindow: Int? = 60000, timestamp: TimeInterval, response: @escaping(_ orderBook: OrderResponseObject?, _ error: ApiError?) -> Swift.Void) {
         
         var params = [Keys.parameterKeys.symbol: symbol,
                       Keys.parameterKeys.side: side,
@@ -347,7 +347,7 @@ class AccountServices: BaseApiServices {
                 return
             }
             
-            let orderModel = OCOOrderResponse(JSON: value.dictionary as [String : Any])
+            let orderModel = OrderResponseObject(JSON: value.dictionary as [String : Any])
             response(orderModel, nil)
         }
     }
@@ -372,7 +372,7 @@ class AccountServices: BaseApiServices {
         }
     }
     
-    func queryOCOOrder(orderListId: Int64? = nil, origClientOrderId: String? = nil, recvWindow: Int? = nil, timestamp: TimeInterval, response: @escaping (_ response: OCOOrderResponse?, _ error: ApiError?) -> Swift.Void) {
+    func queryOCOOrder(orderListId: Int64? = nil, origClientOrderId: String? = nil, recvWindow: Int? = nil, timestamp: TimeInterval, response: @escaping (_ response: OrderResponseObject?, _ error: ApiError?) -> Swift.Void) {
         
         var params = [Keys.parameterKeys.timestamp: "\(timestamp)".components(separatedBy: ".").first!] as [String : Any]
         
@@ -387,12 +387,12 @@ class AccountServices: BaseApiServices {
                 return
             }
             
-            let orderModel = OCOOrderResponse(JSON: value.dictionary as [String : Any])
+            let orderModel = OrderResponseObject(JSON: value.dictionary as [String : Any])
             response(orderModel, nil)
         }
     }
     
-    func fetchAllOCOOrders(limit: Int? = nil, fromId: UInt64? = nil, startTime: TimeInterval? = nil, endTime: TimeInterval? = nil, recvWindow: Int? = nil, timestamp: TimeInterval, response: @escaping(_ orderBook: [OCOOrderResponse]?, _ error: ApiError?) -> Swift.Void) {
+    func fetchAllOCOOrders(limit: Int? = nil, fromId: UInt64? = nil, startTime: TimeInterval? = nil, endTime: TimeInterval? = nil, recvWindow: Int? = nil, timestamp: TimeInterval, response: @escaping(_ orderBook: [OrderResponseObject]?, _ error: ApiError?) -> Swift.Void) {
         
         var params = [Keys.parameterKeys.timestamp: "\(timestamp)".components(separatedBy: ".").first!] as [String : Any]
         
@@ -409,9 +409,9 @@ class AccountServices: BaseApiServices {
                 return
             }
             
-            var modelsArray = [OCOOrderResponse]()
+            var modelsArray = [OrderResponseObject]()
             for model in value.array {
-                let orderModel = OCOOrderResponse(JSON: model as [String : Any])
+                let orderModel = OrderResponseObject(JSON: model as [String : Any])
                 modelsArray.append(orderModel!)
             }
             
@@ -419,7 +419,7 @@ class AccountServices: BaseApiServices {
         }
     }
     
-    func fetchOpenOCOOrders(recvWindow: Int? = nil, timestamp: TimeInterval, response: @escaping(_ orderBook: [OCOOrderResponse]?, _ error: ApiError?) -> Swift.Void) {
+    func fetchOpenOCOOrders(recvWindow: Int? = nil, timestamp: TimeInterval, response: @escaping(_ orderBook: [OrderResponseObject]?, _ error: ApiError?) -> Swift.Void) {
         
         var params = [Keys.parameterKeys.timestamp: "\(timestamp)".components(separatedBy: ".").first!] as [String : Any]
 
@@ -432,9 +432,9 @@ class AccountServices: BaseApiServices {
                 return
             }
             
-            var modelsArray = [OCOOrderResponse]()
+            var modelsArray = [OrderResponseObject]()
             for model in value.array {
-                let orderModel = OCOOrderResponse(JSON: model as [String : Any])
+                let orderModel = OrderResponseObject(JSON: model as [String : Any])
                 modelsArray.append(orderModel!)
             }
             

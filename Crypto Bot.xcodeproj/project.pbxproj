@@ -47,7 +47,6 @@
 		CBC1BCF4234CCDAF009F6E2C /* ServerResponseTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBC1BCF3234CCDAF009F6E2C /* ServerResponseTypes.swift */; };
 		CBC1BCF6234CCE7F009F6E2C /* EnumValues.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBC1BCF5234CCE7F009F6E2C /* EnumValues.swift */; };
 		CBC1BCF8234CD41A009F6E2C /* OrderDetailObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBC1BCF7234CD41A009F6E2C /* OrderDetailObject.swift */; };
-		CBC1BCFC234DC375009F6E2C /* OCOOrderResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBC1BCFB234DC375009F6E2C /* OCOOrderResponse.swift */; };
 		CBC1BCFE234DC441009F6E2C /* OrderObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBC1BCFD234DC441009F6E2C /* OrderObject.swift */; };
 		CBC1BD00234DDC6A009F6E2C /* AccountInformation.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBC1BCFF234DDC6A009F6E2C /* AccountInformation.swift */; };
 		CBC1BD02234DDD2A009F6E2C /* BalanceObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBC1BD01234DDD29009F6E2C /* BalanceObject.swift */; };
@@ -101,7 +100,6 @@
 		CBC1BCF3234CCDAF009F6E2C /* ServerResponseTypes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServerResponseTypes.swift; sourceTree = "<group>"; };
 		CBC1BCF5234CCE7F009F6E2C /* EnumValues.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnumValues.swift; sourceTree = "<group>"; };
 		CBC1BCF7234CD41A009F6E2C /* OrderDetailObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderDetailObject.swift; sourceTree = "<group>"; };
-		CBC1BCFB234DC375009F6E2C /* OCOOrderResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OCOOrderResponse.swift; sourceTree = "<group>"; };
 		CBC1BCFD234DC441009F6E2C /* OrderObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderObject.swift; sourceTree = "<group>"; };
 		CBC1BCFF234DDC6A009F6E2C /* AccountInformation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountInformation.swift; sourceTree = "<group>"; };
 		CBC1BD01234DDD29009F6E2C /* BalanceObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BalanceObject.swift; sourceTree = "<group>"; };
@@ -319,7 +317,6 @@
 				CBC1BCEF234CA510009F6E2C /* OrderResponseObject.swift */,
 				CBC1BCF1234CA682009F6E2C /* OrderFillObject.swift */,
 				CBC1BCF7234CD41A009F6E2C /* OrderDetailObject.swift */,
-				CBC1BCFB234DC375009F6E2C /* OCOOrderResponse.swift */,
 				CBC1BCFD234DC441009F6E2C /* OrderObject.swift */,
 				CBC1BCFF234DDC6A009F6E2C /* AccountInformation.swift */,
 				CBC1BD01234DDD29009F6E2C /* BalanceObject.swift */,
@@ -466,7 +463,6 @@
 				CB8AACD42350B9B20096DD07 /* ExchangeManager.swift in Sources */,
 				CB2571822345DFB9007DBD6F /* AppDelegate.swift in Sources */,
 				CB8AACCF234F67500096DD07 /* AccountManager.swift in Sources */,
-				CBC1BCFC234DC375009F6E2C /* OCOOrderResponse.swift in Sources */,
 				CBC1BD02234DDD2A009F6E2C /* BalanceObject.swift in Sources */,
 				CB711F6C234B5DAB008F7A33 /* OrderBookObject.swift in Sources */,
 				D192FE092351D6520090A194 /* UserStreamHandler.swift in Sources */,

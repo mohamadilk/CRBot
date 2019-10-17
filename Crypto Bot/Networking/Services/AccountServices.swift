@@ -202,10 +202,16 @@ class AccountServices: BaseApiServices {
     
     private func postNewOrder(parameters: [String:Any], response: @escaping(_ orderBook: OrderResponseObject?, _ error: ApiError?) -> Swift.Void) {
         
-        self.request(endpoint: Keys.endPoints.order, type: .mappableJsonType, method: .post, body: nil, parameters: parameters, embedApiKey: true, embedSignature: true, headers: nil) { (result: Result<mappableJson>) in
+        self.request(endpoint: Keys.endPoints.order, type: .mappableJsonType, method: .post, body: nil, parameters: parameters, embedApiKey: true, embedSignature: true, headers: nil) { (result: Any?, error: ApiError?) in
             
-            guard let value = result.value else {
-                response(nil, nil)
+            if error != nil {
+                response(nil, error)
+                return
+            }
+            
+            guard let value = result as? mappableJson else {
+                let error = ApiError.createErrorWithErrorType(.malformed, description: "Malformed Response Data")
+                response(nil, error)
                 return
             }
             
@@ -223,21 +229,18 @@ class AccountServices: BaseApiServices {
         if let origClientOrderId = origClientOrderId { params[Keys.parameterKeys.origClientOrderId] = origClientOrderId }
         if let recvWindow = recvWindow { params[Keys.parameterKeys.recvWindow] = recvWindow }
         
-        self.request(endpoint: Keys.endPoints.order, type: .mappableJsonType, method: .get, body: nil, parameters: params, embedApiKey: true, embedSignature: true, headers: nil) { (result: Result<mappableJson>) in
+        self.request(endpoint: Keys.endPoints.order, type: .mappableJsonType, method: .get, body: nil, parameters: params, embedApiKey: true, embedSignature: true, headers: nil) { (result: Any?, error: ApiError?) in
             
-//            switch result {
-//            case .success(value: let val):
-//                let orderModel = OrderDetailObject(JSON: val.dictionary as [String : Any])
-//                response(orderModel, nil)
-//                break
-//            case .failure:
-//                response(nil, nil)
-//                break
-//            }
-            guard let value = result.value else {
-                response(nil, nil)
-                return
-            }
+if error != nil {
+    response(nil, error)
+    return
+}
+
+guard let value = result as? mappableJson else {
+    let error = ApiError.createErrorWithErrorType(.malformed, description: "Malformed Response Data")
+    response(nil, error)
+    return
+}
             
             let orderModel = OrderDetailObject(JSON: value.dictionary as [String : Any])
             response(orderModel, nil)
@@ -254,10 +257,16 @@ class AccountServices: BaseApiServices {
         if let newClientOrderId = newClientOrderId { params[Keys.parameterKeys.newClientOrderId] = newClientOrderId }
         if let recvWindow = recvWindow { params[Keys.parameterKeys.recvWindow] = recvWindow }
         
-        self.request(endpoint: Keys.endPoints.order, type: .mappableJsonType, method: .delete, body: nil, parameters: params, embedApiKey: true, embedSignature: true, headers: nil) { (result: Result<mappableJson>) in
+        self.request(endpoint: Keys.endPoints.order, type: .mappableJsonType, method: .delete, body: nil, parameters: params, embedApiKey: true, embedSignature: true, headers: nil) { (result: Any?, error: ApiError?) in
             
-            guard let value = result.value else {
-                response(nil, nil)
+            if error != nil {
+                response(nil, error)
+                return
+            }
+            
+            guard let value = result as? mappableJson else {
+                let error = ApiError.createErrorWithErrorType(.malformed, description: "Malformed Response Data")
+                response(nil, error)
                 return
             }
             
@@ -274,10 +283,16 @@ class AccountServices: BaseApiServices {
         if let symbol = symbol { params[Keys.parameterKeys.symbol] = symbol }
         if let recvWindow = recvWindow { params[Keys.parameterKeys.recvWindow] = recvWindow }
         
-        self.request(endpoint: Keys.endPoints.openOrders, type: .arrayOfJsonType, method: .get, body: nil, parameters: params, embedApiKey: true, embedSignature: true, headers: nil) { (result: Result<arrayOfJson>) in
+        self.request(endpoint: Keys.endPoints.openOrders, type: .arrayOfJsonType, method: .get, body: nil, parameters: params, embedApiKey: true, embedSignature: true, headers: nil) { (result: Any?, error: ApiError?) in
             
-            guard let value = result.value else {
-                response(nil, nil)
+            if error != nil {
+                response(nil, error)
+                return
+            }
+            
+            guard let value = result as? arrayOfJson else {
+                let error = ApiError.createErrorWithErrorType(.malformed, description: "Malformed Response Data")
+                response(nil, error)
                 return
             }
             
@@ -302,10 +317,16 @@ class AccountServices: BaseApiServices {
         if let endTime = endTime { params[Keys.parameterKeys.endTime] = endTime }
         if let recvWindow = recvWindow { params[Keys.parameterKeys.recvWindow] = recvWindow }
         
-        self.request(endpoint: Keys.endPoints.allOrders, type: .arrayOfJsonType, method: .get, body: nil, parameters: params, embedApiKey: true, embedSignature: true, headers: nil) { (result: Result<arrayOfJson>) in
+        self.request(endpoint: Keys.endPoints.allOrders, type: .arrayOfJsonType, method: .get, body: nil, parameters: params, embedApiKey: true, embedSignature: true, headers: nil) { (result: Any?, error: ApiError?) in
             
-            guard let value = result.value else {
-                response(nil, nil)
+            if error != nil {
+                response(nil, error)
+                return
+            }
+            
+            guard let value = result as? arrayOfJson else {
+                let error = ApiError.createErrorWithErrorType(.malformed, description: "Malformed Response Data")
+                response(nil, error)
                 return
             }
             
@@ -340,10 +361,16 @@ class AccountServices: BaseApiServices {
         if let stopLimitTimeInForce = stopLimitTimeInForce { params[Keys.parameterKeys.stopLimitTimeInForce] = stopLimitTimeInForce }
         if let newOrderRespType = newOrderRespType { params[Keys.parameterKeys.newOrderRespType] = newOrderRespType }
         
-        self.request(endpoint: Keys.endPoints.ocoOrder, type: .mappableJsonType, method: .post, body: nil, parameters: params, embedApiKey: true, embedSignature: true, headers: nil) { (result: Result<mappableJson>) in
+        self.request(endpoint: Keys.endPoints.ocoOrder, type: .mappableJsonType, method: .post, body: nil, parameters: params, embedApiKey: true, embedSignature: true, headers: nil) { (result: Any?, error: ApiError?) in
             
-            guard let value = result.value else {
-                response(nil, nil)
+            if error != nil {
+                response(nil, error)
+                return
+            }
+            
+            guard let value = result as? mappableJson else {
+                let error = ApiError.createErrorWithErrorType(.malformed, description: "Malformed Response Data")
+                response(nil, error)
                 return
             }
             
@@ -362,12 +389,13 @@ class AccountServices: BaseApiServices {
         if let newClientOrderId = newClientOrderId { params[Keys.parameterKeys.newClientOrderId] = newClientOrderId }
         if let recvWindow = recvWindow { params[Keys.parameterKeys.recvWindow] = recvWindow }
         
-        self.request(endpoint: Keys.endPoints.cancelOco, type: .mappableJsonType, method: .delete, body: nil, parameters: params, embedApiKey: true, embedSignature: true, headers: nil) { (result: Result<mappableJson>) in
+        self.request(endpoint: Keys.endPoints.cancelOco, type: .mappableJsonType, method: .delete, body: nil, parameters: params, embedApiKey: true, embedSignature: true, headers: nil) { (result: Any?, error: ApiError?) in
             
-            guard result.value != nil else {
-                response(false, nil)
+            if error != nil {
+                response(false, error)
                 return
             }
+            
             response(true, nil)
         }
     }
@@ -380,10 +408,16 @@ class AccountServices: BaseApiServices {
         if let origClientOrderId = origClientOrderId { params[Keys.parameterKeys.origClientOrderId] = origClientOrderId }
         if let recvWindow = recvWindow { params[Keys.parameterKeys.recvWindow] = recvWindow }
 
-        self.request(endpoint: Keys.endPoints.queryOco, type: .mappableJsonType, method: .get, body: nil, parameters: params, embedApiKey: true, embedSignature: true, headers: nil) { (result: Result<mappableJson>) in
+        self.request(endpoint: Keys.endPoints.queryOco, type: .mappableJsonType, method: .get, body: nil, parameters: params, embedApiKey: true, embedSignature: true, headers: nil) { (result: Any?, error: ApiError?) in
             
-            guard let value = result.value else {
-                response(nil, nil)
+            if error != nil {
+                response(nil, error)
+                return
+            }
+            
+            guard let value = result as? mappableJson else {
+                let error = ApiError.createErrorWithErrorType(.malformed, description: "Malformed Response Data")
+                response(nil, error)
                 return
             }
             
@@ -402,10 +436,16 @@ class AccountServices: BaseApiServices {
         if let endTime = endTime { params[Keys.parameterKeys.endTime] = endTime }
         if let recvWindow = recvWindow { params[Keys.parameterKeys.recvWindow] = recvWindow }
         
-        self.request(endpoint: Keys.endPoints.queryAllOcos, type: .arrayOfJsonType, method: .get, body: nil, parameters: params, embedApiKey: true, embedSignature: true, headers: nil) { (result: Result<arrayOfJson>) in
+        self.request(endpoint: Keys.endPoints.queryAllOcos, type: .arrayOfJsonType, method: .get, body: nil, parameters: params, embedApiKey: true, embedSignature: true, headers: nil) { (result: Any?, error: ApiError?) in
             
-            guard let value = result.value else {
-                response(nil, nil)
+            if error != nil {
+                response(nil, error)
+                return
+            }
+            
+            guard let value = result as? arrayOfJson else {
+                let error = ApiError.createErrorWithErrorType(.malformed, description: "Malformed Response Data")
+                response(nil, error)
                 return
             }
             
@@ -425,10 +465,16 @@ class AccountServices: BaseApiServices {
 
         if let recvWindow = recvWindow { params[Keys.parameterKeys.recvWindow] = recvWindow }
         
-        self.request(endpoint: Keys.endPoints.queryOpenOcos, type: .arrayOfJsonType, method: .get, body: nil, parameters: params, embedApiKey: true, embedSignature: true, headers: nil) { (result: Result<arrayOfJson>) in
+        self.request(endpoint: Keys.endPoints.queryOpenOcos, type: .arrayOfJsonType, method: .get, body: nil, parameters: params, embedApiKey: true, embedSignature: true, headers: nil) { (result: Any?, error: ApiError?) in
             
-            guard let value = result.value else {
-                response(nil, nil)
+            if error != nil {
+                response(nil, error)
+                return
+            }
+            
+            guard let value = result as? arrayOfJson else {
+                let error = ApiError.createErrorWithErrorType(.malformed, description: "Malformed Response Data")
+                response(nil, error)
                 return
             }
             
@@ -447,10 +493,16 @@ class AccountServices: BaseApiServices {
         var params = [Keys.parameterKeys.timestamp: "\(timestamp)".components(separatedBy: ".").first!] as [String : Any]
         if let recvWindow = recvWindow { params[Keys.parameterKeys.recvWindow] = recvWindow }
         
-        self.request(endpoint: Keys.endPoints.accountInformation, type: .mappableJsonType, method: .get, body: nil, parameters: params, embedApiKey: true, embedSignature: true, headers: nil) { (result: Result<mappableJson>) in
+        self.request(endpoint: Keys.endPoints.accountInformation, type: .mappableJsonType, method: .get, body: nil, parameters: params, embedApiKey: true, embedSignature: true, headers: nil) { (result: Any?, error: ApiError?) in
            
-            guard let value = result.value else {
-                response(nil, nil)
+            if error != nil {
+                response(nil, error)
+                return
+            }
+            
+            guard let value = result as? mappableJson else {
+                let error = ApiError.createErrorWithErrorType(.malformed, description: "Malformed Response Data")
+                response(nil, error)
                 return
             }
             
@@ -470,10 +522,16 @@ class AccountServices: BaseApiServices {
         if let endTime = endTime { params[Keys.parameterKeys.endTime] = endTime }
         if let recvWindow = recvWindow { params[Keys.parameterKeys.recvWindow] = recvWindow }
         
-        self.request(endpoint: Keys.endPoints.accountTradeList, type: .arrayOfJsonType, method: .get, body: nil, parameters: params, embedApiKey: true, embedSignature: true, headers: nil) { (result: Result<arrayOfJson>) in
+        self.request(endpoint: Keys.endPoints.accountTradeList, type: .arrayOfJsonType, method: .get, body: nil, parameters: params, embedApiKey: true, embedSignature: true, headers: nil) { (result: Any?, error: ApiError?) in
             
-            guard let value = result.value else {
-                response(nil, nil)
+            if error != nil {
+                response(nil, error)
+                return
+            }
+            
+            guard let value = result as? arrayOfJson else {
+                let error = ApiError.createErrorWithErrorType(.malformed, description: "Malformed Response Data")
+                response(nil, error)
                 return
             }
             

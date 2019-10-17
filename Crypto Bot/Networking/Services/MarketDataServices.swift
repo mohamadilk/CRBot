@@ -39,10 +39,16 @@ class MarketDataServices: BaseApiServices {
     
     func fetchOrderBook(symbol: String, limit: Int? = nil, response: @escaping(_ orderBook: OrderBookObject?, _ error: ApiError?) -> Swift.Void) {
         
-        self.request(endpoint: Keys.endPoints.orderBook, type: .mappableJsonType, method: .get, body: nil, parameters: [Keys.parameterKeys.symbol:symbol, Keys.parameterKeys.limit: limit ?? 100]) { (result: Result<mappableJson>) in
+        self.request(endpoint: Keys.endPoints.orderBook, type: .mappableJsonType, method: .get, body: nil, parameters: [Keys.parameterKeys.symbol:symbol, Keys.parameterKeys.limit: limit ?? 100]) { (result: Any?, error: ApiError?) in
             
-            guard let value = result.value else {
-                response(nil, nil)
+            if error != nil {
+                response(nil, error)
+                return
+            }
+            
+            guard let value = result as? mappableJson else {
+                let error = ApiError.createErrorWithErrorType(.malformed, description: "Malformed Response Data")
+                response(nil, error)
                 return
             }
             
@@ -64,10 +70,16 @@ class MarketDataServices: BaseApiServices {
     }
     
     func RecentTradesList(symbol: String, limit: Int? = nil, response: @escaping(_ orderBook: [TradeObject]?, _ error: ApiError?) -> Void) {
-        self.request(endpoint: Keys.endPoints.trades, type: .arrayOfJsonType, method: .get, body: nil, parameters: [Keys.parameterKeys.symbol:symbol, Keys.parameterKeys.limit: limit ?? 500]) { (result: Result<arrayOfJson>) in
+        self.request(endpoint: Keys.endPoints.trades, type: .arrayOfJsonType, method: .get, body: nil, parameters: [Keys.parameterKeys.symbol:symbol, Keys.parameterKeys.limit: limit ?? 500]) { (result: Any?, error: ApiError?) in
             
-            guard let value = result.value else {
-                response(nil, nil)
+            if error != nil {
+                response(nil, error)
+                return
+            }
+            
+            guard let value = result as? arrayOfJson else {
+                let error = ApiError.createErrorWithErrorType(.malformed, description: "Malformed Response Data")
+                response(nil, error)
                 return
             }
             
@@ -84,10 +96,16 @@ class MarketDataServices: BaseApiServices {
         var params = [Keys.parameterKeys.symbol:symbol, Keys.parameterKeys.limit: limit ?? 500] as [String : Any]
         if let from = fromId { params[Keys.parameterKeys.fromId] = from }
 
-        self.request(endpoint: Keys.endPoints.trades, type: .arrayOfJsonType, method: .get, body: nil, parameters: params) { (result: Result<arrayOfJson>) in
+        self.request(endpoint: Keys.endPoints.trades, type: .arrayOfJsonType, method: .get, body: nil, parameters: params) { (result: Any?, error: ApiError?) in
             
-            guard let value = result.value else {
-                response(nil, nil)
+            if error != nil {
+                response(nil, error)
+                return
+            }
+            
+            guard let value = result as? arrayOfJson else {
+                let error = ApiError.createErrorWithErrorType(.malformed, description: "Malformed Response Data")
+                response(nil, error)
                 return
             }
             
@@ -106,10 +124,16 @@ class MarketDataServices: BaseApiServices {
         if let end = endTime { params[Keys.parameterKeys.endTime] = end }
         if let from = fromId { params[Keys.parameterKeys.fromId] = from }
         
-        self.request(endpoint: Keys.endPoints.aggTrades, type: .arrayOfJsonType, method: .get, body: nil, parameters: params) { (result: Result<arrayOfJson>) in
+        self.request(endpoint: Keys.endPoints.aggTrades, type: .arrayOfJsonType, method: .get, body: nil, parameters: params) { (result: Any?, error: ApiError?) in
             
-            guard let value = result.value else {
-                response(nil, nil)
+            if error != nil {
+                response(nil, error)
+                return
+            }
+            
+            guard let value = result as? arrayOfJson else {
+                let error = ApiError.createErrorWithErrorType(.malformed, description: "Malformed Response Data")
+                response(nil, error)
                 return
             }
             
@@ -127,29 +151,41 @@ class MarketDataServices: BaseApiServices {
         if let start = startTime { params[Keys.parameterKeys.startTime] = start }
         if let end = endTime { params[Keys.parameterKeys.endTime] = end }
         
-        self.request(endpoint: Keys.endPoints.klines, type: .arrayOfArrayType, method: .get, body: nil, parameters: params) { (result: Result<arrayOfArray>) in
-            
-            guard let value = result.value else {
-                response(nil, nil)
-                return
-            }
-            
-            var candlesArray = [CandleObject]()
-            for model in value.array {
-                
-                let candle = CandleObject(openTime: (model[0] as! TimeInterval), open: (model[1] as! String), high: (model[2] as! String), low: (model[3] as! String), close: (model[4] as! String), volume: (model[5] as! String), closeTime: (model[6] as! TimeInterval), quoteAssetVolume: (model[7] as! String), numberOfTrades: (model[8] as! Int), takerBuyBaseAssetVolume: (model[9] as! String), takerBuyquoteAssetVolume: (model[10] as! String), ignore: (model[11] as! String))
-                candlesArray.append(candle)
-            }
-            response(candlesArray, nil)
-        }
+//        self.request(endpoint: Keys.endPoints.klines, type: .arrayOfArrayType, method: .get, body: nil, parameters: params) { (result: Any?, error: ApiError?) in
+//
+//            if error != nil {
+//                response(nil, error)
+//                return
+//            }
+//
+//            guard let value = result as? arrayOfJson else {
+//                let error = ApiError.createErrorWithErrorType(.malformed, description: "Malformed Response Data")
+//                response(nil, error)
+//                return
+//            }
+//
+//            var candlesArray = [CandleObject]()
+//            for model in value.array {
+//
+//                let candle = CandleObject(openTime: (model[0] as! TimeInterval), open: (model[1] as! String), high: (model[2] as! String), low: (model[3] as! String), close: (model[4] as! String), volume: (model[5] as! String), closeTime: (model[6] as! TimeInterval), quoteAssetVolume: (model[7] as! String), numberOfTrades: (model[8] as! Int), takerBuyBaseAssetVolume: (model[9] as! String), takerBuyquoteAssetVolume: (model[10] as! String), ignore: (model[11] as! String))
+//                candlesArray.append(candle)
+//            }
+//            response(candlesArray, nil)
+//        }
     }
     
     func fetchCurrentAvaragePrice(symbol: String, response: @escaping(_ orderBook: AvaragePriceObject?, _ error: ApiError?) -> Swift.Void) {
         
-        self.request(endpoint: Keys.endPoints.avgPrice, type: .mappableJsonType, method: .get, body: nil, parameters: [Keys.parameterKeys.symbol:symbol]) { (result: Result<mappableJson>) in
+        self.request(endpoint: Keys.endPoints.avgPrice, type: .mappableJsonType, method: .get, body: nil, parameters: [Keys.parameterKeys.symbol:symbol]) { (result: Any?, error: ApiError?) in
             
-            guard let value = result.value else {
-                response(nil, nil)
+            if error != nil {
+                response(nil, error)
+                return
+            }
+            
+            guard let value = result as? mappableJson else {
+                let error = ApiError.createErrorWithErrorType(.malformed, description: "Malformed Response Data")
+                response(nil, error)
                 return
             }
             
@@ -160,10 +196,16 @@ class MarketDataServices: BaseApiServices {
     
     func fetchOneDayTickerPriceChangeStatistics(symbol: String, response: @escaping(_ orderBook: OneDayTickerPriceChangeObject?, _ error: ApiError?) -> Swift.Void) {
         
-        self.request(endpoint: Keys.endPoints.oneDayTicker, type: .mappableJsonType, method: .get, body: nil, parameters: [Keys.parameterKeys.symbol:symbol]) { (result: Result<mappableJson>) in
+        self.request(endpoint: Keys.endPoints.oneDayTicker, type: .mappableJsonType, method: .get, body: nil, parameters: [Keys.parameterKeys.symbol:symbol]) { (result: Any?, error: ApiError?) in
             
-            guard let value = result.value else {
-                response(nil, nil)
+            if error != nil {
+                response(nil, error)
+                return
+            }
+            
+            guard let value = result as? mappableJson else {
+                let error = ApiError.createErrorWithErrorType(.malformed, description: "Malformed Response Data")
+                response(nil, error)
                 return
             }
             
@@ -174,10 +216,16 @@ class MarketDataServices: BaseApiServices {
     
     func fetchOneDayTickerPriceChangeStatistics(response: @escaping(_ orderBook: [OneDayTickerPriceChangeObject]?, _ error: ApiError?) -> Swift.Void) {
         
-        self.request(endpoint: Keys.endPoints.oneDayTicker, type: .arrayOfJsonType, method: .get, body: nil, parameters: nil) { (result: Result<arrayOfJson>) in
+        self.request(endpoint: Keys.endPoints.oneDayTicker, type: .arrayOfJsonType, method: .get, body: nil, parameters: nil) { (result: Any?, error: ApiError?) in
             
-            guard let value = result.value else {
-                response(nil, nil)
+            if error != nil {
+                response(nil, error)
+                return
+            }
+            
+            guard let value = result as? arrayOfJson else {
+                let error = ApiError.createErrorWithErrorType(.malformed, description: "Malformed Response Data")
+                response(nil, error)
                 return
             }
             
@@ -194,10 +242,16 @@ class MarketDataServices: BaseApiServices {
     
     func fetchSymbolPriceTicker(symbol: String, response: @escaping(_ orderBook: SymbolPriceObject?, _ error: ApiError?) -> Swift.Void) {
         
-        self.request(endpoint: Keys.endPoints.SymbolPriceTicker, type: .mappableJsonType, method: .get, body: nil, parameters: [Keys.parameterKeys.symbol:symbol]) { (result: Result<mappableJson>) in
+        self.request(endpoint: Keys.endPoints.SymbolPriceTicker, type: .mappableJsonType, method: .get, body: nil, parameters: [Keys.parameterKeys.symbol:symbol]) { (result: Any?, error: ApiError?) in
             
-            guard let value = result.value else {
-                response(nil, nil)
+            if error != nil {
+                response(nil, error)
+                return
+            }
+            
+            guard let value = result as? mappableJson else {
+                let error = ApiError.createErrorWithErrorType(.malformed, description: "Malformed Response Data")
+                response(nil, error)
                 return
             }
             
@@ -208,10 +262,16 @@ class MarketDataServices: BaseApiServices {
     
     func fetchSymbolPriceTicker(response: @escaping(_ orderBook: [SymbolPriceObject]?, _ error: ApiError?) -> Swift.Void) {
         
-        self.request(endpoint: Keys.endPoints.SymbolPriceTicker, type: .arrayOfJsonType, method: .get, body: nil, parameters: nil) { (result: Result<arrayOfJson>) in
+        self.request(endpoint: Keys.endPoints.SymbolPriceTicker, type: .arrayOfJsonType, method: .get, body: nil, parameters: nil) { (result: Any?, error: ApiError?) in
             
-            guard let value = result.value else {
-                response(nil, nil)
+            if error != nil {
+                response(nil, error)
+                return
+            }
+            
+            guard let value = result as? arrayOfJson else {
+                let error = ApiError.createErrorWithErrorType(.malformed, description: "Malformed Response Data")
+                response(nil, error)
                 return
             }
             
@@ -227,10 +287,16 @@ class MarketDataServices: BaseApiServices {
     
     func fetchSymbolOrderBookTicker(symbol: String, response: @escaping(_ orderBook: SymbolOrderBookObject?, _ error: ApiError?) -> Swift.Void) {
         
-        self.request(endpoint: Keys.endPoints.SymbolOrderBookTicker, type: .mappableJsonType, method: .get, body: nil, parameters: [Keys.parameterKeys.symbol:symbol]) { (result: Result<mappableJson>) in
+        self.request(endpoint: Keys.endPoints.SymbolOrderBookTicker, type: .mappableJsonType, method: .get, body: nil, parameters: [Keys.parameterKeys.symbol:symbol]) { (result: Any?, error: ApiError?) in
             
-            guard let value = result.value else {
-                response(nil, nil)
+            if error != nil {
+                response(nil, error)
+                return
+            }
+            
+            guard let value = result as? mappableJson else {
+                let error = ApiError.createErrorWithErrorType(.malformed, description: "Malformed Response Data")
+                response(nil, error)
                 return
             }
             
@@ -241,10 +307,16 @@ class MarketDataServices: BaseApiServices {
     
     func fetchSymbolOrderBookTicker(response: @escaping(_ orderBook: [SymbolOrderBookObject]?, _ error: ApiError?) -> Swift.Void) {
         
-        self.request(endpoint: Keys.endPoints.SymbolOrderBookTicker, type: .arrayOfJsonType, method: .get, body: nil, parameters: nil) { (result: Result<arrayOfJson>) in
+        self.request(endpoint: Keys.endPoints.SymbolOrderBookTicker, type: .arrayOfJsonType, method: .get, body: nil, parameters: nil) { (result: Any?, error: ApiError?) in
             
-            guard let value = result.value else {
-                response(nil, nil)
+            if error != nil {
+                response(nil, error)
+                return
+            }
+            
+            guard let value = result as? arrayOfJson else {
+                let error = ApiError.createErrorWithErrorType(.malformed, description: "Malformed Response Data")
+                response(nil, error)
                 return
             }
             

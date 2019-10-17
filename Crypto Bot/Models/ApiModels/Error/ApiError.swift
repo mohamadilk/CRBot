@@ -17,7 +17,7 @@ public enum ApiErrorTypes: Int
     case provideKeys
 }
 
-public class ApiError: BaseApiModel, Error
+public class ApiError: ServerResponse, Error
 {
     public var errorType: ApiErrorTypes?
     public var statusCode: Int?
@@ -32,27 +32,27 @@ public class ApiError: BaseApiModel, Error
     public static func createErrorWithErrorType(_ errorType: ApiErrorTypes, description: String? = nil) -> ApiError
     {
         let error = ApiError()
-        error?.errorType = errorType
+        error.errorType = errorType
         switch errorType {
         case .malformed:
-            error?.description = "Json parsing error"
+            error.description = "Json parsing error"
             break
         case .BreakingRateLimit:
-            error?.description = "breaking a request rate limit"
+            error.description = "breaking a request rate limit"
             break
             case .bannedIpAddress:
-            error?.description = "IP has been auto-banned for continuing to send requests after receiving 429 codes"
+                error.description = "IP has been auto-banned for continuing to send requests after receiving 429 codes"
             break
             case .internalError:
-            error?.description = "internal error; the issue is on Binance's side"
+                error.description = "internal error; the issue is on Binance's side"
             break
         case .provideKeys:
-            error?.description = "Please provide Key and(or) Secret key first!"
+            error.description = "Please provide Key and(or) Secret key first!"
             break
         default:
-            error?.description = description ?? "Functional Error!"
+            error.description = description ?? "Functional Error!"
             break
         }
-        return error!
+        return error
     }
 }

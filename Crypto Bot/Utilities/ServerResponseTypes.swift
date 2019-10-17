@@ -30,12 +30,12 @@ public enum responseType {
 
 public enum Result<T> {
     case success(value: T)
-    case failure
+    case failure(value: T)
     
     var value: T? {
         switch self {
         case .success(let value): return value
-        case .failure: return nil
+        case .failure(let value): return value
         }
     }
 }

@@ -314,7 +314,7 @@ class PlaceNewOrderViewController: UIViewController {
                     quoteAsset = asset
                 }
                 
-                OrderHandler.shared.quantityFor(asset: asset, currency: currency, baseAssset: baseAsset, quoteAsset: quoteAsset, side: OrderSide(rawValue: side)!, percent: percentage, price: price) { (quantity, error) in
+                OrderHandler.shared.quantityFor(asset: asset, currency: currency, baseAssset: baseAsset, quoteAsset: quoteAsset, side: OrderSide(rawValue: side)!, percent: percentage, price: price, buyStopLimitPrice: buyStopLimitPriceTextfield.text) { (quantity, error) in
                     guard error == nil else { return }
                     self.quantityValueLabel.text = "\(quantity ?? 0)"
                 }

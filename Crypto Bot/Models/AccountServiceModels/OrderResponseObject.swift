@@ -11,8 +11,8 @@ import ObjectMapper
 
 class OrderResponseObject: BaseApiModel {
     var symbol: String?
-    var orderId: Int?
-    var orderListId: Int? //Unless OCO, value will be -1
+    var orderId: UInt64?
+    var orderListId: UInt64? //Unless OCO, value will be -1
     var clientOrderId: String?
     var transactTime: TimeInterval?
     var price: String?

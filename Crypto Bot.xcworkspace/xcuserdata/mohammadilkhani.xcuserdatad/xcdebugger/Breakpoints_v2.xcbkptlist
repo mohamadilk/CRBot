@@ -7,16 +7,32 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "C58D30F3-AB9A-43CA-BECD-F1DF61793CBE"
-            shouldBeEnabled = "No"
+            uuid = "558C1604-2577-45E4-8E8C-84A8A40AAD0E"
+            shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "Crypto Bot/Handlers/systemBRAIN.swift"
+            filePath = "Crypto Bot/Handlers/OrdersCasheHandler.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "43"
-            endingLineNumber = "43"
-            landmarkName = "executionReportReceived(report:)"
+            startingLineNumber = "58"
+            endingLineNumber = "58"
+            landmarkName = "sellOrderFullfieled(report:stopPrice:stopLimitPrice:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "2AC42C72-B60B-44E8-A9FE-5B942FE7803B"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Crypto Bot/Handlers/OrdersCasheHandler.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "50"
+            endingLineNumber = "50"
+            landmarkName = "sellOrderFullfieled(report:stopPrice:stopLimitPrice:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

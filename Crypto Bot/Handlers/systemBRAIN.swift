@@ -14,8 +14,8 @@ class systemBRAIN {
     var targetsDictionary = [String: Array<String>]()
     var stopPricesDictionary = [String: String]()
     var stopLimitPricesDictionary = [String: String]()
-
-
+    
+    
     let streamHandler = UserStreamHandler.shared
     let orderHandler = OrderHandler.shared
     
@@ -39,7 +39,7 @@ extension systemBRAIN: UserStreamHandlerDelegate {
             }
             break
             
-        case .FILLED, .PARTIALLY_FILLED:
+        case .PARTIALLY_FILLED:
             switch report.side! {
             case .BUY:
                 print("executionReportReceived ----------> BUY ORDER FILLED, TIME TO SELL!")
@@ -49,17 +49,37 @@ extension systemBRAIN: UserStreamHandlerDelegate {
                     }
                 }
                 break
-            default:
+            case .SELL:
+                break
+            }
+            break
+            
+        case .FILLED:
+            switch report.side! {
+            case .BUY:
+                print("executionReportReceived ----------> BUY ORDER FILLED, TIME TO SELL!")
+                self.placeSellOrderForExecutedBuyOrder(report: report) { (response, error) in
+                    guard error == nil else {
+                        return
+                    }
+                }
+                break
+            case .SELL:
+                if let symbol = report.symbol {
+                    if let stop = stopPricesDictionary[symbol], let limit = stopLimitPricesDictionary[symbol] {
+                        OrdersCasheHandler.shared.sellOrderFullfieled(report: report, stopPrice: stop, stopLimitPrice: limit)
+                    }
+                }
                 break
             }
             break
             
         case .CANCELED:
-            
+            OrdersCasheHandler.shared.sellOrderCanceled(report: report)
             break
             
         case .EXPIRED:
-            
+            OrdersCasheHandler.shared.sellOrderCanceled(report: report)
             break
             
         case .REJECTED:
@@ -71,7 +91,7 @@ extension systemBRAIN: UserStreamHandlerDelegate {
     }
     
     func outboundAccountinfoReceived(Info: OutboundAccountInfo) {
-
+        
     }
     
     func addPricesForSymbol(symbol: String, targetsArray: [String]?, stopPrice: String?, stopLimitPrice: String?) {
@@ -127,13 +147,13 @@ extension systemBRAIN: UserStreamHandlerDelegate {
         var updatablePercentArray = percentages
         let percent = updatablePercentArray.remove(at: 0)
         
-    print("placeSellOrderFor ----------> NEW SELL ORDER REQUEST SENT TO ORDER HANDLER")
+        print("placeSellOrderFor ----------> NEW SELL ORDER REQUEST SENT TO ORDER HANDLER")
         orderHandler.placeNewOrderWith(type: type, asset: asset, currency: currency, side: side, price: targetPrice, stopPrice: stopPrice, stopLimitPrice: stopLimitPrice, percentage: percent) { (result, error) in
             guard error == nil, result != nil else {
                 
                 if error == "Quantity does not meet minimum amount" {
                     print("orderHandler.placeNewOrderWith ----------> ERROR:: Quantity does not meet minimum amount, place 100%")
-
+                    
                     updatablePercentArray = ["100"]
                     
                     self.placeSellOrderFor(type: type, asset: asset, currency: currency, side: side, price: price, stopPrice: stopPrice, stopLimitPrice: stopLimitPrice, percentages: updatablePercentArray) { (result, error) in
@@ -145,13 +165,13 @@ extension systemBRAIN: UserStreamHandlerDelegate {
                     }
                     return
                 } else {
-                      response(nil, error)
-                      return
+                    response(nil, error)
+                    return
                 }
                 
             }
             print("orderHandler.placeNewOrderWith ----------> SUCCECCFULLY PLACED ORDER!")
-
+            
             if updatablePercentArray.count > 0 {
                 self.placeSellOrderFor(type: type, asset: asset, currency: currency, side: side, price: targets, stopPrice: stopPrice, stopLimitPrice: stopLimitPrice, percentages: updatablePercentArray) { (result, error) in
                     guard error == nil, result != nil else {

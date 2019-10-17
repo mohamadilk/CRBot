@@ -29,7 +29,7 @@ class OrderHandler {
             quoteAsset = asset
         }
         
-        self.quantityFor(asset: asset, currency: currency, baseAssset: baseAsset, quoteAsset: quoteAsset, side: side, percent: percentage!, price: price ?? "") { (quantity, error) in
+        self.quantityFor(asset: asset, currency: currency, baseAssset: baseAsset, quoteAsset: quoteAsset, side: side, percent: percentage!, price: price ?? "", buyStopLimitPrice: stopLimitPrice) { (quantity, error) in
             
             if quantity == nil || quantity == 0 {
                 response(nil, "Quantity does not meet minimum amount")
@@ -69,6 +69,14 @@ class OrderHandler {
                         response(nil, error?.description)
                         return
                     }
+                    
+                    if side == .SELL {
+                        if result != nil {
+                            print("----------> order added to cashe handler")
+                            OrdersCasheHandler.shared.newSellOrderPlaced(response: result!)
+                        }
+                    }
+                    
                     response(result, nil)
                 }
                 
@@ -115,6 +123,32 @@ class OrderHandler {
         
     }
     
+    func replaceOCOSellOrder(symbol: String, price: String, stopPrice: String, stopLimitPrice: String, quantity: String, response: @escaping(_ order: OrderResponseObject?, _ error: String?) -> Swift.Void) {
+        self.accountServices.postNewOCOOrder(symbol: symbol, side: .SELL, quantity: quantity.doubleValue, price: price, stopPrice: stopPrice, stopLimitPrice: stopLimitPrice, timestamp: NSDate().timeIntervalSince1970 * 1000) { (result, error) in
+            guard error == nil else {
+                response(nil, error?.description)
+                return
+            }
+            
+            print("----------> order added to cashe handler")
+            OrdersCasheHandler.shared.newSellOrderPlaced(response: result!)
+            
+            response(result, nil)
+        }
+    }
+    
+    func cancelOCOOrder(symbol: String, listClientOrderId: String, response: @escaping(_ success: Bool?, _ error: String?) -> Swift.Void) {
+        let timeStamp = NSDate().timeIntervalSince1970 * 1000
+        self.accountServices.cancelOCOOrder(symbol: symbol, listClientOrderId: listClientOrderId, timestamp: timeStamp) { (success, error) in
+            guard error == nil else {
+                response(false, error?.localizedDescription)
+                return
+            }
+            
+            response(success, nil)
+        }
+    }
+    
     func addPricesForSymbol(symbol: String, targetsArray: [String]?, stopPrice: String?, stopLimitPrice: String?) {
         systemBRAIN.shared.addPricesForSymbol(symbol: symbol, targetsArray: targetsArray, stopPrice: stopPrice, stopLimitPrice: stopLimitPrice)
     }
@@ -134,7 +168,7 @@ class OrderHandler {
         }
     }
     
-    func quantityFor(asset: String, currency: String, baseAssset: String, quoteAsset: String, side: OrderSide, percent: String, price: String, response: @escaping(_ quantity: Double?, _ error: String?) -> Swift.Void) {
+    func quantityFor(asset: String, currency: String, baseAssset: String, quoteAsset: String, side: OrderSide, percent: String, price: String, buyStopLimitPrice: String? = nil, response: @escaping(_ quantity: Double?, _ error: String?) -> Swift.Void) {
         self.currentUserCredit(currency: quoteAsset) { (balance, error) in
             guard error == nil, balance != nil else {
                 response(0, error?.localizedDescription)
@@ -151,11 +185,12 @@ class OrderHandler {
                     let lotSizeFilter = lotSizeArray[0]
                     
                     var quantity = 0.0
+                    let checkPrice: String = (buyStopLimitPrice != nil) ? buyStopLimitPrice! : price
                     
                     if side == .SELL {
                         quantity = round((balance!.free!.doubleValue * 0.99 * percent.doubleValue) / 100 * 10000000) / 10000000
                     } else {
-                        quantity = round((balance!.free!.doubleValue * 0.99 * percent.doubleValue) / price.doubleValue / 100 * 100) / 100
+                        quantity = round((balance!.free!.doubleValue * 0.99 * percent.doubleValue) / checkPrice.doubleValue / 100 * 100) / 100
                     }
                     
                     if quantity < lotSizeFilter.minQty!.doubleValue {

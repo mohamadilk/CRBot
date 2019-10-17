@@ -59,7 +59,7 @@ fileprivate struct Keys
 class AccountServices: BaseApiServices {
     
     static let shared = AccountServices()
-
+    
     func postNew_LIMIT_Order(symbol: String, side: OrderSide, timeInForce: TimeInForce, quantity: Double, price: String, newClientOrderId: String? = nil, icebergQty: Int? = nil, newOrderRespType: newOrderRespType? = nil, recvWindow: UInt? = nil, timestamp: TimeInterval, response: @escaping(_ order: OrderResponseObject?, _ error: ApiError?) -> Swift.Void) {
         
         var parameters = [Keys.parameterKeys.symbol: symbol,
@@ -87,13 +87,13 @@ class AccountServices: BaseApiServices {
                           Keys.parameterKeys.type: OrderTypes.MARKET.rawValue,
                           Keys.parameterKeys.quantity: quantity,
                           Keys.parameterKeys.timestamp: "\(timestamp)".components(separatedBy: ".").first!] as [String : Any]
-
+        
         if let newClientOrderId = newClientOrderId { parameters[Keys.parameterKeys.newClientOrderId] = newClientOrderId }
         if let newOrderRespType = newOrderRespType { parameters[Keys.parameterKeys.newOrderRespType] = newOrderRespType }
         if let timeInForce = timeInForce { parameters[Keys.parameterKeys.timeInForce] = timeInForce }
         if let recvWindow = recvWindow { parameters[Keys.parameterKeys.recvWindow] = recvWindow }
         if let price = price { parameters[Keys.parameterKeys.price] = price }
-
+        
         postNewOrder(parameters: parameters) { (responseObject, error) in
             response(responseObject, error)
         }
@@ -231,16 +231,16 @@ class AccountServices: BaseApiServices {
         
         self.request(endpoint: Keys.endPoints.order, type: .mappableJsonType, method: .get, body: nil, parameters: params, embedApiKey: true, embedSignature: true, headers: nil) { (result: Any?, error: ApiError?) in
             
-if error != nil {
-    response(nil, error)
-    return
-}
-
-guard let value = result as? mappableJson else {
-    let error = ApiError.createErrorWithErrorType(.malformed, description: "Malformed Response Data")
-    response(nil, error)
-    return
-}
+            if error != nil {
+                response(nil, error)
+                return
+            }
+            
+            guard let value = result as? mappableJson else {
+                let error = ApiError.createErrorWithErrorType(.malformed, description: "Malformed Response Data")
+                response(nil, error)
+                return
+            }
             
             let orderModel = OrderDetailObject(JSON: value.dictionary as [String : Any])
             response(orderModel, nil)
@@ -350,7 +350,7 @@ guard let value = result as? mappableJson else {
                       Keys.parameterKeys.stopLimitPrice: stopLimitPrice,
                       Keys.parameterKeys.timestamp: "\(Int(round(timestamp)))".components(separatedBy: ".").first!] as [String : Any]
         //        "accountType": "MAIN",
-
+        
         print(Int(round(timestamp)))
         if let listClientOrderId = listClientOrderId { params[Keys.parameterKeys.listClientOrderId] = listClientOrderId }
         if let limitClientOrderId = limitClientOrderId { params[Keys.parameterKeys.limitClientOrderId] = limitClientOrderId }
@@ -407,7 +407,7 @@ guard let value = result as? mappableJson else {
         if let orderListId = orderListId { params[Keys.parameterKeys.orderListId] = orderListId }
         if let origClientOrderId = origClientOrderId { params[Keys.parameterKeys.origClientOrderId] = origClientOrderId }
         if let recvWindow = recvWindow { params[Keys.parameterKeys.recvWindow] = recvWindow }
-
+        
         self.request(endpoint: Keys.endPoints.queryOco, type: .mappableJsonType, method: .get, body: nil, parameters: params, embedApiKey: true, embedSignature: true, headers: nil) { (result: Any?, error: ApiError?) in
             
             if error != nil {
@@ -462,7 +462,7 @@ guard let value = result as? mappableJson else {
     func fetchOpenOCOOrders(recvWindow: Int? = nil, timestamp: TimeInterval, response: @escaping(_ orderBook: [OrderResponseObject]?, _ error: ApiError?) -> Swift.Void) {
         
         var params = [Keys.parameterKeys.timestamp: "\(timestamp)".components(separatedBy: ".").first!] as [String : Any]
-
+        
         if let recvWindow = recvWindow { params[Keys.parameterKeys.recvWindow] = recvWindow }
         
         self.request(endpoint: Keys.endPoints.queryOpenOcos, type: .arrayOfJsonType, method: .get, body: nil, parameters: params, embedApiKey: true, embedSignature: true, headers: nil) { (result: Any?, error: ApiError?) in
@@ -494,7 +494,7 @@ guard let value = result as? mappableJson else {
         if let recvWindow = recvWindow { params[Keys.parameterKeys.recvWindow] = recvWindow }
         
         self.request(endpoint: Keys.endPoints.accountInformation, type: .mappableJsonType, method: .get, body: nil, parameters: params, embedApiKey: true, embedSignature: true, headers: nil) { (result: Any?, error: ApiError?) in
-           
+            
             if error != nil {
                 response(nil, error)
                 return

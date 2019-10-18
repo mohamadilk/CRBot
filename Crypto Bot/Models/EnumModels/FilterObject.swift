@@ -12,9 +12,9 @@ import ObjectMapper
 class FilterObject: BaseApiModel {
     
     var filterType: SymbolFilters?
-    var minPrice: Double?
-    var maxPrice: Double?
-    var tickSize: Double?
+    var minPrice: String?
+    var maxPrice: String?
+    var tickSize: String?
     var multiplierUp: String?
     var multiplierDown: String?
     var avgPriceMins: Int?

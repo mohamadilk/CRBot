@@ -42,14 +42,14 @@ class OrdersCasheHandler {
             }
             
             self.activeSellOrders[symbol] = self.activeSellOrders[symbol]?.filter({ $0.orderListId! != report.orderId })
-
+            
             if let activeOrders = activeSellOrders[symbol] {
                 if activeOrders.count >= 1 {
                     if let price = report.orderPrice {
                         for order in activeOrders {
                             if let orderId = order.listClientOrderId {
                                 OrderHandler.shared.cancelOCOOrder(symbol: symbol, listClientOrderId: orderId) { (success, error) in
-
+                                    
                                     if (success ?? false) {
                                         self.activeSellOrders[symbol] = self.activeSellOrders[symbol]?.filter({ $0.listClientOrderId != orderId })
                                         self.placeNewUpdatedSellOrder(with: order, stopPrice: stopPrice, stopLimitPrice: stopLimitPrice, newStopPrice: price)
@@ -72,16 +72,30 @@ class OrdersCasheHandler {
     
     private func placeNewUpdatedSellOrder(with order: OrderResponseObject, stopPrice: String, stopLimitPrice: String, newStopPrice: String) {
         let diff = Double(stopPrice.doubleValue) - Double(stopLimitPrice.doubleValue)
-        let finalStopPrice = Double(newStopPrice.doubleValue * 95.0 / 100)
-        let newStopLimitPrice = round(Double(finalStopPrice - diff) * 10000000) / 10000000
+        var finalStopPrice = Double(newStopPrice.doubleValue * 95.0 / 100)
+        var newStopLimitPrice = Double(finalStopPrice - diff)
         
-        if let limitMakerOrder  = order.orderReports?.filter({ $0.type == .LIMIT_MAKER }).first {
-            OrderHandler.shared.replaceOCOSellOrder(symbol: order.symbol!, price: limitMakerOrder.price!, stopPrice: "\(finalStopPrice)", stopLimitPrice: "\(newStopLimitPrice)", quantity: limitMakerOrder.origQty!) { (result, error) in
-                if error != nil {
-                    AlertUtility.showAlert(title: order.symbol ?? "ReSell Failed!", message: error)
+        ExchangeManager.shared.getSymbol(symbol: order.symbol ?? "") { (symbol, error) in
+            if error != nil {
+                AlertUtility.showAlert(title: "Failed to get symbol information")
+                return
+            }
+            
+            if let pricefilter = symbol!.filters?.filter({ $0.filterType == .PRICE_FILTER }).first {
+                if let tickSize = pricefilter.tickSize {
+                    
+                    finalStopPrice = round(finalStopPrice * (Double(1) / tickSize.doubleValue)) / (Double(1) / tickSize.doubleValue)
+                    newStopLimitPrice = round(newStopLimitPrice * (Double(1) / tickSize.doubleValue)) / (Double(1) / tickSize.doubleValue)
+                    
+                    if let limitMakerOrder  = order.orderReports?.filter({ $0.type == .LIMIT_MAKER }).first {
+                        OrderHandler.shared.replaceOCOSellOrder(symbol: order.symbol!, price: limitMakerOrder.price!, stopPrice: "\(finalStopPrice)", stopLimitPrice: "\(newStopLimitPrice)", quantity: limitMakerOrder.origQty!) { (result, error) in
+                            if error != nil {
+                                AlertUtility.showAlert(title: order.symbol ?? "ReSell Failed!", message: error)
+                            }
+                        }
+                    }
                 }
             }
         }
     }
-    
 }

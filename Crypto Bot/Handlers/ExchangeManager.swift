@@ -31,10 +31,10 @@ class ExchangeManager {
         }
     }
     
-    func getSymbol(asset: String, currency: String, result:@escaping (_ info: SymbolObject?, _ error: ApiError?) -> Swift.Void) {
+    func getSymbol(symbol: String, result:@escaping (_ info: SymbolObject?, _ error: ApiError?) -> Swift.Void) {
         
         guard exchangeInfo == nil else {
-            if let symbols = exchangeInfo!.symbols?.filter({ $0.symbol == "\(asset)\(currency)" }) {
+            if let symbols = exchangeInfo!.symbols?.filter({ $0.symbol == symbol }) {
                 result(symbols.first, nil)
             } else {
                 result(nil, nil)
@@ -48,7 +48,7 @@ class ExchangeManager {
                 return
             }
             self.exchangeInfo = response
-            if let symbols = self.exchangeInfo!.symbols?.filter({ $0.symbol == "\(asset)\(currency)" }) {
+            if let symbols = self.exchangeInfo!.symbols?.filter({ $0.symbol == symbol }) {
                 result(symbols.first, nil)
             } else {
                 result(nil, nil)

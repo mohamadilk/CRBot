@@ -176,7 +176,7 @@ class OrderHandler {
                 return
             }
                         
-            ExchangeManager.shared.getSymbol(asset: asset, currency: currency) { (symbol, error) in
+            ExchangeManager.shared.getSymbol(symbol: "\(asset)\(currency)") { (symbol, error) in
                 guard error == nil, symbol != nil else {
                     response(0, error?.localizedDescription)
                     return
@@ -191,7 +191,7 @@ class OrderHandler {
                     if side == .SELL {
                         quantity = round((balance!.free!.doubleValue * 0.99 * percent.doubleValue) / 100 * 10000000) / 10000000
                     } else {
-                        quantity = round((balance!.free!.doubleValue * 0.99 * percent.doubleValue) / checkPrice.doubleValue / 100 * 100) / 100
+                        quantity = round((balance!.free!.doubleValue * 0.99 * (percent.doubleValue / 100)) / checkPrice.doubleValue * 100000) / 100000
                     }
                     
                     if quantity < lotSizeFilter.minQty!.doubleValue {
@@ -207,7 +207,7 @@ class OrderHandler {
                     let multiplyer = Int(quantity / lotSizeFilter.stepSize!.doubleValue)
                     quantity = lotSizeFilter.minQty!.doubleValue * Double(multiplyer)
                     
-                    let roundedQuantity = round(quantity * 1000) / 1000
+                    let roundedQuantity = round(quantity * 1000000) / 1000000
                     response(roundedQuantity, nil)
                     
                 }

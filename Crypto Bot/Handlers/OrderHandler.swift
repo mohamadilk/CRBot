@@ -124,6 +124,7 @@ class OrderHandler {
     }
     
     func replaceOCOSellOrder(symbol: String, price: String, stopPrice: String, stopLimitPrice: String, quantity: String, response: @escaping(_ order: OrderResponseObject?, _ error: String?) -> Swift.Void) {
+        print("..................................")
         self.accountServices.postNewOCOOrder(symbol: symbol, side: .SELL, quantity: quantity.doubleValue, price: price, stopPrice: stopPrice, stopLimitPrice: stopLimitPrice, timestamp: NSDate().timeIntervalSince1970 * 1000) { (result, error) in
             guard error == nil else {
                 response(nil, error?.description)

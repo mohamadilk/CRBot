@@ -44,7 +44,7 @@ class OrdersCasheHandler {
             self.activeSellOrders[symbol] = self.activeSellOrders[symbol]?.filter({ $0.orderListId! != report.orderId })
 
             if let activeOrders = activeSellOrders[symbol] {
-                if activeOrders.count > 1 {
+                if activeOrders.count >= 1 {
                     if let price = report.orderPrice {
                         for order in activeOrders {
                             if let orderId = order.listClientOrderId {
@@ -72,11 +72,14 @@ class OrdersCasheHandler {
     
     private func placeNewUpdatedSellOrder(with order: OrderResponseObject, stopPrice: String, stopLimitPrice: String, newStopPrice: String) {
         let diff = Double(stopPrice.doubleValue) - Double(stopLimitPrice.doubleValue)
-        let newStopLimitPrice = round((Double(newStopPrice.doubleValue) - diff) * 10000000) / 10000000
+        let finalStopPrice = Double(newStopPrice.doubleValue * 95.0 / 100)
+        let newStopLimitPrice = round(Double(finalStopPrice - diff) * 10000000) / 10000000
         
-        OrderHandler.shared.replaceOCOSellOrder(symbol: order.symbol!, price: order.price!, stopPrice: newStopPrice, stopLimitPrice: "\(newStopLimitPrice)", quantity: order.origQty!) { (result, error) in
-            if error != nil {
-                AlertUtility.showAlert(title: order.symbol ?? "ReSell Failed!", message: error)
+        if let limitMakerOrder  = order.orderReports?.filter({ $0.type == .LIMIT_MAKER }).first {
+            OrderHandler.shared.replaceOCOSellOrder(symbol: order.symbol!, price: limitMakerOrder.price!, stopPrice: "\(finalStopPrice)", stopLimitPrice: "\(newStopLimitPrice)", quantity: limitMakerOrder.origQty!) { (result, error) in
+                if error != nil {
+                    AlertUtility.showAlert(title: order.symbol ?? "ReSell Failed!", message: error)
+                }
             }
         }
     }

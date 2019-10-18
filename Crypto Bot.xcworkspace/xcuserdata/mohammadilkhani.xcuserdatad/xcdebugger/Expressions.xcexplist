@@ -3,6 +3,9 @@
    version = "1.0">
    <ContextStates>
       <ContextState
+         contextName = "OrdersCasheHandler.sellOrderFullfieled(report:stopPrice:stopLimitPrice:):OrdersCasheHandler.swift">
+      </ContextState>
+      <ContextState
          contextName = "closure #1 in systemBRAIN.placeSellOrderForExecutedBuyOrder(report:response:):systemBRAIN.swift">
          <PersistentStrings>
             <PersistentString
@@ -10,6 +13,14 @@
             </PersistentString>
             <PersistentString
                value = "self.stopLimitPricesDictionary">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "OrdersCasheHandler.placeNewUpdatedSellOrder(with:stopPrice:stopLimitPrice:newStopPrice:):OrdersCasheHandler.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "order.orderReports?.filter({ $0.type == .LIMIT_MAKER }).first">
             </PersistentString>
          </PersistentStrings>
       </ContextState>

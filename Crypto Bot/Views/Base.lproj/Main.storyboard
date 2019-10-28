@@ -335,6 +335,7 @@
                                                         <state key="normal" title="Add Target"/>
                                                         <connections>
                                                             <action selector="addNewTargetPressed:" destination="P0v-sd-zkm" eventType="touchUpInside" id="jwT-XX-sXZ"/>
+                                                            <segue destination="hHU-B2-Jwn" kind="show" id="dDc-Ee-BUP"/>
                                                         </connections>
                                                     </button>
                                                     <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="8DW-4q-Gvn">
@@ -440,6 +441,51 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="gsx-n0-hnL" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1910" y="455"/>
+        </scene>
+        <!--Place New Order Detail View Controller-->
+        <scene sceneID="gTz-ew-o7N">
+            <objects>
+                <viewController id="hHU-B2-Jwn" customClass="PlaceNewOrderDetailViewController" customModule="Crypto_Bot" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="12L-lf-9uF">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="RmK-22-Qve">
+                                <rect key="frame" x="0.0" y="88" width="414" height="655"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                                <connections>
+                                    <outlet property="dataSource" destination="hHU-B2-Jwn" id="rS7-mP-WCT"/>
+                                    <outlet property="delegate" destination="hHU-B2-Jwn" id="Wd6-aN-Jtk"/>
+                                </connections>
+                            </tableView>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="2W2-z9-Ffc">
+                                <rect key="frame" x="0.0" y="743" width="414" height="70"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="70" id="H3z-On-iZH"/>
+                                </constraints>
+                            </view>
+                        </subviews>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <constraints>
+                            <constraint firstItem="2W2-z9-Ffc" firstAttribute="bottom" secondItem="Us6-Es-hmD" secondAttribute="bottom" id="Amu-Se-0HR"/>
+                            <constraint firstItem="RmK-22-Qve" firstAttribute="top" secondItem="Us6-Es-hmD" secondAttribute="top" id="BB7-RQ-zEB"/>
+                            <constraint firstItem="2W2-z9-Ffc" firstAttribute="top" secondItem="RmK-22-Qve" secondAttribute="bottom" id="Czc-qY-iPj"/>
+                            <constraint firstItem="RmK-22-Qve" firstAttribute="leading" secondItem="Us6-Es-hmD" secondAttribute="leading" id="Dtj-lc-4RU"/>
+                            <constraint firstItem="2W2-z9-Ffc" firstAttribute="leading" secondItem="Us6-Es-hmD" secondAttribute="leading" id="SVN-LS-Jv7"/>
+                            <constraint firstItem="RmK-22-Qve" firstAttribute="trailing" secondItem="Us6-Es-hmD" secondAttribute="trailing" id="dFs-1c-NMH"/>
+                            <constraint firstItem="2W2-z9-Ffc" firstAttribute="trailing" secondItem="Us6-Es-hmD" secondAttribute="trailing" id="oi0-e9-feW"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="Us6-Es-hmD"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="Kdc-Ei-x8u"/>
+                    <connections>
+                        <outlet property="tableView" destination="RmK-22-Qve" id="h9o-eb-dnQ"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="otn-Fa-0UE" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2721.739130434783" y="452.67857142857139"/>
         </scene>
         <!--Active Orders-->
         <scene sceneID="k2b-rx-46Z">

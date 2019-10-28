@@ -11,9 +11,9 @@ import Foundation
 fileprivate struct Keys
 {
     fileprivate struct endPoints {
-        fileprivate static let testConnectivity = "/api/v1/ping"
-        fileprivate static let checkServerTime = "/api/v1/time"
-        fileprivate static let exchangeInformation = "/api/v1/exchangeInfo"
+        fileprivate static let testConnectivity = "/api/v3/ping"
+        fileprivate static let checkServerTime = "/api/v3/time"
+        fileprivate static let exchangeInformation = "/api/v3/exchangeInfo" //1
         
     }
     

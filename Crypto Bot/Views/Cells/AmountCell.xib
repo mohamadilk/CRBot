@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="15400" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15404"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="AmountCell" rowHeight="80" id="KGk-i7-Jjw" customClass="AmountCell" customModule="Crypto_Bot" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="384" height="80"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
+                <rect key="frame" x="0.0" y="0.0" width="384" height="80"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Amount:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="FJk-fO-XDg">
+                        <rect key="frame" x="16" y="13" width="70.5" height="20.5"/>
+                        <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
+                        <nil key="textColor"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="0.000025" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="zcf-tb-qzN">
+                        <rect key="frame" x="132" y="6" width="120" height="34"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="120" id="srr-a4-N5f"/>
+                        </constraints>
+                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                        <textInputTraits key="textInputTraits"/>
+                    </textField>
+                    <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Jy1-Jc-Ajm">
+                        <rect key="frame" x="311" y="8" width="57" height="29"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="QEQ-cd-bCC">
+                                <rect key="frame" x="29" y="1" width="27" height="27"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="27" id="VJx-tV-bUj"/>
+                                    <constraint firstAttribute="width" constant="27" id="gDh-lg-8q9"/>
+                                </constraints>
+                                <state key="normal" title="+"/>
+                                <connections>
+                                    <action selector="didPressIncreaseButton:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="VOs-LC-qhs"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Jey-oG-JpR">
+                                <rect key="frame" x="1" y="1" width="27" height="27"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="27" id="7pD-TL-ulR"/>
+                                    <constraint firstAttribute="height" constant="27" id="8BU-Yv-O3c"/>
+                                </constraints>
+                                <state key="normal" title="-"/>
+                                <connections>
+                                    <action selector="didPressDecreaseButton:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="BiH-zb-fVu"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" red="0.79999452829999995" green="0.79999470709999998" blue="0.79999333620000002" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                        <constraints>
+                            <constraint firstItem="Jey-oG-JpR" firstAttribute="top" secondItem="Jy1-Jc-Ajm" secondAttribute="top" constant="1" id="Vts-A2-K8Z"/>
+                            <constraint firstAttribute="width" constant="57" id="ZbG-ww-Rnk"/>
+                            <constraint firstAttribute="height" constant="29" id="ZhT-Fp-oLi"/>
+                            <constraint firstItem="Jey-oG-JpR" firstAttribute="leading" secondItem="Jy1-Jc-Ajm" secondAttribute="leading" constant="1" id="blb-aF-pSi"/>
+                            <constraint firstAttribute="trailing" secondItem="QEQ-cd-bCC" secondAttribute="trailing" constant="1" id="jc3-qH-zik"/>
+                            <constraint firstItem="QEQ-cd-bCC" firstAttribute="top" secondItem="Jy1-Jc-Ajm" secondAttribute="top" constant="1" id="yiE-pv-ckU"/>
+                        </constraints>
+                    </view>
+                    <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="46" translatesAutoresizingMaskIntoConstraints="NO" id="pZs-NF-XxX">
+                        <rect key="frame" x="16" y="48" width="352" height="30"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="LtR-xy-Dvg">
+                                <rect key="frame" x="0.0" y="0.0" width="53.5" height="30"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <state key="normal" title="25%">
+                                    <color key="titleColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                </state>
+                                <connections>
+                                    <action selector="didPress25Percent:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="bsO-dT-L8V"/>
+                                    <action selector="didPress25PercentButton:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="ZRe-UL-5iz"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6gy-uu-VlA">
+                                <rect key="frame" x="99.5" y="0.0" width="53.5" height="30"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <state key="normal" title="50%">
+                                    <color key="titleColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                </state>
+                                <connections>
+                                    <action selector="didPress50PercentButton:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="9Id-xL-Ddo"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Vfl-do-Obe">
+                                <rect key="frame" x="199" y="0.0" width="53.5" height="30"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <state key="normal" title="75%">
+                                    <color key="titleColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                </state>
+                                <connections>
+                                    <action selector="didPress75PercentButton:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="STh-nN-5fs"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Qkj-qm-AOx">
+                                <rect key="frame" x="298.5" y="0.0" width="53.5" height="30"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <state key="normal" title="100%">
+                                    <color key="titleColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                </state>
+                                <connections>
+                                    <action selector="didPress100PercentButton:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="kIl-U2-YyW"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="30" id="JWg-XK-jfM"/>
+                        </constraints>
+                    </stackView>
+                </subviews>
+                <constraints>
+                    <constraint firstAttribute="trailing" secondItem="pZs-NF-XxX" secondAttribute="trailing" constant="16" id="5am-rn-9Ld"/>
+                    <constraint firstItem="zcf-tb-qzN" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="6" id="HCf-RS-Efx"/>
+                    <constraint firstItem="FJk-fO-XDg" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="16" id="VtT-SZ-TDL"/>
+                    <constraint firstItem="zcf-tb-qzN" firstAttribute="centerX" secondItem="H2p-sc-9uM" secondAttribute="centerX" id="afI-0L-Tmm"/>
+                    <constraint firstItem="pZs-NF-XxX" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="16" id="ax2-Up-6WG"/>
+                    <constraint firstAttribute="trailing" secondItem="Jy1-Jc-Ajm" secondAttribute="trailing" constant="16" id="f2h-GQ-y1y"/>
+                    <constraint firstAttribute="bottom" secondItem="pZs-NF-XxX" secondAttribute="bottom" constant="2" id="lC6-AI-Ozl"/>
+                    <constraint firstItem="Jy1-Jc-Ajm" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="8" id="qcB-MN-JNK"/>
+                    <constraint firstItem="FJk-fO-XDg" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="13" id="s9a-u4-smr"/>
+                </constraints>
+            </tableViewCellContentView>
+            <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
+            <connections>
+                <outlet property="amountTextfield" destination="zcf-tb-qzN" id="rLM-Pm-lq4"/>
+                <outlet property="decreaseButton" destination="Jey-oG-JpR" id="1Vr-Ow-xNm"/>
+                <outlet property="fiftyPercentButton" destination="6gy-uu-VlA" id="lgH-tH-cZt"/>
+                <outlet property="increaseButton" destination="QEQ-cd-bCC" id="rsG-bg-zA1"/>
+                <outlet property="oneHundredPercentButton" destination="Qkj-qm-AOx" id="7NC-3I-hK2"/>
+                <outlet property="seventyFivePercentButton" destination="Vfl-do-Obe" id="uZ6-Pu-Yll"/>
+                <outlet property="stepperView" destination="Jy1-Jc-Ajm" id="MPs-C2-xuk"/>
+                <outlet property="titleButton" destination="FJk-fO-XDg" id="tHd-Ht-MpP"/>
+                <outlet property="titleLabel" destination="FJk-fO-XDg" id="e4w-t2-XIn"/>
+                <outlet property="twentyFivePercentButton" destination="LtR-xy-Dvg" id="5DF-Ac-1kz"/>
+            </connections>
+            <point key="canvasLocation" x="142.02898550724638" y="186.83035714285714"/>
+        </tableViewCell>
+    </objects>
+</document>

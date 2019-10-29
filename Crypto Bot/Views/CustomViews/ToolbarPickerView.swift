@@ -37,8 +37,10 @@ class ToolbarPickerView: UIPickerView {
         toolBar.sizeToFit()
 
         let doneButton = UIBarButtonItem(title: "Done", style: .plain, target: self, action: #selector(self.doneTapped))
+        doneButton.tintColor = .darkGray
         let spaceButton = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
         let cancelButton = UIBarButtonItem(title: "Cancel", style: .plain, target: self, action: #selector(self.cancelTapped))
+        cancelButton.tintColor = .darkGray
 
         toolBar.setItems([cancelButton, spaceButton, doneButton], animated: false)
         toolBar.isUserInteractionEnabled = true

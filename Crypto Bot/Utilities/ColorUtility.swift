@@ -14,6 +14,10 @@ extension UIColor{
         return UIColor(red:129/255, green:144/255 ,blue:165/255 , alpha:1.00)
     }
     
+    class func textfieldBorderColor() -> UIColor{
+        return UIColor(red:233/255, green:233/255 ,blue:233/255 , alpha:1.00)
+    }
+    
     class func numbersColor() -> UIColor{
         return UIColor(red:71/255, green:82/255 ,blue:94/255 , alpha:1.00)
     }

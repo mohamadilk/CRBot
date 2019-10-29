@@ -74,6 +74,7 @@
 		D1C635482368737900D9745B /* ColorUtility.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1C635472368737900D9745B /* ColorUtility.swift */; };
 		D1C6354A23689A7400D9745B /* StepperView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1C6354923689A7400D9745B /* StepperView.swift */; };
 		D1C6354C2368AEE900D9745B /* AMDots.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1C6354B2368AEE900D9745B /* AMDots.swift */; };
+		D1C6354E2368B28700D9745B /* PlaceOrderViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1C6354D2368B28700D9745B /* PlaceOrderViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -148,6 +149,7 @@
 		D1C635472368737900D9745B /* ColorUtility.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorUtility.swift; sourceTree = "<group>"; };
 		D1C6354923689A7400D9745B /* StepperView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepperView.swift; sourceTree = "<group>"; };
 		D1C6354B2368AEE900D9745B /* AMDots.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AMDots.swift; sourceTree = "<group>"; };
+		D1C6354D2368B28700D9745B /* PlaceOrderViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceOrderViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -217,6 +219,7 @@
 			children = (
 				CB7D48E5234F19F700F31172 /* PlaceNewOrderViewController.swift */,
 				CBAFCC1F23671F9D00EA3370 /* PlaceNewOrderDetailViewController.swift */,
+				D1C6354D2368B28700D9745B /* PlaceOrderViewController.swift */,
 			);
 			path = PlaceNewOrder;
 			sourceTree = "<group>";
@@ -570,6 +573,7 @@
 				CBC1BCE9234C8A3B009F6E2C /* OneDayTickerPriceChangeObject.swift in Sources */,
 				CBC1BCF0234CA510009F6E2C /* OrderResponseObject.swift in Sources */,
 				CBC1BCE7234C886F009F6E2C /* AvaragePriceObject.swift in Sources */,
+				D1C6354E2368B28700D9745B /* PlaceOrderViewController.swift in Sources */,
 				CBC1BCFE234DC441009F6E2C /* OrderObject.swift in Sources */,
 				CB23D504234E164C0053E6DE /* executionReportObject.swift in Sources */,
 				CBC1BCF6234CCE7F009F6E2C /* EnumValues.swift in Sources */,

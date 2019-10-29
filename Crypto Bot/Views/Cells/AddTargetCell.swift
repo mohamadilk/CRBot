@@ -10,45 +10,28 @@ import UIKit
 
 protocol AddTargetCellDelegate {
     
-    func increasedValueFor(index: Int)
-    func decreasedValueFor(index: Int)
-    func textfieldValueChanged(index: Int, text: String)
-    func targetAddedWith(price: String)
+//    func increasedValueFor(index: Int)
+//    func decreasedValueFor(index: Int)
+//    func textfieldValueChanged(index: Int, text: String)
+    func targetAddedWith(price: String, cellIndex: Int)
 }
 
-class AddTargetCell: UITableViewCell {
+class AddTargetCell: BaseTableViewCell {
 
-    var index: Int!
     var delegate: AddTargetCellDelegate?
     
     @IBOutlet weak var titleLabel: UILabel!
     
     @IBOutlet weak var priceTextfield: UITextField! {
         didSet {
-            self.priceTextfield.tag = index
             self.priceTextfield.delegate = self
             self.priceTextfield.keyboardType = .decimalPad
         }
     }
     
-    @IBOutlet weak var stepperView: UIView! {
+    @IBOutlet weak var stepperView: StepperView! {
         didSet {
-            self.stepperView.layer.cornerRadius = 5
-            self.stepperView.clipsToBounds = true
-        }
-    }
-    
-    @IBOutlet weak var decreaseButton: UIButton! {
-        didSet {
-            self.decreaseButton.tag = index
-            self.decreaseButton.clipsToBounds = true
-        }
-    }
-    
-    @IBOutlet weak var increaseButton: UIButton! {
-        didSet {
-            self.increaseButton.tag = index
-            self.increaseButton.clipsToBounds = true
+            self.stepperView.delegate = self
         }
     }
     
@@ -56,6 +39,7 @@ class AddTargetCell: UITableViewCell {
         didSet {
             self.addTargetButton.clipsToBounds = true
             self.addTargetButton.layer.cornerRadius = 5
+            self.addTargetButton.backgroundColor = UIColor.binanceGreenColor()
         }
     }
     
@@ -69,29 +53,33 @@ class AddTargetCell: UITableViewCell {
 
         // Configure the view for the selected state
     }
-    
-    @IBAction func didPressIncreaseButton(_ sender: UIButton) {
-        delegate?.increasedValueFor(index: sender.tag)
-        
-    }
-    
-    @IBAction func didPressDecreaseButton(_ sender: UIButton) {
-        delegate?.decreasedValueFor(index: sender.tag)
-    }
+
     @IBAction func didPressAdd(_ sender: UIButton) {
-        delegate?.targetAddedWith(price: priceTextfield.text ?? "")
+        if let price = priceTextfield.text, price.count > 0 {
+            delegate?.targetAddedWith(price: price, cellIndex: index)
+        }
     }
 }
 
 extension AddTargetCell: UITextFieldDelegate {
     
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
-        delegate?.textfieldValueChanged(index: index, text: textField.text ?? "")
+//        delegate?.textfieldValueChanged(index: index, text: textField.text ?? "")
         return true
     }
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         textField.resignFirstResponder()
         return false
+    }
+}
+
+extension AddTargetCell: StepperViewDelegate {
+    func increaseButtonPressed() {
+//        delegate?.increasedValueFor(index: index)
+    }
+    
+    func decreaseButtonPressed() {
+//        delegate?.decreasedValueFor(index: index)
     }
 }

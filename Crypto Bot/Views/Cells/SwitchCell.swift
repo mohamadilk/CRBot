@@ -10,14 +10,18 @@ import UIKit
 
 protocol SwitchCellDelegate {
     
-    func autoSellSwitchValueChanged(isEnable: Bool)
+    func autoSellSwitchValueChanged(isEnable: Bool, cellIndex: Int)
 }
 
-class SwitchCell: UITableViewCell {
+class SwitchCell: BaseTableViewCell {
 
     var delegate: SwitchCellDelegate?
     
-    @IBOutlet weak var sellSwitch: UISwitch!
+    @IBOutlet weak var sellSwitch: UISwitch! {
+        didSet {
+            self.sellSwitch.onTintColor = UIColor.binanceGreenColor()
+        }
+    }
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -31,6 +35,6 @@ class SwitchCell: UITableViewCell {
     }
     
     @IBAction func switchValueChanged(_ sender: UISwitch) {
-        delegate?.autoSellSwitchValueChanged(isEnable: sender.isOn)
+        delegate?.autoSellSwitchValueChanged(isEnable: sender.isOn, cellIndex: index)
     }
 }

@@ -16,39 +16,22 @@ protocol AmountCellDelegate {
     func amountChangedTo(percent: Int)
 }
 
-class AmountCell: UITableViewCell {
+class AmountCell: BaseTableViewCell {
 
-    var index: Int!
     var delegate: AmountCellDelegate?
     
     @IBOutlet weak var titleLabel: UILabel!
     
     @IBOutlet weak var amountTextfield: UITextField!{
         didSet {
-            self.amountTextfield.tag = index
             self.amountTextfield.delegate = self
             self.amountTextfield.keyboardType = .decimalPad
         }
     }
         
-    @IBOutlet weak var stepperView: UIView! {
+    @IBOutlet weak var stepperView: StepperView! {
         didSet {
-            self.stepperView.layer.cornerRadius = 5
-            self.stepperView.clipsToBounds = true
-        }
-    }
-    
-    @IBOutlet weak var decreaseButton: UIButton! {
-        didSet {
-            self.decreaseButton.tag = index
-            self.decreaseButton.clipsToBounds = true
-        }
-    }
-    
-    @IBOutlet weak var increaseButton: UIButton! {
-        didSet {
-            self.increaseButton.tag = index
-            self.increaseButton.clipsToBounds = true
+            self.stepperView.delegate = self
         }
     }
     
@@ -56,35 +39,35 @@ class AmountCell: UITableViewCell {
         didSet {
             self.twentyFivePercentButton.clipsToBounds = true
             self.twentyFivePercentButton.layer.cornerRadius = 5
-            self.twentyFivePercentButton.layer.borderColor = UIColor.darkGray.cgColor
+            self.twentyFivePercentButton.layer.borderColor = UIColor.lightGray.cgColor
             self.twentyFivePercentButton.layer.borderWidth = 1
         }
     }
     
     @IBOutlet weak var fiftyPercentButton: UIButton! {
         didSet {
-            self.twentyFivePercentButton.clipsToBounds = true
-            self.twentyFivePercentButton.layer.cornerRadius = 5
-            self.twentyFivePercentButton.layer.borderColor = UIColor.darkGray.cgColor
-            self.twentyFivePercentButton.layer.borderWidth = 1
+            self.fiftyPercentButton.clipsToBounds = true
+            self.fiftyPercentButton.layer.cornerRadius = 5
+            self.fiftyPercentButton.layer.borderColor = UIColor.lightGray.cgColor
+            self.fiftyPercentButton.layer.borderWidth = 1
         }
     }
     
     @IBOutlet weak var seventyFivePercentButton: UIButton! {
         didSet {
-            self.twentyFivePercentButton.clipsToBounds = true
-            self.twentyFivePercentButton.layer.cornerRadius = 5
-            self.twentyFivePercentButton.layer.borderColor = UIColor.darkGray.cgColor
-            self.twentyFivePercentButton.layer.borderWidth = 1
+            self.seventyFivePercentButton.clipsToBounds = true
+            self.seventyFivePercentButton.layer.cornerRadius = 5
+            self.seventyFivePercentButton.layer.borderColor = UIColor.lightGray.cgColor
+            self.seventyFivePercentButton.layer.borderWidth = 1
         }
     }
     
     @IBOutlet weak var oneHundredPercentButton: UIButton! {
         didSet {
-            self.twentyFivePercentButton.clipsToBounds = true
-            self.twentyFivePercentButton.layer.cornerRadius = 5
-            self.twentyFivePercentButton.layer.borderColor = UIColor.darkGray.cgColor
-            self.twentyFivePercentButton.layer.borderWidth = 1
+            self.oneHundredPercentButton.clipsToBounds = true
+            self.oneHundredPercentButton.layer.cornerRadius = 5
+            self.oneHundredPercentButton.layer.borderColor = UIColor.lightGray.cgColor
+            self.oneHundredPercentButton.layer.borderWidth = 1
         }
     }
     
@@ -97,15 +80,6 @@ class AmountCell: UITableViewCell {
         super.setSelected(selected, animated: animated)
 
         // Configure the view for the selected state
-    }
-    
-    @IBAction func didPressIncreaseButton(_ sender: UIButton) {
-        delegate?.increasedValueFor(index: sender.tag)
-        
-    }
-    
-    @IBAction func didPressDecreaseButton(_ sender: UIButton) {
-        delegate?.decreasedValueFor(index: sender.tag)
     }
 
     @IBAction func didPress25PercentButton(_ sender: UIButton) {
@@ -136,5 +110,15 @@ extension AmountCell: UITextFieldDelegate {
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         textField.resignFirstResponder()
         return false
+    }
+}
+
+extension AmountCell: StepperViewDelegate {
+    func increaseButtonPressed() {
+        delegate?.increasedValueFor(index: index)
+    }
+    
+    func decreaseButtonPressed() {
+        delegate?.decreasedValueFor(index: index)
     }
 }

@@ -280,6 +280,12 @@ class PlaceNewOrderViewController: UIViewController {
             targetsArray.append(target.decimalValue)
             targetsLabel.text = (targetsLabel.text ?? "") + target + "-"
         }
+        let viewC = self.storyboard?.instantiateViewController(identifier: "PlaceNewOrderDetailViewController") as! PlaceNewOrderDetailViewController
+        viewC.orderTpye = .LIMIT
+        viewC.orderSide = .BUY
+        viewC.symbol = symbolObjects[0]
+        
+        navigationController?.pushViewController(viewC, animated: true)
     }
     
     @IBAction func resetTargetsPressed(_ sender: UIButton) {

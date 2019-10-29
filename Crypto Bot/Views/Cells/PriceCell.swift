@@ -8,6 +8,16 @@
 
 import UIKit
 
+enum PriceCellTypes {
+    case buyPrice
+    case sellPrice
+    case total
+    case buyStopPrice
+    case buyLimitPrice
+    case sellStopPrice
+    case sellLimitPrice
+}
+
 protocol PriceCellDelegate {
     
     func increasedValueFor(index: Int)
@@ -15,39 +25,24 @@ protocol PriceCellDelegate {
     func textfieldValueChanged(index: Int, text: String)
 }
 
-class PriceCell: UITableViewCell {
+class PriceCell: BaseTableViewCell {
 
-    var index: Int!
     var delegate: PriceCellDelegate?
+    var priceType: PriceCellTypes!
     
     @IBOutlet weak var titleLabel: UILabel!
     
     @IBOutlet weak var priceTextfield: UITextField! {
         didSet {
-            self.priceTextfield.tag = index
             self.priceTextfield.delegate = self
             self.priceTextfield.keyboardType = .decimalPad
+            self.priceTextfield.layer.borderColor = UIColor.borderGrayColor().cgColor
         }
     }
     
-    @IBOutlet weak var stepperView: UIView! {
+    @IBOutlet weak var stepperView: StepperView! {
         didSet {
-            self.stepperView.layer.cornerRadius = 5
-            self.stepperView.clipsToBounds = true
-        }
-    }
-    
-    @IBOutlet weak var decreaseButton: UIButton! {
-        didSet {
-            self.decreaseButton.tag = index
-            self.decreaseButton.clipsToBounds = true
-        }
-    }
-    
-    @IBOutlet weak var increaseButton: UIButton! {
-        didSet {
-            self.increaseButton.tag = index
-            self.increaseButton.clipsToBounds = true
+            self.stepperView.delegate = self
         }
     }
     
@@ -61,15 +56,7 @@ class PriceCell: UITableViewCell {
 
         // Configure the view for the selected state
     }
-    
-    @IBAction func didPressIncreaseButton(_ sender: UIButton) {
-        delegate?.increasedValueFor(index: sender.tag)
-        
-    }
-    
-    @IBAction func didPressDecreaseButton(_ sender: UIButton) {
-        delegate?.decreasedValueFor(index: sender.tag)
-    }
+
 }
 
 extension PriceCell: UITextFieldDelegate {
@@ -82,5 +69,15 @@ extension PriceCell: UITextFieldDelegate {
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         textField.resignFirstResponder()
         return false
+    }
+}
+
+extension PriceCell: StepperViewDelegate {
+    func increaseButtonPressed() {
+        delegate?.increasedValueFor(index: index)
+    }
+    
+    func decreaseButtonPressed() {
+        delegate?.decreasedValueFor(index: index)
     }
 }

@@ -8,7 +8,7 @@
 
 import UIKit
 
-class DescriptionCell: UITableViewCell {
+class DescriptionCell: BaseTableViewCell {
 
     @IBOutlet weak var descriptionLabel: UILabel!
     

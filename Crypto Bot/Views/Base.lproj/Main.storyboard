@@ -633,11 +633,11 @@
             </objects>
             <point key="canvasLocation" x="138" y="1037"/>
         </scene>
-        <!--Item-->
+        <!--New Order-->
         <scene sceneID="MOS-N9-yDS">
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="KdL-Ch-XFw" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Item" id="OA6-n9-Y0c"/>
+                    <tabBarItem key="tabBarItem" title="New Order" id="OA6-n9-Y0c"/>
                     <toolbarItems/>
                     <navigationItem key="navigationItem" id="ame-be-zas"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="3m5-Iy-sgI">

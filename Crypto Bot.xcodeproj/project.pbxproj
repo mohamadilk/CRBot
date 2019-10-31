@@ -456,7 +456,7 @@
 					};
 				};
 			};
-			buildConfigurationList = CB2571792345DFB9007DBD6F /* Build configuration list for PBXProject "MasseurApp" */;
+			buildConfigurationList = CB2571792345DFB9007DBD6F /* Build configuration list for PBXProject "Crypto Bot" */;
 			compatibilityVersion = "Xcode 9.3";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -783,7 +783,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		CB2571792345DFB9007DBD6F /* Build configuration list for PBXProject "MasseurApp" */ = {
+		CB2571792345DFB9007DBD6F /* Build configuration list for PBXProject "Crypto Bot" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				CB2571902345DFC0007DBD6F /* Debug */,

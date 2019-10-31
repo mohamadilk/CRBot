@@ -97,6 +97,7 @@ extension SymbolsListTableViewController: UISearchBarDelegate {
     }
     
     func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
+        filteredDatasource = datasource
         isSearchMode = true
     }
     

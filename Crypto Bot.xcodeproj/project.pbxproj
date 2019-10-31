@@ -67,6 +67,7 @@
 		CBC1BCFE234DC441009F6E2C /* OrderObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBC1BCFD234DC441009F6E2C /* OrderObject.swift */; };
 		CBC1BD00234DDC6A009F6E2C /* AccountInformation.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBC1BCFF234DDC6A009F6E2C /* AccountInformation.swift */; };
 		CBC1BD02234DDD2A009F6E2C /* BalanceObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBC1BD01234DDD29009F6E2C /* BalanceObject.swift */; };
+		D1138F07236B46D600766FD1 /* NumbersUtilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1138F06236B46D600766FD1 /* NumbersUtilities.swift */; };
 		D172A78F23684378008701BA /* TargetCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D172A78D23684378008701BA /* TargetCollectionViewCell.swift */; };
 		D172A79023684378008701BA /* TargetCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = D172A78E23684378008701BA /* TargetCollectionViewCell.xib */; };
 		D172A79223684E44008701BA /* BaseTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D172A79123684E44008701BA /* BaseTableViewCell.swift */; };
@@ -145,6 +146,7 @@
 		CBC1BCFD234DC441009F6E2C /* OrderObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderObject.swift; sourceTree = "<group>"; };
 		CBC1BCFF234DDC6A009F6E2C /* AccountInformation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountInformation.swift; sourceTree = "<group>"; };
 		CBC1BD01234DDD29009F6E2C /* BalanceObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BalanceObject.swift; sourceTree = "<group>"; };
+		D1138F06236B46D600766FD1 /* NumbersUtilities.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NumbersUtilities.swift; sourceTree = "<group>"; };
 		D172A78D23684378008701BA /* TargetCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TargetCollectionViewCell.swift; sourceTree = "<group>"; };
 		D172A78E23684378008701BA /* TargetCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = TargetCollectionViewCell.xib; sourceTree = "<group>"; };
 		D172A79123684E44008701BA /* BaseTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseTableViewCell.swift; sourceTree = "<group>"; };
@@ -415,6 +417,7 @@
 				CBC1BCF5234CCE7F009F6E2C /* EnumValues.swift */,
 				CB8AACCC234F629A0096DD07 /* AlertUtility.swift */,
 				D1C635472368737900D9745B /* ColorUtility.swift */,
+				D1138F06236B46D600766FD1 /* NumbersUtilities.swift */,
 			);
 			path = Utilities;
 			sourceTree = "<group>";
@@ -554,6 +557,7 @@
 				CB143EFA236ADE6B00A4E283 /* MarketDataHandler.swift in Sources */,
 				CBAFCC0C236705B200EA3370 /* DescriptionCell.swift in Sources */,
 				CB2571982345E0B9007DBD6F /* BaseApiServices.swift in Sources */,
+				D1138F07236B46D600766FD1 /* NumbersUtilities.swift in Sources */,
 				CB8AACD2234F741F0096DD07 /* ToolbarPickerView.swift in Sources */,
 				CBBE8F62236AB8E0004279D6 /* SymbolsListViewModel.swift in Sources */,
 				CBC1BD00234DDC6A009F6E2C /* AccountInformation.swift in Sources */,

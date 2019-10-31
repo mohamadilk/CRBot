@@ -23,7 +23,7 @@ class PlaceNewOrderDetailViewModel: NSObject {
     func initialUpdatePrices(symbol: SymbolObject) {
         self.symbol = symbol
         self.updateLatestPriceFor()
-        timer = Timer.scheduledTimer(timeInterval: 5, target: self, selector: #selector(updateLatestPriceFor), userInfo: nil, repeats: true)
+        timer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(updateLatestPriceFor), userInfo: nil, repeats: true)
         timer?.fire()
     }
     

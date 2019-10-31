@@ -477,10 +477,18 @@ extension PlaceNewOrderDetailViewController: UITableViewDataSource {
     }
     
     func updateLatestDataWith(order: SymbolOrderBookObject) {
-        bidPrice.text = "\(numberFormatter.number(from: "\(order.bidPrice?.doubleValue ?? 0)") ?? 0)"
-        bidQuantity.text = "\(numberFormatter.number(from: "\(order.bidQty?.doubleValue ?? 0)") ?? 0)"
-        askPrice.text = "\(numberFormatter.number(from: "\(order.askPrice?.doubleValue ?? 0)") ?? 0)"
-        askQuantity.text = "\(numberFormatter.number(from: "\(order.askQty?.doubleValue ?? 0)") ?? 0)"
+        NumbersUtilities.shared.formatted(price: order.askPrice ?? "", for: order.symbol!, result: { (price, error) in
+            self.askPrice.text = price!
+        })
+        NumbersUtilities.shared.formatted(quantity: order.askQty ?? "", for: order.symbol!, result: { (quantity, error) in
+            self.askQuantity.text = quantity
+        })
+        NumbersUtilities.shared.formatted(price: order.bidPrice ?? "", for: order.symbol!, result: { (price, error) in
+            self.bidPrice.text = price!
+        })
+        NumbersUtilities.shared.formatted(quantity: order.bidQty ?? "", for: order.symbol!, result: { (quantity, error) in
+            self.bidQuantity.text = quantity
+        })
     }
 }
 

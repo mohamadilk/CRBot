@@ -3,6 +3,42 @@
    version = "1.0">
    <ContextStates>
       <ContextState
+         contextName = "systemBRAIN.executionReportReceived(report:):systemBRAIN.swift">
+      </ContextState>
+      <ContextState
+         contextName = "FilterObject.mapping(map:):FilterObject.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "map[&quot;minPrice&quot;]">
+            </PersistentString>
+            <PersistentString
+               value = "map[&quot;minPrice&quot;][&quot;currentValue&quot;]">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "SymbolsListTableViewController.searchBar(_:textDidChange:):SymbolsListTableViewController.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "filteredDatasource">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "ExchangeManager.getSymbol(asset:currency:result:):ExchangeManager.swift">
+      </ContextState>
+      <ContextState
+         contextName = "closure #1 in GeneralServices.exchangeInformation(response:):GeneralServices.swift">
+      </ContextState>
+      <ContextState
+         contextName = "SymbolsListTableViewController.tableView(_:numberOfRowsInSection:):SymbolsListTableViewController.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "filteredDatasource">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
          contextName = "closure #1 in systemBRAIN.placeSellOrderForExecutedBuyOrder(report:response:):systemBRAIN.swift">
          <PersistentStrings>
             <PersistentString
@@ -14,27 +50,7 @@
          </PersistentStrings>
       </ContextState>
       <ContextState
-         contextName = "ExchangeManager.getSymbol(asset:currency:result:):ExchangeManager.swift">
-      </ContextState>
-      <ContextState
-         contextName = "closure #1 in GeneralServices.exchangeInformation(response:):GeneralServices.swift">
-      </ContextState>
-      <ContextState
-         contextName = "FilterObject.mapping(map:):FilterObject.swift">
-         <PersistentStrings>
-            <PersistentString
-               value = "map[&quot;minPrice&quot;][&quot;currentValue&quot;]">
-            </PersistentString>
-            <PersistentString
-               value = "map[&quot;minPrice&quot;]">
-            </PersistentString>
-         </PersistentStrings>
-      </ContextState>
-      <ContextState
          contextName = "closure #2 in ExchangeManager.getSymbol(asset:currency:result:):ExchangeManager.swift">
-      </ContextState>
-      <ContextState
-         contextName = "systemBRAIN.executionReportReceived(report:):systemBRAIN.swift">
       </ContextState>
    </ContextStates>
 </VariablesViewState>

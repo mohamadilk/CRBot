@@ -84,7 +84,10 @@ class PlaceOrderViewController: UIViewController {
     }
     
     @objc func showSymbolsList() {
-        
+        if let symbolsListView = self.storyboard?.instantiateViewController(withIdentifier: "SymbolsListTableViewController") as? SymbolsListTableViewController {
+            symbolsListView.delegate = self
+            present(symbolsListView, animated: true, completion: nil)
+        }
     }
     
 }
@@ -119,6 +122,15 @@ extension PlaceOrderViewController: UIPickerViewDataSource {
     
     func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
         return orderTypeValues[row]
+    }
+    
+    
+}
+
+extension PlaceOrderViewController: SymbolsListTableViewControllerDelegate {
+    func didSelect(symbol: SymbolObject) {
+        self.symbolObject = symbol
+        self.symbolLabel.text = "\(self.symbolObject?.baseAsset ?? "") / \(self.symbolObject?.quoteAsset ?? "")"
     }
     
     

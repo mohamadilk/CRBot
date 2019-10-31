@@ -51,6 +51,8 @@
 		CBAFCC182367101600EA3370 /* TargetsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBAFCC162367101600EA3370 /* TargetsCell.swift */; };
 		CBAFCC192367101600EA3370 /* TargetsCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = CBAFCC172367101600EA3370 /* TargetsCell.xib */; };
 		CBAFCC2023671F9D00EA3370 /* PlaceNewOrderDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBAFCC1F23671F9D00EA3370 /* PlaceNewOrderDetailViewController.swift */; };
+		CBBE8F60236AB8BB004279D6 /* SymbolsListTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBBE8F5F236AB8BB004279D6 /* SymbolsListTableViewController.swift */; };
+		CBBE8F62236AB8E0004279D6 /* SymbolsListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBBE8F61236AB8E0004279D6 /* SymbolsListViewModel.swift */; };
 		CBC1BCE5234C7E0D009F6E2C /* CandleObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBC1BCE4234C7E0D009F6E2C /* CandleObject.swift */; };
 		CBC1BCE7234C886F009F6E2C /* AvaragePriceObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBC1BCE6234C886F009F6E2C /* AvaragePriceObject.swift */; };
 		CBC1BCE9234C8A3B009F6E2C /* OneDayTickerPriceChangeObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBC1BCE8234C8A3B009F6E2C /* OneDayTickerPriceChangeObject.swift */; };
@@ -126,6 +128,8 @@
 		CBAFCC162367101600EA3370 /* TargetsCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TargetsCell.swift; sourceTree = "<group>"; };
 		CBAFCC172367101600EA3370 /* TargetsCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = TargetsCell.xib; sourceTree = "<group>"; };
 		CBAFCC1F23671F9D00EA3370 /* PlaceNewOrderDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceNewOrderDetailViewController.swift; sourceTree = "<group>"; };
+		CBBE8F5F236AB8BB004279D6 /* SymbolsListTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SymbolsListTableViewController.swift; sourceTree = "<group>"; };
+		CBBE8F61236AB8E0004279D6 /* SymbolsListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SymbolsListViewModel.swift; sourceTree = "<group>"; };
 		CBC1BCE4234C7E0D009F6E2C /* CandleObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CandleObject.swift; sourceTree = "<group>"; };
 		CBC1BCE6234C886F009F6E2C /* AvaragePriceObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AvaragePriceObject.swift; sourceTree = "<group>"; };
 		CBC1BCE8234C8A3B009F6E2C /* OneDayTickerPriceChangeObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OneDayTickerPriceChangeObject.swift; sourceTree = "<group>"; };
@@ -210,6 +214,7 @@
 			children = (
 				D172A793236854C9008701BA /* PlaceNewOrderDetailViewModel.swift */,
 				CB8AACCA234F5D300096DD07 /* PlaceNewOrderViewModel.swift */,
+				CBBE8F61236AB8E0004279D6 /* SymbolsListViewModel.swift */,
 			);
 			path = ViewModels;
 			sourceTree = "<group>";
@@ -220,6 +225,7 @@
 				CB7D48E5234F19F700F31172 /* PlaceNewOrderViewController.swift */,
 				CBAFCC1F23671F9D00EA3370 /* PlaceNewOrderDetailViewController.swift */,
 				D1C6354D2368B28700D9745B /* PlaceOrderViewController.swift */,
+				CBBE8F5F236AB8BB004279D6 /* SymbolsListTableViewController.swift */,
 			);
 			path = PlaceNewOrder;
 			sourceTree = "<group>";
@@ -535,6 +541,7 @@
 				D192FE0D23520A630090A194 /* OrderHandler.swift in Sources */,
 				D1C6354A23689A7400D9745B /* StepperView.swift in Sources */,
 				CBAFCC042366E5B800EA3370 /* PriceCell.swift in Sources */,
+				CBBE8F60236AB8BB004279D6 /* SymbolsListTableViewController.swift in Sources */,
 				CB711F58234B3A87008F7A33 /* UserDataStreamServices.swift in Sources */,
 				CBAFCC082366FCFE00EA3370 /* AmountCell.swift in Sources */,
 				CBC1BCE5234C7E0D009F6E2C /* CandleObject.swift in Sources */,
@@ -544,6 +551,7 @@
 				CBAFCC0C236705B200EA3370 /* DescriptionCell.swift in Sources */,
 				CB2571982345E0B9007DBD6F /* BaseApiServices.swift in Sources */,
 				CB8AACD2234F741F0096DD07 /* ToolbarPickerView.swift in Sources */,
+				CBBE8F62236AB8E0004279D6 /* SymbolsListViewModel.swift in Sources */,
 				CBC1BD00234DDC6A009F6E2C /* AccountInformation.swift in Sources */,
 				CB8AACD42350B9B20096DD07 /* ExchangeManager.swift in Sources */,
 				CBAFCC10236706BE00EA3370 /* SwitchCell.swift in Sources */,

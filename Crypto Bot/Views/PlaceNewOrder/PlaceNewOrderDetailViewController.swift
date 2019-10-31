@@ -54,6 +54,8 @@ class PlaceNewOrderDetailViewController: UIViewController {
     
     var viewModel: PlaceNewOrderDetailViewModel!
     
+    let numberFormatter = NumberFormatter()
+
     override func viewDidLoad() {
         super.viewDidLoad()
         viewModel = PlaceNewOrderDetailViewModel(viewController: self)
@@ -62,11 +64,18 @@ class PlaceNewOrderDetailViewController: UIViewController {
         setNavigationTitle()
         setSubmitButton()
         
+        numberFormatter.numberStyle = NumberFormatter.Style.decimal
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         loadingView.start()
+        viewModel.initialUpdatePrices(symbol: symbol)
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        viewModel.stopUpdatePrices()
     }
     
     private func registerCells() {
@@ -465,6 +474,13 @@ extension PlaceNewOrderDetailViewController: UITableViewDataSource {
             break
         }
         
+    }
+    
+    func updateLatestDataWith(order: SymbolOrderBookObject) {
+        bidPrice.text = "\(numberFormatter.number(from: "\(order.bidPrice?.doubleValue ?? 0)") ?? 0)"
+        bidQuantity.text = "\(numberFormatter.number(from: "\(order.bidQty?.doubleValue ?? 0)") ?? 0)"
+        askPrice.text = "\(numberFormatter.number(from: "\(order.askPrice?.doubleValue ?? 0)") ?? 0)"
+        askQuantity.text = "\(numberFormatter.number(from: "\(order.askQty?.doubleValue ?? 0)") ?? 0)"
     }
 }
 

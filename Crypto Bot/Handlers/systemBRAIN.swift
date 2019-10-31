@@ -119,7 +119,7 @@ extension systemBRAIN: UserStreamHandlerDelegate {
         
         let percentArray = calculatePercentageBasedOn(targets: targetsArray)
         
-        ExchangeManager.shared.getAllAvailableSymbols { (symbolsArray, error) in
+        ExchangeHandler.shared.getAllAvailableSymbols { (symbolsArray, error) in
             guard error == nil, symbolsArray != nil else {
                 print("placeSellOrderForExecutedBuyOrder ----------> ERROR:: Could not fetch sumbols array")
                 response(nil, "Could not fetch sumbols array")

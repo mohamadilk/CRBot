@@ -75,7 +75,7 @@ class OrdersCasheHandler {
         var finalStopPrice = Double(newStopPrice.doubleValue * 95.0 / 100)
         var newStopLimitPrice = Double(finalStopPrice - diff)
         
-        ExchangeManager.shared.getSymbol(symbol: order.symbol ?? "") { (symbol, error) in
+        ExchangeHandler.shared.getSymbol(symbol: order.symbol ?? "") { (symbol, error) in
             if error != nil {
                 AlertUtility.showAlert(title: "Failed to get symbol information")
                 return

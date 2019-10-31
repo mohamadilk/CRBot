@@ -8,9 +8,9 @@
 
 import Foundation
 
-class ExchangeManager {
+class ExchangeHandler {
     
-    static let shared = ExchangeManager()
+    static let shared = ExchangeHandler()
     
     private var exchangeInfo: ExchangeInformationresponse?
     

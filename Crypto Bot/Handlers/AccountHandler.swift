@@ -8,9 +8,9 @@
 
 import Foundation
 
-class AccountManager {
+class AccountHandler {
     
-    static let shared = AccountManager()
+    static let shared = AccountHandler()
     
     func getCurrentUserCredit(response: @escaping(_ accountInfo: AccountInformation?, _ error: ApiError?) -> Swift.Void){
         AccountServices.shared.fetchAccountInformation(timestamp: NSDate().timeIntervalSince1970 * 1000) { (info, error) in

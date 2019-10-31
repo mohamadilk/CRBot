@@ -13,6 +13,7 @@ class PlaceOrderViewController: UIViewController {
     var tapRecognizer: UITapGestureRecognizer?
     var selectedTypeIndex: Int?
     var symbolObject: SymbolObject?
+    var orderType: OrderTypes?
     
     let orderTypeValues = ["Limit","Market","Stop Limit","OCO"]
     let orderTypes = [OrderTypes.LIMIT,OrderTypes.MARKET,OrderTypes.STOP_LOSS_LIMIT,OrderTypes.OCO]
@@ -90,12 +91,23 @@ class PlaceOrderViewController: UIViewController {
         }
     }
     
+    func updateButtonsStatus() {
+        if orderType != nil, symbolObject != nil {
+            buyButton.alpha = 1
+            buyButton.isEnabled = true
+            sellButton.alpha = 1
+            sellButton.isEnabled = true
+        }
+    }
+    
 }
 
 extension PlaceOrderViewController: ToolbarPickerViewDelegate {
     func didTapDone(pickerView: ToolbarPickerView) {
         orderTypeTextfield.text = orderTypeValues[selectedTypeIndex ?? 0]
         orderTypeTextfield.resignFirstResponder()
+        orderType = orderTypes[selectedTypeIndex ?? 0]
+        self.updateButtonsStatus()
     }
     
     func didTapCancel() {
@@ -131,6 +143,7 @@ extension PlaceOrderViewController: SymbolsListTableViewControllerDelegate {
     func didSelect(symbol: SymbolObject) {
         self.symbolObject = symbol
         self.symbolLabel.text = "\(self.symbolObject?.baseAsset ?? "") / \(self.symbolObject?.quoteAsset ?? "")"
+        self.updateButtonsStatus()
     }
     
     

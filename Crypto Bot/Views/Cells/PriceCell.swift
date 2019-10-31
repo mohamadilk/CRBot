@@ -36,7 +36,7 @@ class PriceCell: BaseTableViewCell {
         didSet {
             self.priceTextfield.delegate = self
             self.priceTextfield.keyboardType = .decimalPad
-            self.priceTextfield.layer.borderColor = UIColor.borderGrayColor().cgColor
+            self.priceTextfield.layer.borderColor = UIColor.red.cgColor
         }
     }
     

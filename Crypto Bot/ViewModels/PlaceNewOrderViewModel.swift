@@ -11,12 +11,12 @@ import Foundation
 public class PlaceNewOrderViewModel: NSObject {
     
     private var viewController :PlaceNewOrderViewController!
-    private var accountManager :AccountManager!
+    private var accountManager :AccountHandler!
     
     init(viewController: PlaceNewOrderViewController) {
         super.init()
         self.viewController = viewController
-        self.accountManager = AccountManager.shared
+        self.accountManager = AccountHandler.shared
     }
     
     func SetTargetsAndPlaceNewOrder(targets: [String], type: OrderTypes, asset: String, currency: String, side: OrderSide, percentage: String, price: String? = nil, buyStopPrice: String? = nil, buyStopLimitPrice: String? = nil, sellStopPrice: String? = nil, sellStopLimitPrice: String? = nil, response: @escaping(_ order: OrderResponseObject?, _ error: String?) -> Swift.Void) {

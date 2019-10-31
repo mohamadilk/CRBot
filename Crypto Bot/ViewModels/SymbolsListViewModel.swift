@@ -19,7 +19,7 @@ class SymbolsListViewModel: NSObject {
     }
     
     func getSymbolsArray(response:@escaping (_ symbols: [SymbolObject]?, _ error: ApiError?) -> Swift.Void) {
-        ExchangeManager.shared.getAllAvailableSymbols { (symbols, error) in
+        ExchangeHandler.shared.getAllAvailableSymbols { (symbols, error) in
             guard error == nil else {
                 response(nil, error)
                 return

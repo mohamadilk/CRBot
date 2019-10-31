@@ -9,10 +9,10 @@
          contextName = "FilterObject.mapping(map:):FilterObject.swift">
          <PersistentStrings>
             <PersistentString
-               value = "map[&quot;minPrice&quot;]">
+               value = "map[&quot;minPrice&quot;][&quot;currentValue&quot;]">
             </PersistentString>
             <PersistentString
-               value = "map[&quot;minPrice&quot;][&quot;currentValue&quot;]">
+               value = "map[&quot;minPrice&quot;]">
             </PersistentString>
          </PersistentStrings>
       </ContextState>
@@ -21,6 +21,14 @@
          <PersistentStrings>
             <PersistentString
                value = "filteredDatasource">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "PlaceNewOrderDetailViewController.updateLatestDataWith(order:):PlaceNewOrderDetailViewController.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "numberFormatter.number(from: &quot;100&quot;)">
             </PersistentString>
          </PersistentStrings>
       </ContextState>

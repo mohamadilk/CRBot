@@ -155,7 +155,7 @@ class OrderHandler {
     }
     
     private func currentUserCredit(currency: String, response: @escaping(_ balance: BalanceObject?, _ error: ApiError?) -> Swift.Void) {
-        return AccountManager.shared.getCurrentUserCredit() { ( info, error) in
+        return AccountHandler.shared.getCurrentUserCredit() { ( info, error) in
             guard error == nil else {
                 response(nil, error)
                 return
@@ -176,7 +176,7 @@ class OrderHandler {
                 return
             }
                         
-            ExchangeManager.shared.getSymbol(symbol: "\(asset)\(currency)") { (symbol, error) in
+            ExchangeHandler.shared.getSymbol(symbol: "\(asset)\(currency)") { (symbol, error) in
                 guard error == nil, symbol != nil else {
                     response(0, error?.localizedDescription)
                     return

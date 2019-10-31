@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		A03AC515F51118D9400BD141 /* Pods_Crypto_Bot.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0385FFA55B7CCAD1D4B4EEB5 /* Pods_Crypto_Bot.framework */; };
 		CB10892C23585FD500C96AB6 /* OrdersCasheHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB10892B23585FD500C96AB6 /* OrdersCasheHandler.swift */; };
+		CB143EFA236ADE6B00A4E283 /* MarketDataHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB143EF9236ADE6B00A4E283 /* MarketDataHandler.swift */; };
 		CB23D500234E13A80053E6DE /* outboundAccountInfoObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB23D4FF234E13A80053E6DE /* outboundAccountInfoObject.swift */; };
 		CB23D504234E164C0053E6DE /* executionReportObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB23D503234E164C0053E6DE /* executionReportObject.swift */; };
 		CB2571822345DFB9007DBD6F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB2571812345DFB9007DBD6F /* AppDelegate.swift */; };
@@ -35,9 +36,9 @@
 		CB7D48E6234F19F700F31172 /* PlaceNewOrderViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB7D48E5234F19F700F31172 /* PlaceNewOrderViewController.swift */; };
 		CB8AACCB234F5D300096DD07 /* PlaceNewOrderViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB8AACCA234F5D300096DD07 /* PlaceNewOrderViewModel.swift */; };
 		CB8AACCD234F629A0096DD07 /* AlertUtility.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB8AACCC234F629A0096DD07 /* AlertUtility.swift */; };
-		CB8AACCF234F67500096DD07 /* AccountManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB8AACCE234F67500096DD07 /* AccountManager.swift */; };
+		CB8AACCF234F67500096DD07 /* AccountHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB8AACCE234F67500096DD07 /* AccountHandler.swift */; };
 		CB8AACD2234F741F0096DD07 /* ToolbarPickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB8AACD1234F741F0096DD07 /* ToolbarPickerView.swift */; };
-		CB8AACD42350B9B20096DD07 /* ExchangeManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB8AACD32350B9B10096DD07 /* ExchangeManager.swift */; };
+		CB8AACD42350B9B20096DD07 /* ExchangeHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB8AACD32350B9B10096DD07 /* ExchangeHandler.swift */; };
 		CBAFCC042366E5B800EA3370 /* PriceCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBAFCC022366E5B800EA3370 /* PriceCell.swift */; };
 		CBAFCC052366E5B800EA3370 /* PriceCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = CBAFCC032366E5B800EA3370 /* PriceCell.xib */; };
 		CBAFCC082366FCFE00EA3370 /* AmountCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBAFCC062366FCFE00EA3370 /* AmountCell.swift */; };
@@ -84,6 +85,7 @@
 		77699EA74655B965B5F61FCE /* Pods-Crypto Bot.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Crypto Bot.release.xcconfig"; path = "Target Support Files/Pods-Crypto Bot/Pods-Crypto Bot.release.xcconfig"; sourceTree = "<group>"; };
 		A65E444D5554E7E149D5C999 /* Pods-Crypto Bot.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Crypto Bot.debug.xcconfig"; path = "Target Support Files/Pods-Crypto Bot/Pods-Crypto Bot.debug.xcconfig"; sourceTree = "<group>"; };
 		CB10892B23585FD500C96AB6 /* OrdersCasheHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrdersCasheHandler.swift; sourceTree = "<group>"; };
+		CB143EF9236ADE6B00A4E283 /* MarketDataHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarketDataHandler.swift; sourceTree = "<group>"; };
 		CB23D4FF234E13A80053E6DE /* outboundAccountInfoObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = outboundAccountInfoObject.swift; sourceTree = "<group>"; };
 		CB23D503234E164C0053E6DE /* executionReportObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = executionReportObject.swift; sourceTree = "<group>"; };
 		CB25717E2345DFB9007DBD6F /* Crypto Bot.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Crypto Bot.app"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -112,9 +114,9 @@
 		CB7D48E5234F19F700F31172 /* PlaceNewOrderViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlaceNewOrderViewController.swift; sourceTree = "<group>"; };
 		CB8AACCA234F5D300096DD07 /* PlaceNewOrderViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceNewOrderViewModel.swift; sourceTree = "<group>"; };
 		CB8AACCC234F629A0096DD07 /* AlertUtility.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertUtility.swift; sourceTree = "<group>"; };
-		CB8AACCE234F67500096DD07 /* AccountManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountManager.swift; sourceTree = "<group>"; };
+		CB8AACCE234F67500096DD07 /* AccountHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountHandler.swift; sourceTree = "<group>"; };
 		CB8AACD1234F741F0096DD07 /* ToolbarPickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToolbarPickerView.swift; sourceTree = "<group>"; };
-		CB8AACD32350B9B10096DD07 /* ExchangeManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExchangeManager.swift; sourceTree = "<group>"; };
+		CB8AACD32350B9B10096DD07 /* ExchangeHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExchangeHandler.swift; sourceTree = "<group>"; };
 		CBAFCC022366E5B800EA3370 /* PriceCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PriceCell.swift; sourceTree = "<group>"; };
 		CBAFCC032366E5B800EA3370 /* PriceCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PriceCell.xib; sourceTree = "<group>"; };
 		CBAFCC062366FCFE00EA3370 /* AmountCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AmountCell.swift; sourceTree = "<group>"; };
@@ -188,12 +190,13 @@
 		CB23D505234F03E20053E6DE /* Handlers */ = {
 			isa = PBXGroup;
 			children = (
-				CB8AACCE234F67500096DD07 /* AccountManager.swift */,
-				CB8AACD32350B9B10096DD07 /* ExchangeManager.swift */,
+				CB8AACCE234F67500096DD07 /* AccountHandler.swift */,
+				CB8AACD32350B9B10096DD07 /* ExchangeHandler.swift */,
 				D192FE082351D6520090A194 /* UserStreamHandler.swift */,
 				D192FE0A2351DCF10090A194 /* systemBRAIN.swift */,
 				D192FE0C23520A630090A194 /* OrderHandler.swift */,
 				CB10892B23585FD500C96AB6 /* OrdersCasheHandler.swift */,
+				CB143EF9236ADE6B00A4E283 /* MarketDataHandler.swift */,
 			);
 			path = Handlers;
 			sourceTree = "<group>";
@@ -548,16 +551,17 @@
 				CB711F6A234B5BC6008F7A33 /* BidAskObject.swift in Sources */,
 				CB23D500234E13A80053E6DE /* outboundAccountInfoObject.swift in Sources */,
 				CB2571A02345E164007DBD6F /* BaseApiModel.swift in Sources */,
+				CB143EFA236ADE6B00A4E283 /* MarketDataHandler.swift in Sources */,
 				CBAFCC0C236705B200EA3370 /* DescriptionCell.swift in Sources */,
 				CB2571982345E0B9007DBD6F /* BaseApiServices.swift in Sources */,
 				CB8AACD2234F741F0096DD07 /* ToolbarPickerView.swift in Sources */,
 				CBBE8F62236AB8E0004279D6 /* SymbolsListViewModel.swift in Sources */,
 				CBC1BD00234DDC6A009F6E2C /* AccountInformation.swift in Sources */,
-				CB8AACD42350B9B20096DD07 /* ExchangeManager.swift in Sources */,
+				CB8AACD42350B9B20096DD07 /* ExchangeHandler.swift in Sources */,
 				CBAFCC10236706BE00EA3370 /* SwitchCell.swift in Sources */,
 				CBAFCC142367092000EA3370 /* AddTargetCell.swift in Sources */,
 				CB2571822345DFB9007DBD6F /* AppDelegate.swift in Sources */,
-				CB8AACCF234F67500096DD07 /* AccountManager.swift in Sources */,
+				CB8AACCF234F67500096DD07 /* AccountHandler.swift in Sources */,
 				CBC1BD02234DDD2A009F6E2C /* BalanceObject.swift in Sources */,
 				CB711F6C234B5DAB008F7A33 /* OrderBookObject.swift in Sources */,
 				D192FE092351D6520090A194 /* UserStreamHandler.swift in Sources */,

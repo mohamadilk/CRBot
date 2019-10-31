@@ -167,17 +167,17 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "30F39930-C3BC-46F4-8049-568F500D772C"
+            uuid = "8F63CD29-32ED-45DD-BB85-8DF70EF0D518"
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "Crypto Bot/Views/PlaceNewOrder/PlaceOrderViewController.swift"
+            filePath = "Crypto Bot/Views/Cells/PriceCell.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "87"
-            endingLineNumber = "87"
-            landmarkName = "showSymbolsList()"
-            landmarkType = "7">
+            startingLineNumber = "39"
+            endingLineNumber = "39"
+            landmarkName = "priceTextfield"
+            landmarkType = "24">
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

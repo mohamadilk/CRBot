@@ -2,7 +2,7 @@
 <Workspace
    version = "1.0">
    <FileRef
-      location = "group:Crypto Bot.xcodeproj">
+      location = "group:/Users/mohammadilkhani/CRBot/MasseurApp.xcodeproj">
    </FileRef>
    <FileRef
       location = "group:Pods/Pods.xcodeproj">

@@ -29,6 +29,10 @@ extension UIColor{
     class func binanceRedColor() -> UIColor{
         return UIColor(red:255/255, green:0/255 ,blue:122/255 , alpha:1.00)
     }
+    
+    class func binanceYellowColor() -> UIColor{
+        return UIColor(red:250/255, green:190/255 ,blue:38/255 , alpha:1.00)
+    }
  
     class func descriptionBackgrounColor() -> UIColor{
         return UIColor(red:133/255, green:133/255 ,blue:133/255 , alpha:1.00)

@@ -21,11 +21,11 @@ public class PlaceNewOrderViewModel: NSObject {
     
     func SetTargetsAndPlaceNewOrder(targets: [String], type: OrderTypes, asset: String, currency: String, side: OrderSide, percentage: String, price: String? = nil, buyStopPrice: String? = nil, buyStopLimitPrice: String? = nil, sellStopPrice: String? = nil, sellStopLimitPrice: String? = nil, response: @escaping(_ order: OrderResponseObject?, _ error: String?) -> Swift.Void) {
         
-        OrderHandler.shared.addPricesForSymbol(symbol: "\(asset)\(currency)", targetsArray: targets, stopPrice: sellStopPrice, stopLimitPrice: sellStopLimitPrice)
-        
-        OrderHandler.shared.placeNewOrderWith(type: type, asset: asset, currency: currency, side: side, price: price, stopPrice: (side == .SELL) ? sellStopPrice : buyStopPrice, stopLimitPrice: (side == .SELL) ? sellStopLimitPrice : buyStopLimitPrice, percentage: percentage) { (result, error) in
-            response(result, error)
-        }
+//        OrderHandler.shared.addPricesForSymbol(symbol: "\(asset)\(currency)", targetsArray: targets, stopPrice: sellStopPrice, stopLimitPrice: sellStopLimitPrice)
+//        
+//        OrderHandler.shared.placeNewOrderWith(type: type, asset: asset, currency: currency, side: side, price: price, stopPrice: (side == .SELL) ? sellStopPrice : buyStopPrice, stopLimitPrice: (side == .SELL) ? sellStopLimitPrice : buyStopLimitPrice, percentage: percentage) { (result, error) in
+//            response(result, error)
+//        }
     }
 }
 

@@ -13,119 +13,145 @@ class OrderHandler {
     
     let accountServices = AccountServices.shared
     
-    func placeNewOrderWith(type: OrderTypes, asset: String, currency: String , side: OrderSide, price: String? = nil, stopPrice: String? = nil, stopLimitPrice: String? = nil, percentage: String? = "100", response: @escaping(_ order: OrderResponseObject?, _ error: String?) -> Swift.Void) {
-        
-        let timeStamp = NSDate().timeIntervalSince1970 * 1000
-        let symbol = "\(asset)\(currency)"
-        
+    func automaticallyPlaceNewOrderWith(type: OrderTypes, asset: String, currency: String , side: OrderSide, price: String, stopPrice: String? = nil, stopLimitPrice: String? = nil, percentage: String,  response: @escaping(_ order: OrderResponseObject?, _ error: String?) -> Swift.Void) {
+
         var baseAsset: String = ""
         var quoteAsset: String = ""
-        
-        if side == .BUY {
+
+        if side == OrderSide.BUY {
             baseAsset = asset
             quoteAsset = currency
         } else {
             baseAsset = currency
             quoteAsset = asset
         }
-        
-        self.quantityFor(asset: asset, currency: currency, baseAssset: baseAsset, quoteAsset: quoteAsset, side: side, percent: percentage!, price: price ?? "", buyStopLimitPrice: stopLimitPrice) { (quantity, error) in
+
+        quantityFor(asset: asset, currency: currency, baseAssset: baseAsset, quoteAsset: quoteAsset, side: side, percent: percentage, price: price, buyStopLimitPrice: stopLimitPrice) { (quantity, error) in
+            guard error == nil else { return }
             
-            if quantity == nil || quantity == 0 {
-                response(nil, "Quantity does not meet minimum amount")
-                return
-            }
-            switch type {
-            case .LIMIT:
-                self.accountServices.postNew_LIMIT_Order(symbol: symbol, side: side, timeInForce: .GTC, quantity: quantity!, price: price ?? "", timestamp: timeStamp) { (result, error) in
-                    guard error == nil else {
-                        response(nil, error?.description)
-                        return
-                    }
-                    response(result, nil)
-                }
-                break
-            case .LIMIT_MAKER:
-                self.accountServices.postNew_LIMIT_MAKER_Order(symbol: symbol, side: side, quantity: quantity!, price: price ?? "", timestamp: timeStamp) { (result, error) in
-                    guard error == nil else {
-                        response(nil, error?.description)
-                        return
-                    }
-                    response(result, nil)
-                }
-                break
-            case .MARKET:
-                self.accountServices.postNew_MARKET_Order(symbol: symbol, side: side, quantity: quantity!, timestamp: timeStamp) { (result, error) in
-                    guard error == nil else {
-                        response(nil, error?.description)
-                        return
-                    }
-                    response(result, nil)
-                }
-                break
-            case .OCO:
-                self.accountServices.postNewOCOOrder(symbol: symbol, side: side, quantity: quantity!, price: price ?? "", stopPrice: stopPrice ?? "", stopLimitPrice: stopLimitPrice ?? "", timestamp: timeStamp) { (result, error) in
-                    guard error == nil else {
-                        response(nil, error?.description)
+            
+            if let amount = quantity?.toString() {
+                NumbersUtilities.shared.formatted(quantity: amount, for: "\(asset)\(currency)") { (newAmount, error) in
+                    guard error == nil, newAmount != nil else {
+                        response(nil, error?.localizedDescription)
                         return
                     }
                     
-                    if side == .SELL {
-                        if result != nil {
-                            print("----------> order added to cashe handler")
-                            OrdersCasheHandler.shared.newSellOrderPlaced(response: result!)
-                        }
+                    self.placeNewOrderWith(type: type, asset: asset, currency: currency, side: side, amount: amount, price: price, stopPrice: stopPrice, stopLimitPrice: stopLimitPrice) { (result, error) in
+                        response(result, error)
                     }
-                    
-                    response(result, nil)
                 }
-                
-                break
-            case .STOP_LOSS:
-                self.accountServices.postNew_STOP_LOSS_Order(symbol: symbol, side: side, quantity: quantity!, stopPrice: stopPrice ?? "", timestamp: timeStamp) { (result, error) in
-                    guard error == nil else {
-                        response(nil, error?.description)
-                        return
-                    }
-                    response(result, nil)
-                }
-                
-                break
-            case .STOP_LOSS_LIMIT:
-                self.accountServices.postNew_STOP_LOSS_LIMIT_Order(symbol: symbol, side: side, timeInForce: .GTC, quantity: quantity!, price: price ?? "", stopPrice: stopPrice ?? "", timestamp: timeStamp) { (result, error) in
-                    guard error == nil else {
-                        response(nil, error?.description)
-                        return
-                    }
-                    response(result, nil)
-                }
-                break
-            case .TAKE_PROFIT:
-                self.accountServices.postNew_TAKE_PROFIT_Order(symbol: symbol, side: side, quantity: quantity!, stopPrice: stopPrice ?? "", timestamp: timeStamp) { (result, error) in
-                    guard error == nil else {
-                        response(nil, error?.description)
-                        return
-                    }
-                    response(result, nil)
-                }
-                break
-            case .TAKE_PROFIT_LIMIT:
-                self.accountServices.postNew_TAKE_PROFIT_LIMIT_Order(symbol: symbol, side: side, timeInForce: .GTC, quantity: quantity!, price: price ?? "", stopPrice: stopPrice ?? "", timestamp: timeStamp) { (result, error) in
-                    guard error == nil else {
-                        response(nil, error?.description)
-                        return
-                    }
-                    response(result, nil)
-                }
-                break
+
+            } else {
+                response(nil, nil)
             }
         }
+    }
+    
+    func placeNewOrderWith(type: OrderTypes, asset: String, currency: String , side: OrderSide, amount: String, price: String? = nil, stopPrice: String? = nil, stopLimitPrice: String? = nil, response: @escaping(_ order: OrderResponseObject?, _ error: String?) -> Swift.Void) {
+        
+        let timeStamp = NSDate().timeIntervalSince1970 * 1000
+        let symbol = "\(asset)\(currency)"
+        
+        switch type {
+        case .LIMIT:
+            self.accountServices.postNew_LIMIT_Order(symbol: symbol, side: side, timeInForce: .GTC, quantity: amount, price: price ?? "", timestamp: timeStamp) { (result, error) in
+                guard error == nil else {
+                    response(nil, error?.description)
+                    return
+                }
+                response(result, nil)
+            }
+            break
+        case .LIMIT_MAKER:
+            self.accountServices.postNew_LIMIT_MAKER_Order(symbol: symbol, side: side, quantity: amount, price: price ?? "", timestamp: timeStamp) { (result, error) in
+                guard error == nil else {
+                    response(nil, error?.description)
+                    return
+                }
+                response(result, nil)
+            }
+            break
+        case .MARKET:
+            self.accountServices.postNew_MARKET_Order(symbol: symbol, side: side, quantity: amount, timestamp: timeStamp) { (result, error) in
+                guard error == nil else {
+                    response(nil, error?.description)
+                    return
+                }
+                response(result, nil)
+            }
+            break
+        case .OCO:
+            self.accountServices.postNewOCOOrder(symbol: symbol, side: side, quantity: amount, price: price ?? "", stopPrice: stopPrice ?? "", stopLimitPrice: stopLimitPrice ?? "", timestamp: timeStamp) { (result, error) in
+                guard error == nil else {
+                    response(nil, error?.description)
+                    return
+                }
+                
+                if side == .SELL {
+                    if result != nil {
+                        print("----------> order added to cashe handler")
+                        OrdersCasheHandler.shared.newSellOrderPlaced(response: result!)
+                    }
+                }
+                
+                response(result, nil)
+            }
+            
+            break
+        case .STOP_LOSS:
+            self.accountServices.postNew_STOP_LOSS_Order(symbol: symbol, side: side, quantity: amount, stopPrice: stopPrice ?? "", timestamp: timeStamp) { (result, error) in
+                guard error == nil else {
+                    response(nil, error?.description)
+                    return
+                }
+                response(result, nil)
+            }
+            
+            break
+        case .STOP_LOSS_LIMIT:
+            self.accountServices.postNew_STOP_LOSS_LIMIT_Order(symbol: symbol, side: side, timeInForce: .GTC, quantity: amount, price: stopLimitPrice ?? "", stopPrice: stopPrice ?? "", timestamp: timeStamp) { (result, error) in
+                guard error == nil else {
+                    response(nil, error?.description)
+                    return
+                }
+                response(result, nil)
+            }
+            break
+        case .TAKE_PROFIT:
+            self.accountServices.postNew_TAKE_PROFIT_Order(symbol: symbol, side: side, quantity: amount, stopPrice: stopPrice ?? "", timestamp: timeStamp) { (result, error) in
+                guard error == nil else {
+                    response(nil, error?.description)
+                    return
+                }
+                response(result, nil)
+            }
+            break
+        case .TAKE_PROFIT_LIMIT:
+            self.accountServices.postNew_TAKE_PROFIT_LIMIT_Order(symbol: symbol, side: side, timeInForce: .GTC, quantity: amount, price: price ?? "", stopPrice: stopPrice ?? "", timestamp: timeStamp) { (result, error) in
+                guard error == nil else {
+                    response(nil, error?.description)
+                    return
+                }
+                response(result, nil)
+            }
+            break
+        }
+
+        
+//        self.quantityFor(asset: asset, currency: currency, baseAssset: baseAsset, quoteAsset: quoteAsset, side: side, percent: percentage!, price: price ?? "", buyStopLimitPrice: stopLimitPrice) { (quantity, error) in
+//
+//            if quantity == nil || quantity == 0 {
+//                response(nil, "Quantity does not meet minimum amount")
+//                return
+//            }
+//        }
         
     }
     
     func replaceOCOSellOrder(symbol: String, price: String, stopPrice: String, stopLimitPrice: String, quantity: String, response: @escaping(_ order: OrderResponseObject?, _ error: String?) -> Swift.Void) {
         print("..................................")
-        self.accountServices.postNewOCOOrder(symbol: symbol, side: .SELL, quantity: quantity.doubleValue, price: price, stopPrice: stopPrice, stopLimitPrice: stopLimitPrice, timestamp: NSDate().timeIntervalSince1970 * 1000) { (result, error) in
+        self.accountServices.postNewOCOOrder(symbol: symbol, side: .SELL, quantity: quantity, price: price, stopPrice: stopPrice, stopLimitPrice: stopLimitPrice, timestamp: NSDate().timeIntervalSince1970 * 1000) { (result, error) in
             guard error == nil else {
                 response(nil, error?.description)
                 return

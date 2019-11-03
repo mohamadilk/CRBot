@@ -112,7 +112,6 @@ extension systemBRAIN: UserStreamHandlerDelegate {
     func placeSellOrderForExecutedBuyOrder(report: ExecutionReport, response: @escaping(_ order: OrderResponseObject?, _ error: String?) -> Swift.Void) {
         
         guard let targetsArray = self.targetsDictionary[report.symbol!], targetsArray.count > 0 else {
-            print("placeSellOrderForExecutedBuyOrder ----------> ERROR:: Please specify target array")
             response(nil, "Please specify target array")
             return
         }
@@ -121,19 +120,36 @@ extension systemBRAIN: UserStreamHandlerDelegate {
         
         ExchangeHandler.shared.getAllAvailableSymbols { (symbolsArray, error) in
             guard error == nil, symbolsArray != nil else {
-                print("placeSellOrderForExecutedBuyOrder ----------> ERROR:: Could not fetch sumbols array")
                 response(nil, "Could not fetch sumbols array")
                 return
             }
             
-            let symbol = symbolsArray?.filter({ $0.symbol == report.symbol! }).first!
+            guard let symbolObject = symbolsArray?.filter({ $0.symbol == report.symbol }).first else {
+                response(nil, "Could not get symbol")
+                return
+            }
+            
+            guard let symbol = symbolObject.symbol else {
+                response(nil, "Could not get symbol")
+                return
+            }
             
             if percentArray.count > 0 {
-                self.placeSellOrderFor(type: .OCO, asset: symbol?.baseAsset ?? "", currency: symbol?.quoteAsset ?? "", side: .SELL, price: targetsArray, stopPrice: self.stopPricesDictionary[report.symbol!]!, stopLimitPrice: self.stopLimitPricesDictionary[report.symbol!]!, percentages: percentArray) { (result, error) in
-                    guard error == nil else {
-                        response(nil, error?.description)
+                if let stopPrice = self.stopPricesDictionary[symbol] {
+                    if let stopLimitPrice = self.stopLimitPricesDictionary[symbol] {
+                        self.placeSellOrderFor(type: .OCO, asset: symbolObject.baseAsset ?? "", currency: symbolObject.quoteAsset ?? "", side: .SELL, price: targetsArray, stopPrice: stopPrice, stopLimitPrice: stopLimitPrice, percentages: percentArray) { (result, error) in
+                            guard error == nil else {
+                                response(nil, error?.description)
+                                return
+                            }
+                            response(result, nil)
+                            return
+                        }
+                        response(nil, "StopLimitPrice Not Found")
                         return
                     }
+                    response(nil, "StopPrice Not Found")
+                    return
                 }
             }
         }
@@ -147,13 +163,10 @@ extension systemBRAIN: UserStreamHandlerDelegate {
         var updatablePercentArray = percentages
         let percent = updatablePercentArray.remove(at: 0)
         
-        print("placeSellOrderFor ----------> NEW SELL ORDER REQUEST SENT TO ORDER HANDLER")
-        orderHandler.placeNewOrderWith(type: type, asset: asset, currency: currency, side: side, price: targetPrice, stopPrice: stopPrice, stopLimitPrice: stopLimitPrice, percentage: percent) { (result, error) in
+        orderHandler.automaticallyPlaceNewOrderWith(type: type, asset: asset, currency: currency, side: side, price: targetPrice, stopPrice: stopPrice, stopLimitPrice: stopLimitPrice, percentage: percent) { (result, error) in
             guard error == nil, result != nil else {
                 
                 if error == "Quantity does not meet minimum amount" {
-                    print("orderHandler.placeNewOrderWith ----------> ERROR:: Quantity does not meet minimum amount, place 100%")
-                    
                     updatablePercentArray = ["100"]
                     
                     self.placeSellOrderFor(type: type, asset: asset, currency: currency, side: side, price: price, stopPrice: stopPrice, stopLimitPrice: stopLimitPrice, percentages: updatablePercentArray) { (result, error) in
@@ -170,7 +183,6 @@ extension systemBRAIN: UserStreamHandlerDelegate {
                 }
                 
             }
-            print("orderHandler.placeNewOrderWith ----------> SUCCECCFULLY PLACED ORDER!")
             
             if updatablePercentArray.count > 0 {
                 self.placeSellOrderFor(type: type, asset: asset, currency: currency, side: side, price: targets, stopPrice: stopPrice, stopLimitPrice: stopLimitPrice, percentages: updatablePercentArray) { (result, error) in

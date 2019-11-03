@@ -38,9 +38,12 @@ class NumbersUtilities {
 
             }
             
-            while subPrice.last == "0" || subPrice.last == "." {
-                subPrice = String(subPrice.prefix(subPrice.count - 1))
+            if let limitIndex = tickSize.indexDistance(of: "1") {
+                while subPrice.count > limitIndex + 1 && (subPrice.last == "0" || subPrice.last == ".") {
+                    subPrice = String(subPrice.prefix(subPrice.count - 1))
+                }
             }
+            
             result(subPrice, nil)
         })
     }
@@ -71,9 +74,15 @@ class NumbersUtilities {
 
             }
             
-            while subQuantity.last == "0" || subQuantity.last == "."{
-                subQuantity = String(subQuantity.prefix(subQuantity.count - 1))
+            let multiplyer = Int(subQuantity.doubleValue /  stepSize.doubleValue)
+            subQuantity = (Double(multiplyer) * stepSize.doubleValue).toString()
+            
+            if let limitIndex = stepSize.indexDistance(of: "1") {
+                while subQuantity.count > limitIndex && (subQuantity.last == "0" || subQuantity.last == ".") {
+                    subQuantity = String(subQuantity.prefix(subQuantity.count - 1))
+                }
             }
+            
             result(subQuantity, nil)
         })
     }
@@ -89,3 +98,17 @@ extension String {
         }
     }
 }
+
+extension Collection where Element: Equatable {
+    func indexDistance(of element: Element) -> Int? {
+        guard let index = firstIndex(of: element) else { return nil }
+        return distance(from: startIndex, to: index)
+    }
+}
+extension StringProtocol {
+    func indexDistance<S: StringProtocol>(of string: S) -> Int? {
+        guard let index = range(of: string)?.lowerBound else { return nil }
+        return distance(from: startIndex, to: index)
+    }
+}
+

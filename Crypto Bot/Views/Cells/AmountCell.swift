@@ -8,21 +8,11 @@
 
 import UIKit
 
-protocol AmountCellDelegate {
-    
-    func increasedValueFor(index: Int)
-    func decreasedValueFor(index: Int)
-    func textfieldValueChanged(index: Int, text: String)
-    func amountChangedTo(percent: Int)
-}
-
 class AmountCell: BaseTableViewCell {
-
-    var delegate: AmountCellDelegate?
     
     @IBOutlet weak var titleLabel: UILabel!
     
-    @IBOutlet weak var amountTextfield: UITextField!{
+    @IBOutlet weak var amountTextfield: BorderedTextfield!{
         didSet {
             self.amountTextfield.delegate = self
             self.amountTextfield.keyboardType = .decimalPad
@@ -81,6 +71,12 @@ class AmountCell: BaseTableViewCell {
 
         // Configure the view for the selected state
     }
+    
+    override func set(value: String, index: Int) {
+        if index == self.index {
+            self.amountTextfield.text = value
+        }
+    }
 
     @IBAction func didPress25PercentButton(_ sender: UIButton) {
         delegate?.amountChangedTo(percent: 25)
@@ -103,7 +99,12 @@ class AmountCell: BaseTableViewCell {
 extension AmountCell: UITextFieldDelegate {
     
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
-        delegate?.textfieldValueChanged(index: index, text: textField.text ?? "")
+        if let text = textField.text,
+           let textRange = Range(range, in: text) {
+           let updatedText = text.replacingCharacters(in: textRange,
+                                                       with: string)
+            delegate?.textfieldValueChanged(index: index, text: updatedText )
+        }
         return true
     }
     
@@ -115,10 +116,47 @@ extension AmountCell: UITextFieldDelegate {
 
 extension AmountCell: StepperViewDelegate {
     func increaseButtonPressed() {
-        delegate?.increasedValueFor(index: index)
+        guard let symbol = symbol.symbol else { return }
+
+        StepsUtility.shared.quantutyStepsFor(symbol: symbol) { (stepSize, error) in
+            if error != nil || stepSize == nil {
+                return
+            }
+            
+            let currentQty = (self.amountTextfield.text == nil || self.amountTextfield.text == "") ? stepSize!.toString() : (self.amountTextfield.text!.doubleValue + stepSize!).toString()
+            
+            NumbersUtilities.shared.formatted(quantity: currentQty, for: symbol) { (quantity, error) in
+                               
+                if error != nil || quantity == nil {
+                    return
+                }
+                self.amountTextfield.text = quantity
+                self.delegate?.textfieldValueChanged(index: self.index, text: self.amountTextfield.text ?? "0")
+            }
+        }
     }
     
     func decreaseButtonPressed() {
-        delegate?.decreasedValueFor(index: index)
+        guard let symbol = symbol.symbol else { return }
+
+        StepsUtility.shared.quantutyStepsFor(symbol: symbol) { (stepSize, error) in
+            if error != nil || stepSize == nil {
+                return
+            }
+            
+            let currentQty = self.amountTextfield.text
+            if self.amountTextfield.text == nil || self.amountTextfield.text == "" || currentQty!.doubleValue < stepSize!{
+                return
+            }
+            
+            NumbersUtilities.shared.formatted(quantity: (currentQty!.doubleValue - stepSize!).toString(), for: symbol) { (quantity, error) in
+                
+                if error != nil || quantity == nil {
+                    return
+                }
+                self.amountTextfield.text = quantity
+                self.delegate?.textfieldValueChanged(index: self.index, text: self.amountTextfield.text ?? "0")
+            }
+        }
     }
 }

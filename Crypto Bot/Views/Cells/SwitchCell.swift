@@ -15,7 +15,7 @@ protocol SwitchCellDelegate {
 
 class SwitchCell: BaseTableViewCell {
 
-    var delegate: SwitchCellDelegate?
+    var switchDelegate: SwitchCellDelegate?
     
     @IBOutlet weak var sellSwitch: UISwitch! {
         didSet {
@@ -35,6 +35,6 @@ class SwitchCell: BaseTableViewCell {
     }
     
     @IBAction func switchValueChanged(_ sender: UISwitch) {
-        delegate?.autoSellSwitchValueChanged(isEnable: sender.isOn, cellIndex: index)
+        switchDelegate?.autoSellSwitchValueChanged(isEnable: sender.isOn, cellIndex: index)
     }
 }

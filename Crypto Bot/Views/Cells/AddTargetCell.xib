@@ -16,7 +16,7 @@
                 <rect key="frame" x="0.0" y="0.0" width="384" height="90"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="0.000025" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="yQ6-yM-AgO">
+                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="yQ6-yM-AgO" customClass="BorderedTextfield" customModule="Crypto_Bot" customModuleProvider="target">
                         <rect key="frame" x="132" y="12" width="120" height="25"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="25" id="5Qs-6G-doZ"/>

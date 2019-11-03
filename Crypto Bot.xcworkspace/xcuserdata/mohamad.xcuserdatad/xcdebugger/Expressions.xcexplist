@@ -3,12 +3,23 @@
    version = "1.0">
    <ContextStates>
       <ContextState
+         contextName = "PlaceNewOrderDetailViewController.autoSellSwitchValueChanged(isEnable:cellIndex:):PlaceNewOrderDetailViewController.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "datasource">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
          contextName = "TargetCollectionViewCell.awakeFromNib():TargetCollectionViewCell.swift">
          <PersistentStrings>
             <PersistentString
                value = "clearButton?.imageView?.image">
             </PersistentString>
          </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "closure #1 in systemBRAIN.placeSellOrderForExecutedBuyOrder(report:response:):systemBRAIN.swift">
       </ContextState>
    </ContextStates>
 </VariablesViewState>

@@ -17,12 +17,23 @@ enum CellType {
     case CellType_targets
 }
 
+protocol BaseTableViewCellDelegate {
+
+    func textfieldValueChanged(index: Int, text: String)
+    func amountChangedTo(percent: Int)
+}
+
 class BaseTableViewCell: UITableViewCell {
 
+    var delegate: BaseTableViewCellDelegate?
+
+    var symbol: SymbolObject!
     var cellType: CellType!
     var index: Int!
 
     override func awakeFromNib() {
         super.awakeFromNib()
     }
+    
+    func set(value: String, index: Int) {}
 }

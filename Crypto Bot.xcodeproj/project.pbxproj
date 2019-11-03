@@ -68,6 +68,7 @@
 		CBC1BD00234DDC6A009F6E2C /* AccountInformation.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBC1BCFF234DDC6A009F6E2C /* AccountInformation.swift */; };
 		CBC1BD02234DDD2A009F6E2C /* BalanceObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBC1BD01234DDD29009F6E2C /* BalanceObject.swift */; };
 		D1138F07236B46D600766FD1 /* NumbersUtilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1138F06236B46D600766FD1 /* NumbersUtilities.swift */; };
+		D14152AA236E09CB00995986 /* BorderedTextfield.swift in Sources */ = {isa = PBXBuildFile; fileRef = D14152A9236E09CB00995986 /* BorderedTextfield.swift */; };
 		D172A78F23684378008701BA /* TargetCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D172A78D23684378008701BA /* TargetCollectionViewCell.swift */; };
 		D172A79023684378008701BA /* TargetCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = D172A78E23684378008701BA /* TargetCollectionViewCell.xib */; };
 		D172A79223684E44008701BA /* BaseTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D172A79123684E44008701BA /* BaseTableViewCell.swift */; };
@@ -75,6 +76,7 @@
 		D192FE092351D6520090A194 /* UserStreamHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = D192FE082351D6520090A194 /* UserStreamHandler.swift */; };
 		D192FE0B2351DCF10090A194 /* systemBRAIN.swift in Sources */ = {isa = PBXBuildFile; fileRef = D192FE0A2351DCF10090A194 /* systemBRAIN.swift */; };
 		D192FE0D23520A630090A194 /* OrderHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = D192FE0C23520A630090A194 /* OrderHandler.swift */; };
+		D19A008A236C92F40036EB6B /* StepsHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = D19A0089236C92F40036EB6B /* StepsHandler.swift */; };
 		D1C635482368737900D9745B /* ColorUtility.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1C635472368737900D9745B /* ColorUtility.swift */; };
 		D1C6354A23689A7400D9745B /* StepperView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1C6354923689A7400D9745B /* StepperView.swift */; };
 		D1C6354C2368AEE900D9745B /* AMDots.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1C6354B2368AEE900D9745B /* AMDots.swift */; };
@@ -147,6 +149,7 @@
 		CBC1BCFF234DDC6A009F6E2C /* AccountInformation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountInformation.swift; sourceTree = "<group>"; };
 		CBC1BD01234DDD29009F6E2C /* BalanceObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BalanceObject.swift; sourceTree = "<group>"; };
 		D1138F06236B46D600766FD1 /* NumbersUtilities.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NumbersUtilities.swift; sourceTree = "<group>"; };
+		D14152A9236E09CB00995986 /* BorderedTextfield.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BorderedTextfield.swift; sourceTree = "<group>"; };
 		D172A78D23684378008701BA /* TargetCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TargetCollectionViewCell.swift; sourceTree = "<group>"; };
 		D172A78E23684378008701BA /* TargetCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = TargetCollectionViewCell.xib; sourceTree = "<group>"; };
 		D172A79123684E44008701BA /* BaseTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseTableViewCell.swift; sourceTree = "<group>"; };
@@ -154,6 +157,7 @@
 		D192FE082351D6520090A194 /* UserStreamHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserStreamHandler.swift; sourceTree = "<group>"; };
 		D192FE0A2351DCF10090A194 /* systemBRAIN.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = systemBRAIN.swift; sourceTree = "<group>"; };
 		D192FE0C23520A630090A194 /* OrderHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderHandler.swift; sourceTree = "<group>"; };
+		D19A0089236C92F40036EB6B /* StepsHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepsHandler.swift; sourceTree = "<group>"; };
 		D1C635472368737900D9745B /* ColorUtility.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorUtility.swift; sourceTree = "<group>"; };
 		D1C6354923689A7400D9745B /* StepperView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepperView.swift; sourceTree = "<group>"; };
 		D1C6354B2368AEE900D9745B /* AMDots.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AMDots.swift; sourceTree = "<group>"; };
@@ -369,6 +373,7 @@
 				D1C6354B2368AEE900D9745B /* AMDots.swift */,
 				CB8AACD1234F741F0096DD07 /* ToolbarPickerView.swift */,
 				D1C6354923689A7400D9745B /* StepperView.swift */,
+				D14152A9236E09CB00995986 /* BorderedTextfield.swift */,
 			);
 			path = CustomViews;
 			sourceTree = "<group>";
@@ -418,6 +423,7 @@
 				CB8AACCC234F629A0096DD07 /* AlertUtility.swift */,
 				D1C635472368737900D9745B /* ColorUtility.swift */,
 				D1138F06236B46D600766FD1 /* NumbersUtilities.swift */,
+				D19A0089236C92F40036EB6B /* StepsHandler.swift */,
 			);
 			path = Utilities;
 			sourceTree = "<group>";
@@ -573,6 +579,7 @@
 				CB711F68234B5AD1008F7A33 /* OrderBookResponseObject.swift in Sources */,
 				CB711F62234B4A68008F7A33 /* SymbolObject.swift in Sources */,
 				CB8AACCD234F629A0096DD07 /* AlertUtility.swift in Sources */,
+				D14152AA236E09CB00995986 /* BorderedTextfield.swift in Sources */,
 				CBAFCC182367101600EA3370 /* TargetsCell.swift in Sources */,
 				D172A79223684E44008701BA /* BaseTableViewCell.swift in Sources */,
 				CBC1BCEB234C9978009F6E2C /* SymbolPriceObject.swift in Sources */,
@@ -596,6 +603,7 @@
 				D192FE0B2351DCF10090A194 /* systemBRAIN.swift in Sources */,
 				CB711F5B234B3C71008F7A33 /* ExchangeInformationResponce.swift in Sources */,
 				CBC1BCF8234CD41A009F6E2C /* OrderDetailObject.swift in Sources */,
+				D19A008A236C92F40036EB6B /* StepsHandler.swift in Sources */,
 				CB711F5E234B3D8B008F7A33 /* RateLimitObject.swift in Sources */,
 				D172A794236854C9008701BA /* PlaceNewOrderDetailViewModel.swift in Sources */,
 				CB25719D2345E11D007DBD6F /* ApiError.swift in Sources */,

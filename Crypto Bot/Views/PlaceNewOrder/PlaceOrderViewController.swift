@@ -59,10 +59,6 @@ class PlaceOrderViewController: UIViewController {
         orderTypeTextfield.inputView = orderTypePickerView
         orderTypeTextfield.inputAccessoryView = orderTypePickerView.toolbar
         
-        symbolObject = SymbolObject()
-        symbolObject?.baseAsset = "ETH"
-        symbolObject?.quoteAsset = "USDT"
-        
         // Do any additional setup after loading the view.
     }
     

@@ -74,14 +74,20 @@ class NumbersUtilities {
 
             }
             
-            let multiplyer = Int(subQuantity.doubleValue /  stepSize.doubleValue)
-            subQuantity = (Double(multiplyer) * stepSize.doubleValue).toString()
-            
-            if let limitIndex = stepSize.indexDistance(of: "1") {
-                while subQuantity.count > limitIndex && (subQuantity.last == "0" || subQuantity.last == ".") {
-                    subQuantity = String(subQuantity.prefix(subQuantity.count - 1))
+            let multiplyer = round(subQuantity.doubleValue /  stepSize.doubleValue)
+            if var limitIndex = stepSize.indexDistance(of: "1") {
+                if stepSize.doubleValue < 1 {
+                    limitIndex = limitIndex - 1
                 }
+                subQuantity = (Double(multiplyer) * stepSize.doubleValue).toString(decimal: limitIndex)
             }
+            
+//            if let limitIndex = stepSize.indexDistance(of: "1") {
+//
+//                while subQuantity.count > limitIndex && (subQuantity.last == "0" || subQuantity.last == ".") {
+//                    subQuantity = String(subQuantity.prefix(subQuantity.count - 1))
+//                }
+//            }
             
             result(subQuantity, nil)
         })

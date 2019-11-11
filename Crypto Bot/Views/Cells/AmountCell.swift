@@ -77,6 +77,20 @@ class AmountCell: BaseTableViewCell {
             self.amountTextfield.text = value
         }
     }
+    
+    func updateValidity(state: ValidityState) {
+        switch state {
+        case .valid:
+            self.amountTextfield.showValidState()
+            break
+        case .invalid:
+            self.amountTextfield.showInvalidState()
+            break
+        case .warning:
+            self.amountTextfield.showWarningState()
+            break
+        }
+    }
 
     @IBAction func didPress25PercentButton(_ sender: UIButton) {
         delegate?.amountChangedTo(percent: 25)

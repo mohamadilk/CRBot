@@ -10,7 +10,7 @@ import UIKit
 
 protocol TargetsCellDelegate {
     
-    func didRemoveAllTargets()
+    func didRemove(target: String)
 }
 
 class TargetsCell: BaseTableViewCell {
@@ -47,6 +47,11 @@ class TargetsCell: BaseTableViewCell {
         collectionView.reloadData()
     }
     
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        targetsArray = []
+    }
+    
 }
 
 extension TargetsCell: UICollectionViewDelegate {
@@ -70,10 +75,7 @@ extension TargetsCell: UICollectionViewDataSource {
 extension TargetsCell: TargetCollectionViewCellDelegate {
     func didRemove(target: String) {
         targetsArray = targetsArray.filter({ $0 != target })
-        if targetsArray.count > 0 {
-            collectionView.reloadData()
-        } else {
-            targetsDelegate?.didRemoveAllTargets()
-        }
+        targetsDelegate?.didRemove(target: target)
+        collectionView.reloadData()
     }
 }

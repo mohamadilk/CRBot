@@ -37,7 +37,7 @@ class OrderHandler {
                         return
                     }
                     
-                    self.placeNewOrderWith(type: type, asset: asset, currency: currency, side: side, amount: amount, price: price, stopPrice: stopPrice, stopLimitPrice: stopLimitPrice) { (result, error) in
+                    self.placeNewOrderWith(type: type, asset: asset, currency: currency, side: side, amount: newAmount ?? "0", price: price, stopPrice: stopPrice, stopLimitPrice: stopLimitPrice) { (result, error) in
                         response(result, error)
                     }
                 }

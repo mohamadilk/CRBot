@@ -26,7 +26,7 @@
                         <textInputTraits key="textInputTraits"/>
                     </textField>
                     <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="SMU-2i-mH2" customClass="StepperView" customModule="Crypto_Bot" customModuleProvider="target">
-                        <rect key="frame" x="311" y="13.5" width="57" height="22"/>
+                        <rect key="frame" x="307" y="13.5" width="57" height="22"/>
                         <color key="backgroundColor" red="0.50588235290000005" green="0.56470588239999997" blue="0.64705882349999999" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="22" id="ehZ-oK-Uon"/>
@@ -57,7 +57,7 @@
                     <constraint firstItem="SMU-2i-mH2" firstAttribute="centerY" secondItem="yQ6-yM-AgO" secondAttribute="centerY" id="3Gy-ZW-kz8"/>
                     <constraint firstItem="yQ6-yM-AgO" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="12" id="GzO-Fk-m8G"/>
                     <constraint firstItem="vmD-Ba-t7V" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="16" id="X3l-AW-IRy"/>
-                    <constraint firstAttribute="trailing" secondItem="SMU-2i-mH2" secondAttribute="trailing" constant="16" id="YZG-9p-ZQh"/>
+                    <constraint firstAttribute="trailing" secondItem="SMU-2i-mH2" secondAttribute="trailing" constant="20" id="YZG-9p-ZQh"/>
                     <constraint firstItem="4lH-dS-Z8H" firstAttribute="centerX" secondItem="H2p-sc-9uM" secondAttribute="centerX" id="amK-fC-aX2"/>
                     <constraint firstItem="yQ6-yM-AgO" firstAttribute="centerX" secondItem="H2p-sc-9uM" secondAttribute="centerX" id="keA-6Q-BcK"/>
                     <constraint firstItem="vmD-Ba-t7V" firstAttribute="centerY" secondItem="yQ6-yM-AgO" secondAttribute="centerY" id="lMw-JK-N8k"/>

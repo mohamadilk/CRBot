@@ -58,6 +58,20 @@ class PriceCell: BaseTableViewCell {
         }
     }
     
+    func updateValidity(state: ValidityState) {
+        switch state {
+        case .valid:
+            self.priceTextfield.showValidState()
+            break
+        case .invalid:
+            self.priceTextfield.showInvalidState()
+            break
+        case .warning:
+            self.priceTextfield.showWarningState()
+            break
+        }
+    }
+    
 }
 
 extension PriceCell: UITextFieldDelegate {
@@ -65,8 +79,8 @@ extension PriceCell: UITextFieldDelegate {
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         
         if let text = textField.text,
-           let textRange = Range(range, in: text) {
-           let updatedText = text.replacingCharacters(in: textRange,
+            let textRange = Range(range, in: text) {
+            let updatedText = text.replacingCharacters(in: textRange,
                                                        with: string)
             delegate?.textfieldValueChanged(index: index, text: updatedText )
         }
@@ -103,7 +117,7 @@ extension PriceCell: StepperViewDelegate {
             delegate?.textfieldValueChanged(index: self.index, text: priceTextfield.text ?? "0")
         } else {
             guard let symbol = symbol.symbol else { return }
-
+            
             let currentPrice = priceTextfield.text
             NumbersUtilities.shared.formatted(quantity: "\(currentPrice!.doubleValue + 1)", for: symbol) { (quantity, error) in
                 self.priceTextfield.text = quantity
@@ -117,7 +131,7 @@ extension PriceCell: StepperViewDelegate {
             return
         } else {
             guard let symbol = symbol.symbol else { return }
-
+            
             let currentPrice = priceTextfield.text
             if currentPrice!.doubleValue > 1 {
                 NumbersUtilities.shared.formatted(quantity: "\(currentPrice!.doubleValue - 1)", for: symbol) { (quantity, error) in
@@ -134,7 +148,7 @@ extension PriceCell: StepperViewDelegate {
     
     private func increasePriceValue() {
         guard let symbol = symbol.symbol else { return }
-
+        
         StepsUtility.shared.priceStepsFor(symbol: symbol) { (stepSize, error) in
             if error != nil || stepSize == nil {
                 return
@@ -143,7 +157,7 @@ extension PriceCell: StepperViewDelegate {
             let currentPrice = (self.priceTextfield.text == nil || self.priceTextfield.text == "") ? stepSize!.toString() : (self.priceTextfield.text!.doubleValue + stepSize!).toString()
             
             NumbersUtilities.shared.formatted(price: currentPrice, for: symbol) { (price, error) in
-                               
+                
                 if error != nil || price == nil {
                     return
                 }
@@ -177,7 +191,7 @@ extension PriceCell: StepperViewDelegate {
 }
 
 extension Double {
-
+    
     func toString(decimal: Int = 9) -> String {
         let value = decimal < 0 ? 0 : decimal
         let string = String(format: "%.\(value)f", self)

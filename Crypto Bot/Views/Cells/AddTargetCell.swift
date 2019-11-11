@@ -51,6 +51,20 @@ class AddTargetCell: BaseTableViewCell {
         // Configure the view for the selected state
     }
     
+    func updateValidity(state: ValidityState) {
+        switch state {
+        case .valid:
+            self.priceTextfield.showValidState()
+            break
+        case .invalid:
+            self.priceTextfield.showInvalidState()
+            break
+        case .warning:
+            self.priceTextfield.showWarningState()
+            break
+        }
+    }
+    
     @IBAction func didPressAdd(_ sender: UIButton) {
         if let price = priceTextfield.text, price.count > 0 {
             addTargetDelegate?.targetAddedWith(price: price, cellIndex: index)

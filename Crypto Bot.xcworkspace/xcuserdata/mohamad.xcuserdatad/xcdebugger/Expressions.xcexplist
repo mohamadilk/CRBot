@@ -11,6 +11,22 @@
          </PersistentStrings>
       </ContextState>
       <ContextState
+         contextName = "TargetsCell.collectionView(_:cellForItemAt:):TargetsCell.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "targetsArray">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "PlaceNewOrderDetailViewController.submitOrder(_:):PlaceNewOrderDetailViewController.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "self.datasource">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
          contextName = "TargetCollectionViewCell.awakeFromNib():TargetCollectionViewCell.swift">
          <PersistentStrings>
             <PersistentString
@@ -20,6 +36,28 @@
       </ContextState>
       <ContextState
          contextName = "closure #1 in systemBRAIN.placeSellOrderForExecutedBuyOrder(report:response:):systemBRAIN.swift">
+      </ContextState>
+      <ContextState
+         contextName = "PlaceNewOrderDetailViewController.tableView(_:cellForRowAt:):PlaceNewOrderDetailViewController.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "datasource">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "PlaceNewOrderDetailViewController.targetAddedWith(price:cellIndex:):PlaceNewOrderDetailViewController.swift">
+      </ContextState>
+      <ContextState
+         contextName = "PlaceNewOrderDetailViewController.didRemove(target:):PlaceNewOrderDetailViewController.swift">
+      </ContextState>
+      <ContextState
+         contextName = "TargetsCell.addNewTarget(price:):TargetsCell.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "targetsArray">
+            </PersistentString>
+         </PersistentStrings>
       </ContextState>
    </ContextStates>
 </VariablesViewState>

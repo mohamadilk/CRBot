@@ -33,8 +33,10 @@ class PlaceNewOrderDetailViewController: UIViewController {
     @IBOutlet weak var askQuantity: UILabel!
     
     @IBOutlet weak var loadingView: AMDots!
+        
+    var refreshControl: UIRefreshControl?
     
-    var datasource = [BaseTableViewCell]()
+    var datasource = [CellModel]()
     var orderTpye: OrderTypes!
     var orderSide: OrderSide!
     var symbol: SymbolObject!
@@ -55,7 +57,7 @@ class PlaceNewOrderDetailViewController: UIViewController {
     var viewModel: PlaceNewOrderDetailViewModel!
     
     let numberFormatter = NumberFormatter()
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         viewModel = PlaceNewOrderDetailViewModel(viewController: self)
@@ -65,6 +67,9 @@ class PlaceNewOrderDetailViewController: UIViewController {
         setSubmitButton()
         
         numberFormatter.numberStyle = NumberFormatter.Style.decimal
+        refreshControl = UIRefreshControl()
+        refreshControl?.addTarget(self, action: #selector(refreshBalance), for: .valueChanged)
+        tableView.refreshControl = refreshControl
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -126,43 +131,41 @@ class PlaceNewOrderDetailViewController: UIViewController {
         var buyStopLimitPrice: String?
         var sellStopPrice: String?
         var sellStopLimitPrice: String?
-
-        for cell in self.datasource {
-            switch cell.cellType {
+        
+        for model in self.datasource {
+            switch model.cellType {
             case .CellType_price:
-                let priceCell = cell as! PriceCell
-                switch priceCell.priceType {
+                switch model.priceType {
                 case .buyPrice, .sellPrice:
-                    price = priceCell.priceTextfield.text ?? "0"
+                    price = model.value ?? "0"
                     break
                 case .buyStopPrice:
-                    buyStopPrice = priceCell.priceTextfield.text ?? "0"
+                    buyStopPrice = model.value ?? "0"
                     break
                 case .buyLimitPrice:
-                    buyStopLimitPrice = priceCell.priceTextfield.text ?? "0"
+                    buyStopLimitPrice = model.value ?? "0"
                     break
                 case .sellStopPrice:
-                    sellStopPrice = priceCell.priceTextfield.text ?? "0"
+                    sellStopPrice = model.value ?? "0"
                     break
                 case .sellLimitPrice:
-                    sellStopLimitPrice = priceCell.priceTextfield.text ?? "0"
+                    sellStopLimitPrice = model.value ?? "0"
                     break
                 default:
                     break
                 }
                 break
             case .CellType_amount:
-                let amountCell = cell as! AmountCell
-                amount = amountCell.amountTextfield.text ?? "0"
+                amount = model.value ?? "0"
                 break
             default:
                 break
             }
         }
         
-        if let targetsCell = self.datasource.filter({ $0.cellType == .CellType_targets }).first as? TargetsCell {
-            if targetsCell.targetsArray.count > 0 {
-                targetsArray = targetsCell.targetsArray
+        if let targetsModel = self.datasource.filter({ $0.cellType == .CellType_targets }).first {
+            if targetsModel.targetsArray?.count ?? 0 > 0 {
+                targetsArray = targetsModel.targetsArray
             }
         }
         
@@ -177,12 +180,20 @@ class PlaceNewOrderDetailViewController: UIViewController {
         }
         
         if self.orderSide == .BUY {
-
+            
         } else {
             
         }
     }
     
+    @objc func refreshBalance() {
+        viewModel.updateUserBalance { success in
+            self.refreshControl?.endRefreshing()
+            if(!success) {
+                AlertUtility.showAlert(title: "Falied to update balance")
+            }
+        }
+    }
 }
 
 extension PlaceNewOrderDetailViewController: UITableViewDataSource {
@@ -191,16 +202,83 @@ extension PlaceNewOrderDetailViewController: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = datasource[indexPath.row]
+        let cellModel = datasource[indexPath.row]
+        var cell: BaseTableViewCell!
+        
+        switch cellModel.cellType {
+        case .CellType_price:
+            let priceCell = tableView.dequeueReusableCell(withIdentifier: "PriceCell") as? PriceCell
+            priceCell?.priceType = cellModel.priceType
+            if cellModel.priceType == .total {
+                priceCell?.stepperView.isHidden = true
+                priceCell?.priceTextfield.isUserInteractionEnabled = false
+            } else {
+                priceCell?.stepperView.isHidden = false
+                priceCell?.priceTextfield.isUserInteractionEnabled = true
+            }
+            
+            if let title = cellModel.title {
+                priceCell?.titleLabel.text = title
+            }
+            priceCell?.updateValidity(state: viewModel.validityStateFor(index: indexPath.row))
+            priceCell?.priceTextfield.text = cellModel.value
+            cell = priceCell
+            break
+        case .CellType_amount:
+            let amountCell = tableView.dequeueReusableCell(withIdentifier: "AmountCell") as? AmountCell
+            if let title = cellModel.title {
+                amountCell?.titleLabel.text = title
+            }
+            amountCell?.updateValidity(state: viewModel.validityStateFor(index: indexPath.row))
+            amountCell?.amountTextfield.text = cellModel.value
+            cell = amountCell
+            break
+        case .CellType_switch:
+            let switchCell = tableView.dequeueReusableCell(withIdentifier: "SwitchCell") as? SwitchCell
+            switchCell?.switchDelegate = self
+            cell = switchCell
+            break
+        case .CellType_targets:
+            let targetsCell = tableView.dequeueReusableCell(withIdentifier: "TargetsCell") as? TargetsCell
+            targetsCell?.targetsArray = cellModel.targetsArray ?? []
+            targetsCell?.targetsDelegate = self
+            cell = targetsCell
+            break
+        case .CellType_addTarget:
+            let addTargetCell = tableView.dequeueReusableCell(withIdentifier: "AddTargetCell") as? AddTargetCell
+            addTargetCell?.addTargetDelegate = self
+            if let title = cellModel.title {
+                addTargetCell?.titleLabel.text = title
+            }
+            addTargetCell?.updateValidity(state: viewModel.validityStateFor(index: indexPath.row))
+            addTargetCell?.priceTextfield.text = cellModel.value
+            cell = addTargetCell
+            break
+        case .CellType_description:
+            let descriptionCell = tableView.dequeueReusableCell(withIdentifier: "DescriptionCell") as? DescriptionCell
+            if let title = cellModel.title {
+                descriptionCell?.descriptionLabel.text = title
+            }
+            cell = descriptionCell
+            break
+        }
         cell.delegate = self.viewModel
         cell.symbol = self.symbol
+        cell.index = cellModel.index
+        cell.cellType = cellModel.cellType
         cell.selectionStyle = UITableViewCell.SelectionStyle.none
         return cell
     }
     
+    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        if let targetsCell = cell as? TargetsCell {
+            targetsCell.collectionView.reloadData()
+        }
+    }
+    
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        let cell = datasource[indexPath.row]
-        switch cell.cellType {
+        let cellModel = datasource[indexPath.row]
+        switch cellModel.cellType {
         case .CellType_price, .CellType_switch, .CellType_targets:
             return 55
         case .CellType_addTarget:
@@ -208,11 +286,9 @@ extension PlaceNewOrderDetailViewController: UITableViewDataSource {
         case .CellType_amount:
             return 90
         case .CellType_description:
-            if let cell = cell as? DescriptionCell {
+            if let cell = tableView.dequeueReusableCell(withIdentifier: "DescriptionCell") as? DescriptionCell {
                 return 20 + (cell.descriptionLabel.text?.height(withConstrainedWidth: cell.descriptionLabel.frame.size.width, font: UIFont.systemFont(ofSize: 11)) ?? 28)
             }
-            return 50
-        case .none:
             return 50
         }
     }
@@ -238,201 +314,55 @@ extension PlaceNewOrderDetailViewController: UITableViewDataSource {
     }
     
     private func prepareMarketOrderDetail() {
-        
-        let amountCell = tableView.dequeueReusableCell(withIdentifier: "AmountCell") as! AmountCell
-        amountCell.cellType = .CellType_amount
-        amountCell.index = 0
-        
-        let amountDescriptionCell = tableView.dequeueReusableCell(withIdentifier: "DescriptionCell") as! DescriptionCell
-        amountDescriptionCell.descriptionLabel.text = descriptionsDic[amountCell.cellType]
-        amountDescriptionCell.cellType = .CellType_description
-        amountDescriptionCell.index = 1
-        
-        let switchCell = tableView.dequeueReusableCell(withIdentifier: "SwitchCell") as! SwitchCell
-        switchCell.switchDelegate = self
-        switchCell.cellType = .CellType_switch
-        switchCell.index = 2
-        
-        let autoSellDescriptionCell = tableView.dequeueReusableCell(withIdentifier: "DescriptionCell") as! DescriptionCell
-        amountDescriptionCell.descriptionLabel.text = descriptionsDic[switchCell.cellType]
-        autoSellDescriptionCell.cellType = .CellType_description
-        autoSellDescriptionCell.index = 3
-        
-        switch orderSide {
-        case .SELL:
-            datasource.append(amountCell)
-            datasource.append(amountDescriptionCell)
-            break
-        case .BUY:
-            datasource.append(amountCell)
-            datasource.append(amountDescriptionCell)
-//            datasource.append(switchCell)
-//            datasource.append(autoSellDescriptionCell)
-            break
-        default:
-            break
-        }
-        
+        datasource.append(CellModel(cellType: .CellType_amount, title: "Amount:", index: 0))
+        datasource.append(CellModel(cellType: .CellType_description, title: descriptionsDic[.CellType_amount], index: 1))
     }
     
     private func prepareLimitOrderDetail() {
         
-        let priceCell = tableView.dequeueReusableCell(withIdentifier: "PriceCell") as! PriceCell
-        priceCell.cellType = .CellType_price
-        priceCell.titleLabel.text = "Price:"
-        priceCell.index = 0
-        
-        let priceDescriptionCell = tableView.dequeueReusableCell(withIdentifier: "DescriptionCell") as! DescriptionCell
-        priceDescriptionCell.cellType = .CellType_description
-        priceDescriptionCell.index = 1
-        
-        let amountCell = tableView.dequeueReusableCell(withIdentifier: "AmountCell") as! AmountCell
-        amountCell.cellType = .CellType_amount
-        amountCell.index = 2
-        
-        let amountDescriptionCell = tableView.dequeueReusableCell(withIdentifier: "DescriptionCell") as! DescriptionCell
-        amountDescriptionCell.descriptionLabel.text = descriptionsDic[amountCell.cellType]
-        amountDescriptionCell.cellType = .CellType_description
-        amountDescriptionCell.index = 3
-        
-        let totalCell = tableView.dequeueReusableCell(withIdentifier: "PriceCell") as! PriceCell
-        totalCell.priceType = .total
-        totalCell.cellType = .CellType_price
-        totalCell.titleLabel.text = "Total:"
-        totalCell.index = 4
-        totalCell.stepperView.isHidden = true
-        totalCell.priceTextfield.isUserInteractionEnabled = false
-        
-        let totalDescriptionCell = tableView.dequeueReusableCell(withIdentifier: "DescriptionCell") as! DescriptionCell
-        totalDescriptionCell.descriptionLabel.text = priceDescriptionsDic[totalCell.priceType]
-        totalDescriptionCell.cellType = .CellType_description
-        totalDescriptionCell.index = 5
-        
-        let switchCell = tableView.dequeueReusableCell(withIdentifier: "SwitchCell") as! SwitchCell
-        switchCell.switchDelegate = self
-        switchCell.cellType = .CellType_switch
-        switchCell.index = 6
-        
-        let autoSellDescriptionCell = tableView.dequeueReusableCell(withIdentifier: "DescriptionCell") as! DescriptionCell
-        amountDescriptionCell.descriptionLabel.text = descriptionsDic[switchCell.cellType]
-        autoSellDescriptionCell.cellType = .CellType_description
-        autoSellDescriptionCell.index = 7
-        
         switch orderSide {
         case .SELL:
-            priceCell.priceType = .sellPrice
-            priceDescriptionCell.descriptionLabel.text = priceDescriptionsDic[priceCell.priceType]
-            
-            datasource.append(priceCell)
-            datasource.append(priceDescriptionCell)
-            datasource.append(amountCell)
-            datasource.append(amountDescriptionCell)
-            datasource.append(totalCell)
-            datasource.append(totalDescriptionCell)
+            datasource.append(CellModel(priceType: .sellPrice, cellType: .CellType_price, title: "Price:", index: 0))
+            datasource.append(CellModel(cellType: .CellType_description, title: priceDescriptionsDic[.sellPrice], index: 1))
             break
         case .BUY:
-            priceCell.priceType = .buyPrice
-            priceDescriptionCell.descriptionLabel.text = priceDescriptionsDic[priceCell.priceType]
-            
-            datasource.append(priceCell)
-            datasource.append(priceDescriptionCell)
-            datasource.append(amountCell)
-            datasource.append(amountDescriptionCell)
-            datasource.append(totalCell)
-            datasource.append(totalDescriptionCell)
-//            datasource.append(switchCell)
-//            datasource.append(autoSellDescriptionCell)
+            datasource.append(CellModel(priceType: .buyPrice, cellType: .CellType_price, title: "Price:", index: 0))
+            datasource.append(CellModel(cellType: .CellType_description, title: priceDescriptionsDic[.buyPrice], index: 1))
             break
         default:
             break
         }
         
+        datasource.append(CellModel(cellType: .CellType_amount, title: "Amount:", index: 2))
+        datasource.append(CellModel(cellType: .CellType_description, title: descriptionsDic[.CellType_amount], index: 3))
+        datasource.append(CellModel(priceType: .total ,cellType: .CellType_price, title: "Total:", index: 4))
+        datasource.append(CellModel(cellType: .CellType_description, title: priceDescriptionsDic[.total], index: 5))
     }
     
     private func prepareStopLimitOrderDetail() {
-        
-        let stopPriceCell = tableView.dequeueReusableCell(withIdentifier: "PriceCell") as! PriceCell
-        stopPriceCell.cellType = .CellType_price
-        stopPriceCell.titleLabel.text = "Stop:"
-        stopPriceCell.index = 0
-        
-        let stopPriceDescriptionCell = tableView.dequeueReusableCell(withIdentifier: "DescriptionCell") as! DescriptionCell
-        stopPriceDescriptionCell.cellType = .CellType_description
-        stopPriceDescriptionCell.index = 1
-        
-        let limitPriceCell = tableView.dequeueReusableCell(withIdentifier: "PriceCell") as! PriceCell
-        limitPriceCell.cellType = .CellType_price
-        limitPriceCell.titleLabel.text = "Limit:"
-        limitPriceCell.index = 2
-        
-        let limitPriceDescriptionCell = tableView.dequeueReusableCell(withIdentifier: "DescriptionCell") as! DescriptionCell
-        limitPriceDescriptionCell.cellType = .CellType_description
-        limitPriceDescriptionCell.index = 3
-        
-        let amountCell = tableView.dequeueReusableCell(withIdentifier: "AmountCell") as! AmountCell
-        amountCell.cellType = .CellType_amount
-        amountCell.index = 4
-        
-        let amountDescriptionCell = tableView.dequeueReusableCell(withIdentifier: "DescriptionCell") as! DescriptionCell
-        amountDescriptionCell.descriptionLabel.text = descriptionsDic[amountCell.cellType]
-        amountDescriptionCell.cellType = .CellType_description
-        amountDescriptionCell.index = 5
-        
-        let totalCell = tableView.dequeueReusableCell(withIdentifier: "PriceCell") as! PriceCell
-        totalCell.priceType = .total
-        totalCell.cellType = .CellType_price
-        totalCell.titleLabel.text = "Total:"
-        totalCell.index = 6
-        totalCell.stepperView.isHidden = true
-        totalCell.priceTextfield.isUserInteractionEnabled = false
-        
-        let totalDescriptionCell = tableView.dequeueReusableCell(withIdentifier: "DescriptionCell") as! DescriptionCell
-        totalDescriptionCell.descriptionLabel.text = priceDescriptionsDic[totalCell.priceType]
-        totalDescriptionCell.cellType = .CellType_description
-        totalDescriptionCell.index = 7
-        
-        let switchCell = tableView.dequeueReusableCell(withIdentifier: "SwitchCell") as! SwitchCell
-        switchCell.switchDelegate = self
-        switchCell.cellType = .CellType_switch
-        switchCell.index = 8
-        
-        let autoSellDescriptionCell = tableView.dequeueReusableCell(withIdentifier: "DescriptionCell") as! DescriptionCell
-        amountDescriptionCell.descriptionLabel.text = descriptionsDic[switchCell.cellType]
-        autoSellDescriptionCell.cellType = .CellType_description
-        autoSellDescriptionCell.index = 9
-        
         switch orderSide {
         case .SELL:
-            stopPriceCell.priceType = .sellStopPrice
-            stopPriceDescriptionCell.descriptionLabel.text = priceDescriptionsDic[stopPriceCell.priceType]
-            limitPriceCell.priceType = .sellLimitPrice
-            limitPriceDescriptionCell.descriptionLabel.text = priceDescriptionsDic[limitPriceCell.priceType]
+            datasource.append(CellModel(priceType: .sellStopPrice, cellType: .CellType_price, title: "Stop Price:", index: 0))
+            datasource.append(CellModel(cellType: .CellType_description, title: priceDescriptionsDic[.sellStopPrice], index: 1))
+            datasource.append(CellModel(priceType: .sellLimitPrice, cellType: .CellType_price, title: "Limit Price:", index: 2))
+            datasource.append(CellModel(cellType: .CellType_description, title: priceDescriptionsDic[.sellLimitPrice], index: 3))
+            datasource.append(CellModel(cellType: .CellType_amount, title: "Amount:", index: 4))
+            datasource.append(CellModel(cellType: .CellType_description, title: descriptionsDic[.CellType_amount], index: 5))
+            datasource.append(CellModel(priceType: .total ,cellType: .CellType_price, title: "Total:", index: 6))
+            datasource.append(CellModel(cellType: .CellType_description, title: priceDescriptionsDic[.total], index: 7))
             
-            datasource.append(stopPriceCell)
-            datasource.append(stopPriceDescriptionCell)
-            datasource.append(limitPriceCell)
-            datasource.append(limitPriceDescriptionCell)
-            datasource.append(amountCell)
-            datasource.append(amountDescriptionCell)
-            datasource.append(totalCell)
-            datasource.append(totalDescriptionCell)
             break
         case .BUY:
-            stopPriceCell.priceType = .buyStopPrice
-            stopPriceDescriptionCell.descriptionLabel.text = priceDescriptionsDic[stopPriceCell.priceType]
-            limitPriceCell.priceType = .buyLimitPrice
-            limitPriceDescriptionCell.descriptionLabel.text = priceDescriptionsDic[limitPriceCell.priceType]
-            
-            datasource.append(stopPriceCell)
-            datasource.append(stopPriceDescriptionCell)
-            datasource.append(limitPriceCell)
-            datasource.append(limitPriceDescriptionCell)
-            datasource.append(amountCell)
-            datasource.append(amountDescriptionCell)
-            datasource.append(totalCell)
-            datasource.append(totalDescriptionCell)
-            datasource.append(switchCell)
-            datasource.append(autoSellDescriptionCell)
+            datasource.append(CellModel(priceType: .buyStopPrice, cellType: .CellType_price, title: "Stop Price:", index: 0))
+            datasource.append(CellModel(cellType: .CellType_description, title: priceDescriptionsDic[.buyStopPrice], index: 1))
+            datasource.append(CellModel(priceType: .buyLimitPrice, cellType: .CellType_price, title: "Limit Price:", index: 2))
+            datasource.append(CellModel(cellType: .CellType_description, title: priceDescriptionsDic[.buyLimitPrice], index: 3))
+            datasource.append(CellModel(cellType: .CellType_amount, title: "Amount:", index: 4))
+            datasource.append(CellModel(cellType: .CellType_description, title: descriptionsDic[.CellType_amount], index: 5))
+            datasource.append(CellModel(priceType: .total ,cellType: .CellType_price, title: "Total:", index: 6))
+            datasource.append(CellModel(cellType: .CellType_description, title: priceDescriptionsDic[.total], index: 7))
+            datasource.append(CellModel(cellType: .CellType_switch, index: 8))
+            datasource.append(CellModel(cellType: .CellType_description, title: descriptionsDic[.CellType_switch], index: 9))
             break
         default:
             break
@@ -441,106 +371,33 @@ extension PlaceNewOrderDetailViewController: UITableViewDataSource {
     }
     
     private func prepareOCOOrderDetail() {
-        
-        let priceCell = tableView.dequeueReusableCell(withIdentifier: "PriceCell") as! PriceCell
-        priceCell.cellType = .CellType_price
-        priceCell.titleLabel.text = "Price:"
-        priceCell.index = 0
-        
-        let priceDescriptionCell = tableView.dequeueReusableCell(withIdentifier: "DescriptionCell") as! DescriptionCell
-        priceDescriptionCell.cellType = .CellType_description
-        priceDescriptionCell.index = 1
-        
-        let stopPriceCell = tableView.dequeueReusableCell(withIdentifier: "PriceCell") as! PriceCell
-        stopPriceCell.cellType = .CellType_price
-        stopPriceCell.titleLabel.text = "Stop:"
-        stopPriceCell.index = 2
-        
-        let stopPriceDescriptionCell = tableView.dequeueReusableCell(withIdentifier: "DescriptionCell") as! DescriptionCell
-        stopPriceDescriptionCell.cellType = .CellType_description
-        stopPriceDescriptionCell.index = 3
-        
-        let limitPriceCell = tableView.dequeueReusableCell(withIdentifier: "PriceCell") as! PriceCell
-        limitPriceCell.cellType = .CellType_price
-        limitPriceCell.titleLabel.text = "Limit:"
-        limitPriceCell.index = 4
-        
-        let limitPriceDescriptionCell = tableView.dequeueReusableCell(withIdentifier: "DescriptionCell") as! DescriptionCell
-        limitPriceDescriptionCell.cellType = .CellType_description
-        limitPriceDescriptionCell.index = 5
-        
-        let amountCell = tableView.dequeueReusableCell(withIdentifier: "AmountCell") as! AmountCell
-        amountCell.cellType = .CellType_amount
-        amountCell.index = 6
-        
-        let amountDescriptionCell = tableView.dequeueReusableCell(withIdentifier: "DescriptionCell") as! DescriptionCell
-        amountDescriptionCell.descriptionLabel.text = descriptionsDic[amountCell.cellType]
-        amountDescriptionCell.cellType = .CellType_description
-        amountDescriptionCell.index = 7
-        
-        let totalCell = tableView.dequeueReusableCell(withIdentifier: "PriceCell") as! PriceCell
-        totalCell.priceType = .total
-        totalCell.cellType = .CellType_price
-        totalCell.titleLabel.text = "Total:"
-        totalCell.index = 8
-        totalCell.stepperView.isHidden = true
-        totalCell.priceTextfield.isUserInteractionEnabled = false
-        
-        let totalDescriptionCell = tableView.dequeueReusableCell(withIdentifier: "DescriptionCell") as! DescriptionCell
-        totalDescriptionCell.descriptionLabel.text = priceDescriptionsDic[totalCell.priceType]
-        totalDescriptionCell.cellType = .CellType_description
-        totalDescriptionCell.index = 9
-        
-        let switchCell = tableView.dequeueReusableCell(withIdentifier: "SwitchCell") as! SwitchCell
-        switchCell.switchDelegate = self
-        switchCell.cellType = .CellType_switch
-        switchCell.index = 10
-        
-        let autoSellDescriptionCell = tableView.dequeueReusableCell(withIdentifier: "DescriptionCell") as! DescriptionCell
-        amountDescriptionCell.descriptionLabel.text = descriptionsDic[switchCell.cellType]
-        autoSellDescriptionCell.cellType = .CellType_description
-        autoSellDescriptionCell.index = 11
-        
         switch orderSide {
         case .SELL:
-            priceCell.priceType = .sellPrice
-            priceDescriptionCell.descriptionLabel.text = priceDescriptionsDic[priceCell.priceType]
-            stopPriceCell.priceType = .sellStopPrice
-            stopPriceDescriptionCell.descriptionLabel.text = priceDescriptionsDic[stopPriceCell.priceType]
-            limitPriceCell.priceType = .sellLimitPrice
-            limitPriceDescriptionCell.descriptionLabel.text = priceDescriptionsDic[limitPriceCell.priceType]
+            datasource.append(CellModel(priceType: .sellPrice, cellType: .CellType_price, title: "Price:", index: 0))
+            datasource.append(CellModel(cellType: .CellType_description, title: priceDescriptionsDic[.sellPrice], index: 1))
+            datasource.append(CellModel(priceType: .sellStopPrice, cellType: .CellType_price, title: "Stop Price:", index: 2))
+            datasource.append(CellModel(cellType: .CellType_description, title: priceDescriptionsDic[.sellStopPrice], index: 3))
+            datasource.append(CellModel(priceType: .sellLimitPrice, cellType: .CellType_price, title: "Limit Price:", index: 4))
+            datasource.append(CellModel(cellType: .CellType_description, title: priceDescriptionsDic[.sellLimitPrice], index: 5))
+            datasource.append(CellModel(cellType: .CellType_amount, title: "Amount:", index: 6))
+            datasource.append(CellModel(cellType: .CellType_description, title: descriptionsDic[.CellType_amount], index: 7))
+            datasource.append(CellModel(priceType: .total ,cellType: .CellType_price, title: "Total:", index: 8))
+            datasource.append(CellModel(cellType: .CellType_description, title: priceDescriptionsDic[.total], index: 9))
             
-            datasource.append(priceCell)
-            datasource.append(priceDescriptionCell)
-            datasource.append(stopPriceCell)
-            datasource.append(stopPriceDescriptionCell)
-            datasource.append(limitPriceCell)
-            datasource.append(limitPriceDescriptionCell)
-            datasource.append(amountCell)
-            datasource.append(amountDescriptionCell)
-            datasource.append(totalCell)
-            datasource.append(totalDescriptionCell)
             break
         case .BUY:
-            priceCell.priceType = .buyPrice
-            priceDescriptionCell.descriptionLabel.text = priceDescriptionsDic[priceCell.priceType]
-            stopPriceCell.priceType = .buyStopPrice
-            stopPriceDescriptionCell.descriptionLabel.text = priceDescriptionsDic[stopPriceCell.priceType]
-            limitPriceCell.priceType = .buyLimitPrice
-            limitPriceDescriptionCell.descriptionLabel.text = priceDescriptionsDic[limitPriceCell.priceType]
-            
-            datasource.append(priceCell)
-            datasource.append(priceDescriptionCell)
-            datasource.append(stopPriceCell)
-            datasource.append(stopPriceDescriptionCell)
-            datasource.append(limitPriceCell)
-            datasource.append(limitPriceDescriptionCell)
-            datasource.append(amountCell)
-            datasource.append(amountDescriptionCell)
-            datasource.append(totalCell)
-            datasource.append(totalDescriptionCell)
-            datasource.append(switchCell)
-            datasource.append(autoSellDescriptionCell)
+            datasource.append(CellModel(priceType: .buyPrice, cellType: .CellType_price, title: "Price:", index: 0))
+            datasource.append(CellModel(cellType: .CellType_description, title: priceDescriptionsDic[.buyPrice], index: 1))
+            datasource.append(CellModel(priceType: .buyStopPrice, cellType: .CellType_price, title: "Stop Price:", index: 2))
+            datasource.append(CellModel(cellType: .CellType_description, title: priceDescriptionsDic[.buyStopPrice], index: 3))
+            datasource.append(CellModel(priceType: .buyLimitPrice, cellType: .CellType_price, title: "Limit Price:", index: 4))
+            datasource.append(CellModel(cellType: .CellType_description, title: priceDescriptionsDic[.buyLimitPrice], index: 5))
+            datasource.append(CellModel(cellType: .CellType_amount, title: "Amount:", index: 6))
+            datasource.append(CellModel(cellType: .CellType_description, title: descriptionsDic[.CellType_amount], index: 7))
+            datasource.append(CellModel(priceType: .total ,cellType: .CellType_price, title: "Total:", index: 8))
+            datasource.append(CellModel(cellType: .CellType_description, title: priceDescriptionsDic[.total], index: 9))
+            datasource.append(CellModel(cellType: .CellType_switch, index: 10))
+            datasource.append(CellModel(cellType: .CellType_description, title: descriptionsDic[.CellType_switch], index: 11))
             break
         default:
             break
@@ -562,12 +419,6 @@ extension PlaceNewOrderDetailViewController: UITableViewDataSource {
             self.bidQuantity.text = quantity
         })
     }
-    
-    func update(value: String, index: Int) {
-        if let cell = tableView.cellForRow(at: IndexPath(row: index, section: 0)) as? BaseTableViewCell {
-            cell.set(value: value, index: index)
-        }
-    }
 }
 
 extension PlaceNewOrderDetailViewController: UITableViewDelegate {
@@ -579,44 +430,27 @@ extension PlaceNewOrderDetailViewController: UITableViewDelegate {
 extension PlaceNewOrderDetailViewController: SwitchCellDelegate {
     func autoSellSwitchValueChanged(isEnable: Bool, cellIndex: Int) {
         if isEnable {
-
+            
             for cell in datasource {
                 if cell.index > cellIndex {
                     cell.index = cell.index + 3
                 }
             }
             
-            let sellStopPriceCell = tableView.dequeueReusableCell(withIdentifier: "PriceCell") as! PriceCell
-            sellStopPriceCell.priceType = .sellStopPrice
-            sellStopPriceCell.cellType = .CellType_price
-            sellStopPriceCell.titleLabel.text = "Sell Stop:"
-            sellStopPriceCell.index = cellIndex + 1
-            
-            let sellLimitPriceCell = tableView.dequeueReusableCell(withIdentifier: "PriceCell") as! PriceCell
-            sellLimitPriceCell.priceType = .sellLimitPrice
-            sellLimitPriceCell.cellType = .CellType_price
-            sellLimitPriceCell.titleLabel.text = "Sell Limit:"
-            sellLimitPriceCell.index = cellIndex + 2
-            
-            let addTargetCell = tableView.dequeueReusableCell(withIdentifier: "AddTargetCell") as! AddTargetCell
-            addTargetCell.addTargetDelegate = self
-            addTargetCell.cellType = .CellType_addTarget
-            addTargetCell.index = cellIndex + 3
-            
-            datasource.insert(sellStopPriceCell, at: sellStopPriceCell.index)
-            datasource.insert(sellLimitPriceCell, at: sellLimitPriceCell.index)
-            datasource.insert(addTargetCell, at: addTargetCell.index)
+            datasource.insert(CellModel(priceType: .sellStopPrice, cellType: .CellType_price, title: "Sell Stop:", index: cellIndex + 1), at: cellIndex + 1)
+            datasource.insert(CellModel(priceType: .sellLimitPrice, cellType: .CellType_price, title: "Sell Limit:", index: cellIndex + 2), at: cellIndex + 2)
+            datasource.insert(CellModel(cellType: .CellType_addTarget, index: cellIndex + 3), at: cellIndex + 3)
             
         } else {
             datasource = datasource.filter({ $0.cellType != CellType.CellType_addTarget && $0.cellType != CellType.CellType_targets })
-            var tempDatasource = [BaseTableViewCell]()
-            for cell in datasource {
-                if cell.cellType == .CellType_price {
-                    if (cell as! PriceCell).priceType != .sellStopPrice && (cell as! PriceCell).priceType != .sellLimitPrice {
-                        tempDatasource.append(cell)
+            var tempDatasource = [CellModel]()
+            for cellModel in datasource {
+                if cellModel.cellType == .CellType_price {
+                    if cellModel.priceType != .sellStopPrice && cellModel.priceType != .sellLimitPrice {
+                        tempDatasource.append(cellModel)
                     }
                 } else {
-                    tempDatasource.append(cell)
+                    tempDatasource.append(cellModel)
                 }
             }
             datasource = tempDatasource
@@ -629,17 +463,23 @@ extension PlaceNewOrderDetailViewController: SwitchCellDelegate {
 }
 
 extension PlaceNewOrderDetailViewController: AddTargetCellDelegate {
+    
+    
     func targetAddedWith(price: String, cellIndex: Int) {
-        let sourceArray = datasource.filter({ $0.cellType == CellType.CellType_targets })
-        if sourceArray.count > 0 {
-            let cell = sourceArray[0] as! TargetsCell
-            cell.addNewTarget(price: price)
+        let cellModels = datasource.filter({ $0.cellType == CellType.CellType_targets })
+        if cellModels.count > 0 {
+            let model = cellModels.first
+            if model?.targetsArray == nil {
+                model?.targetsArray = [price]
+            } else {
+                if !(model?.targetsArray?.contains(price) ?? false) {
+                    model?.targetsArray?.append(price)
+                }
+            }
+            if let cell = tableView.cellForRow(at: IndexPath(row: model?.index ?? 0, section: 0)) as? TargetsCell{
+                cell.addNewTarget(price: price)
+            }
         } else {
-            let targetsCell = tableView.dequeueReusableCell(withIdentifier: "TargetsCell") as! TargetsCell
-            targetsCell.targetsDelegate = self
-            targetsCell.cellType = .CellType_targets
-            targetsCell.index = cellIndex + 1
-            targetsCell.addNewTarget(price: price)
             
             for cell in datasource {
                 if cell.index > cellIndex {
@@ -647,16 +487,35 @@ extension PlaceNewOrderDetailViewController: AddTargetCellDelegate {
                 }
             }
             
-            datasource.insert(targetsCell, at: targetsCell.index)
+            let targetsModel = CellModel(cellType: .CellType_targets, index: cellIndex + 1, targetsArray: [price])
+            datasource.insert(targetsModel, at: cellIndex + 1)
         }
+        
         tableView.reloadData()
         tableView.scrollToRow(at: IndexPath(row: datasource.count - 1, section: 0), at: .top, animated: true)
     }
-    
-    
+ 
 }
 
 extension PlaceNewOrderDetailViewController: TargetsCellDelegate {
+    func didRemove(target: String) {
+        for model in datasource {
+            if model.cellType == CellType.CellType_targets {
+                if var targets = model.targetsArray {
+                    if targets.contains(target) {
+                        targets.removeAll(where: {
+                            $0 == target
+                        })
+                        model.targetsArray = targets
+                        if model.targetsArray?.count == 0 {
+                            didRemoveAllTargets()
+                        }
+                    }
+                }
+            }
+        }
+    }
+    
     func didRemoveAllTargets() {
         datasource = datasource.filter({ $0.cellType != CellType.CellType_targets })
         tableView.reloadData()

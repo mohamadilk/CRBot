@@ -42,12 +42,12 @@ extension systemBRAIN: UserStreamHandlerDelegate {
         case .PARTIALLY_FILLED:
             switch report.side! {
             case .BUY:
-                print("executionReportReceived ----------> BUY ORDER FILLED, TIME TO SELL!")
-                self.placeSellOrderForExecutedBuyOrder(report: report) { (response, error) in
-                    guard error == nil else {
-                        return
-                    }
-                }
+//                print("executionReportReceived ----------> BUY ORDER FILLED, TIME TO SELL!")
+//                self.placeSellOrderForExecutedBuyOrder(report: report) { (response, error) in
+//                    guard error == nil else {
+//                        return
+//                    }
+//                }
                 break
             case .SELL:
                 break
@@ -109,10 +109,10 @@ extension systemBRAIN: UserStreamHandlerDelegate {
         }
     }
     
-    func placeSellOrderForExecutedBuyOrder(report: ExecutionReport, response: @escaping(_ order: OrderResponseObject?, _ error: String?) -> Swift.Void) {
+    func placeSellOrderForExecutedBuyOrder(report: ExecutionReport, completion: @escaping(_ order: OrderResponseObject?, _ error: String?) -> Swift.Void) {
         
         guard let targetsArray = self.targetsDictionary[report.symbol!], targetsArray.count > 0 else {
-            response(nil, "Please specify target array")
+            completion(nil, "Please specify target array")
             return
         }
         
@@ -120,17 +120,17 @@ extension systemBRAIN: UserStreamHandlerDelegate {
         
         ExchangeHandler.shared.getAllAvailableSymbols { (symbolsArray, error) in
             guard error == nil, symbolsArray != nil else {
-                response(nil, "Could not fetch sumbols array")
+                completion(nil, "Could not fetch sumbols array")
                 return
             }
             
             guard let symbolObject = symbolsArray?.filter({ $0.symbol == report.symbol }).first else {
-                response(nil, "Could not get symbol")
+                completion(nil, "Could not get symbol")
                 return
             }
             
             guard let symbol = symbolObject.symbol else {
-                response(nil, "Could not get symbol")
+                completion(nil, "Could not get symbol")
                 return
             }
             
@@ -139,23 +139,23 @@ extension systemBRAIN: UserStreamHandlerDelegate {
                     if let stopLimitPrice = self.stopLimitPricesDictionary[symbol] {
                         self.placeSellOrderFor(type: .OCO, asset: symbolObject.baseAsset ?? "", currency: symbolObject.quoteAsset ?? "", side: .SELL, price: targetsArray, stopPrice: stopPrice, stopLimitPrice: stopLimitPrice, percentages: percentArray) { (result, error) in
                             guard error == nil else {
-                                response(nil, error?.description)
+                                completion(nil, error?.description)
                                 return
                             }
-                            response(result, nil)
+                            completion(result, nil)
                             return
                         }
-                        response(nil, "StopLimitPrice Not Found")
+                        completion(nil, "StopLimitPrice Not Found")
                         return
                     }
-                    response(nil, "StopPrice Not Found")
+                    completion(nil, "StopPrice Not Found")
                     return
                 }
             }
         }
     }
     
-    private func placeSellOrderFor(type: OrderTypes, asset: String, currency: String , side: OrderSide, price: [String], stopPrice: String, stopLimitPrice: String, percentages: [String], response: @escaping(_ order: OrderResponseObject?, _ error: String?) -> Swift.Void) {
+    private func placeSellOrderFor(type: OrderTypes, asset: String, currency: String , side: OrderSide, price: [String], stopPrice: String, stopLimitPrice: String, percentages: [String], completion: @escaping(_ order: OrderResponseObject?, _ error: String?) -> Swift.Void) {
         
         var targets = price
         let targetPrice = targets.remove(at: 0)
@@ -171,14 +171,14 @@ extension systemBRAIN: UserStreamHandlerDelegate {
                     
                     self.placeSellOrderFor(type: type, asset: asset, currency: currency, side: side, price: price, stopPrice: stopPrice, stopLimitPrice: stopLimitPrice, percentages: updatablePercentArray) { (result, error) in
                         guard error == nil, result != nil else {
-                            response(nil, error)
+                            completion(nil, error)
                             return
                         }
-                        response(result, nil)
+                        completion(result, nil)
                     }
                     return
                 } else {
-                    response(nil, error)
+                    completion(nil, error)
                     return
                 }
                 
@@ -187,13 +187,13 @@ extension systemBRAIN: UserStreamHandlerDelegate {
             if updatablePercentArray.count > 0 {
                 self.placeSellOrderFor(type: type, asset: asset, currency: currency, side: side, price: targets, stopPrice: stopPrice, stopLimitPrice: stopLimitPrice, percentages: updatablePercentArray) { (result, error) in
                     guard error == nil, result != nil else {
-                        response(nil, error)
+                        completion(nil, error)
                         return
                     }
-                    response(result, nil)
+                    completion(result, nil)
                 }
             } else {
-                response(result, nil)
+                completion(result, nil)
             }
         }
     }

@@ -11,7 +11,7 @@ import ObjectMapper
 
 class OrderBookResponseObject: BaseApiModel {
     
-    var lastUpdateId: UInt64?
+    var lastUpdateId: UInt?
     var bids: Array<Array<String>>?
     var asks: Array<Array<String>>?
     

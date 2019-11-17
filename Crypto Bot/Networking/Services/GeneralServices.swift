@@ -35,13 +35,13 @@ class GeneralServices: BaseApiServices {
         self.request(endpoint: Keys.endPoints.testConnectivity, type: .mappableJsonType, method: .get, body: nil, parameters: nil) { (result: Any?, error: ApiError?) in
             
             if error != nil {
-//                response(nil, error)
+//                completion(nil, error)
                 return
             }
             
 //            guard let value = result as? mappableJson else {
 //                let error = ApiError.createErrorWithErrorType(.malformed, description: "Malformed Response Data")
-//                response(nil, error)
+//                completion(nil, error)
 //                return
 //            }
             
@@ -49,38 +49,38 @@ class GeneralServices: BaseApiServices {
         }
     }
     
-    func checkServerTime(response:@escaping (_ timeInterval: TimeInterval?, _ error: ApiError?) -> Swift.Void) {
+    func checkServerTime(completion: @escaping (_ timeInterval: TimeInterval?, _ error: ApiError?) -> Swift.Void) {
         self.request(endpoint: Keys.endPoints.checkServerTime, type: .mappableJsonType, method: .get, body: nil, parameters: nil) { (result: Any?, error: ApiError?) in
             
             if error != nil {
-                response(nil, error)
+                completion(nil, error)
                 return
             }
             
             guard let value = result as? mappableJson else {
                 let error = ApiError.createErrorWithErrorType(.malformed, description: "Malformed Response Data")
-                response(nil, error)
+                completion(nil, error)
                 return
             }
-            response(value.dictionary[Keys.jsonKeys.serverTime] as? TimeInterval, nil)
+            completion(value.dictionary[Keys.jsonKeys.serverTime] as? TimeInterval, nil)
         }
     }
     
-    func exchangeInformation(response:@escaping (_ info: ExchangeInformationresponse?, _ error: ApiError?) -> Swift.Void) {
+    func exchangeInformation(completion: @escaping (_ info: ExchangeInformationResponse?, _ error: ApiError?) -> Swift.Void) {
         self.request(endpoint: Keys.endPoints.exchangeInformation, type: .mappableJsonType, method: .get, body: nil, parameters: nil) { (result: Any?, error: ApiError?) in
             
             if error != nil {
-                response(nil, error)
+                completion(nil, error)
                 return
             }
             
             guard let value = result as? mappableJson else {
                 let error = ApiError.createErrorWithErrorType(.malformed, description: "Malformed Response Data")
-                response(nil, error)
+                completion(nil, error)
                 return
             }
-            let excInfo = ExchangeInformationresponse(JSON: value.dictionary as [String : Any])
-            response(excInfo, nil)
+            let excInfo = ExchangeInformationResponse(JSON: value.dictionary as [String : Any])
+            completion(excInfo, nil)
         }
     }
 }

@@ -12,64 +12,64 @@ class ExchangeHandler {
     
     static let shared = ExchangeHandler()
     
-    private var exchangeInfo: ExchangeInformationresponse?
+    private var exchangeInfo: ExchangeInformationResponse?
     
-    func getAllAvailableSymbols(result:@escaping (_ info: [SymbolObject]?, _ error: ApiError?) -> Swift.Void) {
+    func getAllAvailableSymbols(completion: @escaping (_ info: [SymbolObject]?, _ error: ApiError?) -> Swift.Void) {
         
         guard exchangeInfo == nil else {
-            result(exchangeInfo!.symbols, nil)
+            completion(exchangeInfo!.symbols, nil)
             return
         }
         
         GeneralServices.shared.exchangeInformation { (response, error) in
             guard response != nil else {
-                result(nil, nil)
+                completion(nil, nil)
                 return
             }
             self.exchangeInfo = response
-            result(self.exchangeInfo?.symbols, nil)
+            completion(self.exchangeInfo?.symbols, nil)
         }
     }
     
-    func getSymbol(symbol: String, result:@escaping (_ info: SymbolObject?, _ error: ApiError?) -> Swift.Void) {
+    func getSymbol(symbol: String, completion: @escaping (_ info: SymbolObject?, _ error: ApiError?) -> Swift.Void) {
         
         guard exchangeInfo == nil else {
             if let symbols = exchangeInfo!.symbols?.filter({ $0.symbol == symbol }) {
-                result(symbols.first, nil)
+                completion(symbols.first, nil)
             } else {
-                result(nil, nil)
+                completion(nil, nil)
             }
             return
         }
         
         GeneralServices.shared.exchangeInformation { (response, error) in
             guard response != nil else {
-                result(nil, nil)
+                completion(nil, nil)
                 return
             }
             self.exchangeInfo = response
             if let symbols = self.exchangeInfo!.symbols?.filter({ $0.symbol == symbol }) {
-                result(symbols.first, nil)
+                completion(symbols.first, nil)
             } else {
-                result(nil, nil)
+                completion(nil, nil)
             }
         }
     }
     
-    func getAllAvailableFilters(result:@escaping (_ info: [FilterObject]?, _ error: ApiError?) -> Swift.Void) {
+    func getAllAvailableFilters(completion: @escaping (_ info: [FilterObject]?, _ error: ApiError?) -> Swift.Void) {
         
         guard exchangeInfo == nil else {
-            result(exchangeInfo!.exchangeFilters, nil)
+            completion(exchangeInfo!.exchangeFilters, nil)
             return
         }
         
         GeneralServices.shared.exchangeInformation { (response, error) in
             guard response != nil else {
-                result(nil, nil)
+                completion(nil, nil)
                 return
             }
             self.exchangeInfo = response
-            result(self.exchangeInfo?.exchangeFilters, nil)
+            completion(self.exchangeInfo?.exchangeFilters, nil)
         }
         
     }

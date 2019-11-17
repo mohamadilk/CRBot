@@ -3,6 +3,17 @@
    version = "1.0">
    <ContextStates>
       <ContextState
+         contextName = "specialized closure #1 in OrderHandler.updateOtherOrdersAndDelete(order:allOrders:):OrderHandler.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "queuedOrders">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "PlaceNewOrderDetailViewController.targetAddedWith(price:cellIndex:):PlaceNewOrderDetailViewController.swift">
+      </ContextState>
+      <ContextState
          contextName = "PlaceNewOrderDetailViewController.autoSellSwitchValueChanged(isEnable:cellIndex:):PlaceNewOrderDetailViewController.swift">
          <PersistentStrings>
             <PersistentString
@@ -11,12 +22,15 @@
          </PersistentStrings>
       </ContextState>
       <ContextState
-         contextName = "TargetsCell.collectionView(_:cellForItemAt:):TargetsCell.swift">
+         contextName = "PlaceNewOrderDetailViewController.tableView(_:cellForRowAt:):PlaceNewOrderDetailViewController.swift">
          <PersistentStrings>
             <PersistentString
-               value = "targetsArray">
+               value = "datasource">
             </PersistentString>
          </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "closure #1 in systemBRAIN.placeSellOrderForExecutedBuyOrder(report:response:):systemBRAIN.swift">
       </ContextState>
       <ContextState
          contextName = "PlaceNewOrderDetailViewController.submitOrder(_:):PlaceNewOrderDetailViewController.swift">
@@ -35,24 +49,27 @@
          </PersistentStrings>
       </ContextState>
       <ContextState
-         contextName = "closure #1 in systemBRAIN.placeSellOrderForExecutedBuyOrder(report:response:):systemBRAIN.swift">
-      </ContextState>
-      <ContextState
-         contextName = "PlaceNewOrderDetailViewController.tableView(_:cellForRowAt:):PlaceNewOrderDetailViewController.swift">
-         <PersistentStrings>
-            <PersistentString
-               value = "datasource">
-            </PersistentString>
-         </PersistentStrings>
-      </ContextState>
-      <ContextState
-         contextName = "PlaceNewOrderDetailViewController.targetAddedWith(price:cellIndex:):PlaceNewOrderDetailViewController.swift">
-      </ContextState>
-      <ContextState
          contextName = "PlaceNewOrderDetailViewController.didRemove(target:):PlaceNewOrderDetailViewController.swift">
       </ContextState>
       <ContextState
          contextName = "TargetsCell.addNewTarget(price:):TargetsCell.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "targetsArray">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "OrderHandler.deleteQueuedOrder(object:):OrderHandler.swift">
+      </ContextState>
+      <ContextState
+         contextName = "closure #2 in PlaceNewOrderDetailViewModel.setTargetsAndPlaceNewOrder(targets:type:asset:currency:side:amount:price:buyStopPrice:buyStopLimitPrice:sellStopPrice:sellStopLimitPrice:completion:):PlaceNewOrderDetailViewModel.swift">
+      </ContextState>
+      <ContextState
+         contextName = "OrderHandler.queuedOrdersWith(orderId:):OrderHandler.swift">
+      </ContextState>
+      <ContextState
+         contextName = "TargetsCell.collectionView(_:cellForItemAt:):TargetsCell.swift">
          <PersistentStrings>
             <PersistentString
                value = "targetsArray">

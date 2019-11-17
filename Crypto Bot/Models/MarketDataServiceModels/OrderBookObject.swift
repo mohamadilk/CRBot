@@ -11,7 +11,7 @@ import ObjectMapper
 
 struct OrderBookObject {
     
-    var lastUpdateId: UInt64?
+    var lastUpdateId: UInt?
     var bids = [BidAskObject]()
     var asks = [BidAskObject]()
 }

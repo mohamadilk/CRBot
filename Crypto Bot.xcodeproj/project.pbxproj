@@ -66,6 +66,10 @@
 		CBC1BD00234DDC6A009F6E2C /* AccountInformation.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBC1BCFF234DDC6A009F6E2C /* AccountInformation.swift */; };
 		CBC1BD02234DDD2A009F6E2C /* BalanceObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBC1BD01234DDD29009F6E2C /* BalanceObject.swift */; };
 		D1138F07236B46D600766FD1 /* NumbersUtilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1138F06236B46D600766FD1 /* NumbersUtilities.swift */; };
+		D13B48DE238008E000FDBA3B /* QueuedOrderObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = D13B48DD238008E000FDBA3B /* QueuedOrderObject.swift */; };
+		D13B48E0238037BC00FDBA3B /* QueuedOrderTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D13B48DF238037BC00FDBA3B /* QueuedOrderTableViewCell.swift */; };
+		D13B48E22381364B00FDBA3B /* DBHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = D13B48E12381364B00FDBA3B /* DBHandler.swift */; };
+		D13B48E72381644900FDBA3B /* BasicOrderObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = D13B48E62381644900FDBA3B /* BasicOrderObject.swift */; };
 		D14152AA236E09CB00995986 /* BorderedTextfield.swift in Sources */ = {isa = PBXBuildFile; fileRef = D14152A9236E09CB00995986 /* BorderedTextfield.swift */; };
 		D158D40A2370BFC700AAEE04 /* CellModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D158D4092370BFC700AAEE04 /* CellModel.swift */; };
 		D172A78F23684378008701BA /* TargetCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D172A78D23684378008701BA /* TargetCollectionViewCell.swift */; };
@@ -76,10 +80,14 @@
 		D192FE0B2351DCF10090A194 /* systemBRAIN.swift in Sources */ = {isa = PBXBuildFile; fileRef = D192FE0A2351DCF10090A194 /* systemBRAIN.swift */; };
 		D192FE0D23520A630090A194 /* OrderHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = D192FE0C23520A630090A194 /* OrderHandler.swift */; };
 		D19A008A236C92F40036EB6B /* StepsHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = D19A0089236C92F40036EB6B /* StepsHandler.swift */; };
+		D1A22595237B372F0094BB2C /* ActiveOrdersViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1A22594237B372F0094BB2C /* ActiveOrdersViewController.swift */; };
+		D1A22597237B37710094BB2C /* ActiveOrdersViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1A22596237B37710094BB2C /* ActiveOrdersViewModel.swift */; };
+		D1A22599237B52200094BB2C /* ActiveOrderTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1A22598237B52200094BB2C /* ActiveOrderTableViewCell.swift */; };
 		D1C635482368737900D9745B /* ColorUtility.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1C635472368737900D9745B /* ColorUtility.swift */; };
 		D1C6354A23689A7400D9745B /* StepperView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1C6354923689A7400D9745B /* StepperView.swift */; };
 		D1C6354C2368AEE900D9745B /* AMDots.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1C6354B2368AEE900D9745B /* AMDots.swift */; };
 		D1C6354E2368B28700D9745B /* PlaceOrderViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1C6354D2368B28700D9745B /* PlaceOrderViewController.swift */; };
+		D1C910B5238168E700F374AE /* Model.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = D1C910B3238168E700F374AE /* Model.xcdatamodeld */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -146,6 +154,10 @@
 		CBC1BCFF234DDC6A009F6E2C /* AccountInformation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountInformation.swift; sourceTree = "<group>"; };
 		CBC1BD01234DDD29009F6E2C /* BalanceObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BalanceObject.swift; sourceTree = "<group>"; };
 		D1138F06236B46D600766FD1 /* NumbersUtilities.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NumbersUtilities.swift; sourceTree = "<group>"; };
+		D13B48DD238008E000FDBA3B /* QueuedOrderObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QueuedOrderObject.swift; sourceTree = "<group>"; };
+		D13B48DF238037BC00FDBA3B /* QueuedOrderTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QueuedOrderTableViewCell.swift; sourceTree = "<group>"; };
+		D13B48E12381364B00FDBA3B /* DBHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DBHandler.swift; sourceTree = "<group>"; };
+		D13B48E62381644900FDBA3B /* BasicOrderObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BasicOrderObject.swift; sourceTree = "<group>"; };
 		D14152A9236E09CB00995986 /* BorderedTextfield.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BorderedTextfield.swift; sourceTree = "<group>"; };
 		D158D4092370BFC700AAEE04 /* CellModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CellModel.swift; sourceTree = "<group>"; };
 		D172A78D23684378008701BA /* TargetCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TargetCollectionViewCell.swift; sourceTree = "<group>"; };
@@ -156,10 +168,14 @@
 		D192FE0A2351DCF10090A194 /* systemBRAIN.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = systemBRAIN.swift; sourceTree = "<group>"; };
 		D192FE0C23520A630090A194 /* OrderHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderHandler.swift; sourceTree = "<group>"; };
 		D19A0089236C92F40036EB6B /* StepsHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepsHandler.swift; sourceTree = "<group>"; };
+		D1A22594237B372F0094BB2C /* ActiveOrdersViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActiveOrdersViewController.swift; sourceTree = "<group>"; };
+		D1A22596237B37710094BB2C /* ActiveOrdersViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActiveOrdersViewModel.swift; sourceTree = "<group>"; };
+		D1A22598237B52200094BB2C /* ActiveOrderTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActiveOrderTableViewCell.swift; sourceTree = "<group>"; };
 		D1C635472368737900D9745B /* ColorUtility.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorUtility.swift; sourceTree = "<group>"; };
 		D1C6354923689A7400D9745B /* StepperView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepperView.swift; sourceTree = "<group>"; };
 		D1C6354B2368AEE900D9745B /* AMDots.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AMDots.swift; sourceTree = "<group>"; };
 		D1C6354D2368B28700D9745B /* PlaceOrderViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceOrderViewController.swift; sourceTree = "<group>"; };
+		D1C910B4238168E700F374AE /* Model.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Model.xcdatamodel; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -201,6 +217,7 @@
 				D192FE0C23520A630090A194 /* OrderHandler.swift */,
 				CB10892B23585FD500C96AB6 /* OrdersCasheHandler.swift */,
 				CB143EF9236ADE6B00A4E283 /* MarketDataHandler.swift */,
+				D13B48E12381364B00FDBA3B /* DBHandler.swift */,
 			);
 			path = Handlers;
 			sourceTree = "<group>";
@@ -209,7 +226,7 @@
 			isa = PBXGroup;
 			children = (
 				CB2571872345DFB9007DBD6F /* Main.storyboard */,
-				CBAFCC012366E24800EA3370 /* Cells */,
+				D1A22593237B36EC0094BB2C /* ActiveOrders */,
 				CB8AACD0234F73EE0096DD07 /* CustomViews */,
 				CB23D50C234F075D0053E6DE /* PlaceNewOrder */,
 			);
@@ -221,6 +238,7 @@
 			children = (
 				D172A793236854C9008701BA /* PlaceNewOrderDetailViewModel.swift */,
 				CBBE8F61236AB8E0004279D6 /* SymbolsListViewModel.swift */,
+				D1A22596237B37710094BB2C /* ActiveOrdersViewModel.swift */,
 			);
 			path = ViewModels;
 			sourceTree = "<group>";
@@ -228,6 +246,7 @@
 		CB23D50C234F075D0053E6DE /* PlaceNewOrder */ = {
 			isa = PBXGroup;
 			children = (
+				CBAFCC012366E24800EA3370 /* Cells */,
 				CBAFCC1F23671F9D00EA3370 /* PlaceNewOrderDetailViewController.swift */,
 				D1C6354D2368B28700D9745B /* PlaceOrderViewController.swift */,
 				CBBE8F5F236AB8BB004279D6 /* SymbolsListTableViewController.swift */,
@@ -265,6 +284,7 @@
 				CB2571812345DFB9007DBD6F /* AppDelegate.swift */,
 				CB2571832345DFB9007DBD6F /* SceneDelegate.swift */,
 				CB25718A2345DFC0007DBD6F /* Assets.xcassets */,
+				D1C910B3238168E700F374AE /* Model.xcdatamodeld */,
 				CB25718C2345DFC0007DBD6F /* LaunchScreen.storyboard */,
 				CB25718F2345DFC0007DBD6F /* Info.plist */,
 			);
@@ -408,6 +428,8 @@
 				CBC1BD01234DDD29009F6E2C /* BalanceObject.swift */,
 				CB23D4FF234E13A80053E6DE /* outboundAccountInfoObject.swift */,
 				CB23D503234E164C0053E6DE /* executionReportObject.swift */,
+				D13B48DD238008E000FDBA3B /* QueuedOrderObject.swift */,
+				D13B48E62381644900FDBA3B /* BasicOrderObject.swift */,
 			);
 			path = AccountServiceModels;
 			sourceTree = "<group>";
@@ -418,6 +440,16 @@
 				D158D4092370BFC700AAEE04 /* CellModel.swift */,
 			);
 			path = CellModel;
+			sourceTree = "<group>";
+		};
+		D1A22593237B36EC0094BB2C /* ActiveOrders */ = {
+			isa = PBXGroup;
+			children = (
+				D1A22594237B372F0094BB2C /* ActiveOrdersViewController.swift */,
+				D1A22598237B52200094BB2C /* ActiveOrderTableViewCell.swift */,
+				D13B48DF238037BC00FDBA3B /* QueuedOrderTableViewCell.swift */,
+			);
+			path = ActiveOrders;
 			sourceTree = "<group>";
 		};
 		D1BEA61B23465EEE00677FA7 /* Utilities */ = {
@@ -557,6 +589,7 @@
 			files = (
 				D192FE0D23520A630090A194 /* OrderHandler.swift in Sources */,
 				D1C6354A23689A7400D9745B /* StepperView.swift in Sources */,
+				D13B48E0238037BC00FDBA3B /* QueuedOrderTableViewCell.swift in Sources */,
 				CBAFCC042366E5B800EA3370 /* PriceCell.swift in Sources */,
 				CBBE8F60236AB8BB004279D6 /* SymbolsListTableViewController.swift in Sources */,
 				CB711F58234B3A87008F7A33 /* UserDataStreamServices.swift in Sources */,
@@ -568,10 +601,13 @@
 				CB143EFA236ADE6B00A4E283 /* MarketDataHandler.swift in Sources */,
 				CBAFCC0C236705B200EA3370 /* DescriptionCell.swift in Sources */,
 				CB2571982345E0B9007DBD6F /* BaseApiServices.swift in Sources */,
+				D1A22597237B37710094BB2C /* ActiveOrdersViewModel.swift in Sources */,
 				D1138F07236B46D600766FD1 /* NumbersUtilities.swift in Sources */,
 				CB8AACD2234F741F0096DD07 /* ToolbarPickerView.swift in Sources */,
+				D1C910B5238168E700F374AE /* Model.xcdatamodeld in Sources */,
 				CBBE8F62236AB8E0004279D6 /* SymbolsListViewModel.swift in Sources */,
 				CBC1BD00234DDC6A009F6E2C /* AccountInformation.swift in Sources */,
+				D13B48E72381644900FDBA3B /* BasicOrderObject.swift in Sources */,
 				CB8AACD42350B9B20096DD07 /* ExchangeHandler.swift in Sources */,
 				CBAFCC10236706BE00EA3370 /* SwitchCell.swift in Sources */,
 				CBAFCC142367092000EA3370 /* AddTargetCell.swift in Sources */,
@@ -579,12 +615,14 @@
 				CB8AACCF234F67500096DD07 /* AccountHandler.swift in Sources */,
 				CBC1BD02234DDD2A009F6E2C /* BalanceObject.swift in Sources */,
 				CB711F6C234B5DAB008F7A33 /* OrderBookObject.swift in Sources */,
+				D1A22599237B52200094BB2C /* ActiveOrderTableViewCell.swift in Sources */,
 				D192FE092351D6520090A194 /* UserStreamHandler.swift in Sources */,
 				D1C635482368737900D9745B /* ColorUtility.swift in Sources */,
 				CB711F68234B5AD1008F7A33 /* OrderBookResponseObject.swift in Sources */,
 				D158D40A2370BFC700AAEE04 /* CellModel.swift in Sources */,
 				CB711F62234B4A68008F7A33 /* SymbolObject.swift in Sources */,
 				CB8AACCD234F629A0096DD07 /* AlertUtility.swift in Sources */,
+				D13B48DE238008E000FDBA3B /* QueuedOrderObject.swift in Sources */,
 				D14152AA236E09CB00995986 /* BorderedTextfield.swift in Sources */,
 				CBAFCC182367101600EA3370 /* TargetsCell.swift in Sources */,
 				D172A79223684E44008701BA /* BaseTableViewCell.swift in Sources */,
@@ -599,7 +637,9 @@
 				CB711F52234B3116008F7A33 /* MarketDataServices.swift in Sources */,
 				CBAFCC2023671F9D00EA3370 /* PlaceNewOrderDetailViewController.swift in Sources */,
 				CBC1BCE9234C8A3B009F6E2C /* OneDayTickerPriceChangeObject.swift in Sources */,
+				D1A22595237B372F0094BB2C /* ActiveOrdersViewController.swift in Sources */,
 				CBC1BCF0234CA510009F6E2C /* OrderResponseObject.swift in Sources */,
+				D13B48E22381364B00FDBA3B /* DBHandler.swift in Sources */,
 				CBC1BCE7234C886F009F6E2C /* AvaragePriceObject.swift in Sources */,
 				D1C6354E2368B28700D9745B /* PlaceOrderViewController.swift in Sources */,
 				CBC1BCFE234DC441009F6E2C /* OrderObject.swift in Sources */,
@@ -818,6 +858,19 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		D1C910B3238168E700F374AE /* Model.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				D1C910B4238168E700F374AE /* Model.xcdatamodel */,
+			);
+			currentVersion = D1C910B4238168E700F374AE /* Model.xcdatamodel */;
+			path = Model.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = CB2571762345DFB9007DBD6F /* Project object */;
 }

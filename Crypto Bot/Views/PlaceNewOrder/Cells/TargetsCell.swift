@@ -39,10 +39,6 @@ class TargetsCell: BaseTableViewCell {
     
     func addNewTarget(price: String) {
         if targetsArray.contains(price) { return }
-        if targetsArray.count >= 5 {
-            AlertUtility.showAlert(title: "You have reached the maximum number of targets!")
-            return
-        }
         targetsArray.append(price)
         collectionView.reloadData()
     }

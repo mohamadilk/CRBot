@@ -60,7 +60,7 @@ class AccountServices: BaseApiServices {
     
     static let shared = AccountServices()
     
-    func postNew_LIMIT_Order(symbol: String, side: OrderSide, timeInForce: TimeInForce, quantity: String, price: String, newClientOrderId: String? = nil, icebergQty: Int? = nil, newOrderRespType: newOrderRespType? = nil, recvWindow: UInt? = nil, timestamp: TimeInterval, response: @escaping(_ order: OrderResponseObject?, _ error: ApiError?) -> Swift.Void) {
+    func postNew_LIMIT_Order(symbol: String, side: OrderSide, timeInForce: TimeInForce, quantity: String, price: String, newClientOrderId: String? = nil, icebergQty: Int? = nil, newOrderRespType: newOrderRespType? = nil, recvWindow: UInt? = nil, timestamp: TimeInterval, completion: @escaping(_ order: OrderResponseObject?, _ error: ApiError?) -> Swift.Void) {
         
         var parameters = [Keys.parameterKeys.symbol: symbol,
                           Keys.parameterKeys.side: side,
@@ -76,11 +76,11 @@ class AccountServices: BaseApiServices {
         if let icebergQty = icebergQty { parameters[Keys.parameterKeys.icebergQty] = icebergQty }
         
         postNewOrder(parameters: parameters) { (responseObject, error) in
-            response(responseObject, error)
+            completion(responseObject, error)
         }
     }
     
-    func postNew_MARKET_Order(symbol: String, side: OrderSide, timeInForce: TimeInForce? = nil, quantity: String, price: String? = nil, newClientOrderId: String? = nil, newOrderRespType: newOrderRespType? = nil, recvWindow: UInt? = nil, timestamp: TimeInterval, response: @escaping(_ order: OrderResponseObject?, _ error: ApiError?) -> Swift.Void) {
+    func postNew_MARKET_Order(symbol: String, side: OrderSide, timeInForce: TimeInForce? = nil, quantity: String, price: String? = nil, newClientOrderId: String? = nil, newOrderRespType: newOrderRespType? = nil, recvWindow: UInt? = nil, timestamp: TimeInterval, completion: @escaping(_ order: OrderResponseObject?, _ error: ApiError?) -> Swift.Void) {
         
         var parameters = [Keys.parameterKeys.symbol: symbol,
                           Keys.parameterKeys.side: side,
@@ -95,11 +95,11 @@ class AccountServices: BaseApiServices {
         if let price = price { parameters[Keys.parameterKeys.price] = price }
         
         postNewOrder(parameters: parameters) { (responseObject, error) in
-            response(responseObject, error)
+            completion(responseObject, error)
         }
     }
     
-    func postNew_STOP_LOSS_Order(symbol: String, side: OrderSide, timeInForce: TimeInForce? = nil, quantity: String, price: String? = nil, newClientOrderId: String? = nil, stopPrice: String, newOrderRespType: newOrderRespType? = nil, recvWindow: UInt? = nil, timestamp: TimeInterval, response: @escaping(_ order: OrderResponseObject?, _ error: ApiError?) -> Swift.Void) {
+    func postNew_STOP_LOSS_Order(symbol: String, side: OrderSide, timeInForce: TimeInForce? = nil, quantity: String, price: String? = nil, newClientOrderId: String? = nil, stopPrice: String, newOrderRespType: newOrderRespType? = nil, recvWindow: UInt? = nil, timestamp: TimeInterval, completion: @escaping(_ order: OrderResponseObject?, _ error: ApiError?) -> Swift.Void) {
         
         var parameters = [Keys.parameterKeys.symbol: symbol,
                           Keys.parameterKeys.side: side,
@@ -115,11 +115,11 @@ class AccountServices: BaseApiServices {
         if let price = price { parameters[Keys.parameterKeys.price] = price }
         
         postNewOrder(parameters: parameters) { (responseObject, error) in
-            response(responseObject, error)
+            completion(responseObject, error)
         }
     }
     
-    func postNew_STOP_LOSS_LIMIT_Order(symbol: String, side: OrderSide, timeInForce: TimeInForce, quantity: String, price: String, newClientOrderId: String? = nil, stopPrice: String, icebergQty: Int? = nil, newOrderRespType: newOrderRespType? = nil, recvWindow: UInt? = nil, timestamp: TimeInterval, response: @escaping(_ order: OrderResponseObject?, _ error: ApiError?) -> Swift.Void) {
+    func postNew_STOP_LOSS_LIMIT_Order(symbol: String, side: OrderSide, timeInForce: TimeInForce, quantity: String, price: String, newClientOrderId: String? = nil, stopPrice: String, icebergQty: Int? = nil, newOrderRespType: newOrderRespType? = nil, recvWindow: UInt? = nil, timestamp: TimeInterval, completion: @escaping(_ order: OrderResponseObject?, _ error: ApiError?) -> Swift.Void) {
         
         var parameters = [Keys.parameterKeys.symbol: symbol,
                           Keys.parameterKeys.side: side,
@@ -136,11 +136,11 @@ class AccountServices: BaseApiServices {
         if let icebergQty = icebergQty { parameters[Keys.parameterKeys.icebergQty] = icebergQty }
         
         postNewOrder(parameters: parameters) { (responseObject, error) in
-            response(responseObject, error)
+            completion(responseObject, error)
         }
     }
     
-    func postNew_TAKE_PROFIT_Order(symbol: String, side: OrderSide, timeInForce: TimeInForce? = nil, quantity: String, price: String? = nil, newClientOrderId: String? = nil, stopPrice: String, newOrderRespType: newOrderRespType? = nil, recvWindow: UInt? = nil, timestamp: TimeInterval, response: @escaping(_ order: OrderResponseObject?, _ error: ApiError?) -> Swift.Void) {
+    func postNew_TAKE_PROFIT_Order(symbol: String, side: OrderSide, timeInForce: TimeInForce? = nil, quantity: String, price: String? = nil, newClientOrderId: String? = nil, stopPrice: String, newOrderRespType: newOrderRespType? = nil, recvWindow: UInt? = nil, timestamp: TimeInterval, completion: @escaping(_ order: OrderResponseObject?, _ error: ApiError?) -> Swift.Void) {
         
         var parameters = [Keys.parameterKeys.symbol: symbol,
                           Keys.parameterKeys.side: side,
@@ -156,11 +156,11 @@ class AccountServices: BaseApiServices {
         if let price = price { parameters[Keys.parameterKeys.price] = price }
         
         postNewOrder(parameters: parameters) { (responseObject, error) in
-            response(responseObject, error)
+            completion(responseObject, error)
         }
     }
     
-    func postNew_TAKE_PROFIT_LIMIT_Order(symbol: String, side: OrderSide, timeInForce: TimeInForce, quantity: String, price: String, newClientOrderId: String? = nil, stopPrice: String, icebergQty: Int? = nil, newOrderRespType: newOrderRespType? = nil, recvWindow: UInt? = nil, timestamp: TimeInterval, response: @escaping(_ order: OrderResponseObject?, _ error: ApiError?) -> Swift.Void) {
+    func postNew_TAKE_PROFIT_LIMIT_Order(symbol: String, side: OrderSide, timeInForce: TimeInForce, quantity: String, price: String, newClientOrderId: String? = nil, stopPrice: String, icebergQty: Int? = nil, newOrderRespType: newOrderRespType? = nil, recvWindow: UInt? = nil, timestamp: TimeInterval, completion: @escaping(_ order: OrderResponseObject?, _ error: ApiError?) -> Swift.Void) {
         
         var parameters = [Keys.parameterKeys.symbol: symbol,
                           Keys.parameterKeys.side: side,
@@ -177,11 +177,11 @@ class AccountServices: BaseApiServices {
         if let icebergQty = icebergQty { parameters[Keys.parameterKeys.icebergQty] = icebergQty }
         
         postNewOrder(parameters: parameters) { (responseObject, error) in
-            response(responseObject, error)
+            completion(responseObject, error)
         }
     }
     
-    func postNew_LIMIT_MAKER_Order(symbol: String, side: OrderSide, timeInForce: TimeInForce? = nil, quantity: String, price: String, newClientOrderId: String? = nil, newOrderRespType: newOrderRespType? = nil, recvWindow: UInt? = nil, timestamp: TimeInterval, response: @escaping(_ order: OrderResponseObject?, _ error: ApiError?) -> Swift.Void) {
+    func postNew_LIMIT_MAKER_Order(symbol: String, side: OrderSide, timeInForce: TimeInForce? = nil, quantity: String, price: String, newClientOrderId: String? = nil, newOrderRespType: newOrderRespType? = nil, recvWindow: UInt? = nil, timestamp: TimeInterval, completion: @escaping(_ order: OrderResponseObject?, _ error: ApiError?) -> Swift.Void) {
         
         var parameters = [Keys.parameterKeys.symbol: symbol,
                           Keys.parameterKeys.side: side,
@@ -196,31 +196,31 @@ class AccountServices: BaseApiServices {
         if let recvWindow = recvWindow { parameters[Keys.parameterKeys.recvWindow] = recvWindow }
         
         postNewOrder(parameters: parameters) { (responseObject, error) in
-            response(responseObject, error)
+            completion(responseObject, error)
         }
     }
     
-    private func postNewOrder(parameters: [String:Any], response: @escaping(_ orderBook: OrderResponseObject?, _ error: ApiError?) -> Swift.Void) {
+    private func postNewOrder(parameters: [String:Any], completion: @escaping(_ orderBook: OrderResponseObject?, _ error: ApiError?) -> Swift.Void) {
         
         self.request(endpoint: Keys.endPoints.order, type: .mappableJsonType, method: .post, body: nil, parameters: parameters, embedApiKey: true, embedSignature: true, headers: nil) { (result: Any?, error: ApiError?) in
             
             if error != nil {
-                response(nil, error)
+                completion(nil, error)
                 return
             }
             
             guard let value = result as? mappableJson else {
                 let error = ApiError.createErrorWithErrorType(.malformed, description: "Malformed Response Data")
-                response(nil, error)
+                completion(nil, error)
                 return
             }
             
             let orderModel = OrderResponseObject(JSON: value.dictionary as [String : Any])
-            response(orderModel, nil)
+            completion(orderModel, nil)
         }
     }
     
-    func fetchOrderStatus(symbol: String, orderId: UInt64? = nil, origClientOrderId: String? = nil, recvWindow: Int? = nil, timestamp: TimeInterval, response: @escaping(_ orderBook: OrderDetailObject?, _ error: ApiError?) -> Swift.Void) {
+    func fetchOrderStatus(symbol: String, orderId: UInt? = nil, origClientOrderId: String? = nil, recvWindow: Int? = nil, timestamp: TimeInterval, completion: @escaping(_ orderBook: OrderDetailObject?, _ error: ApiError?) -> Swift.Void) {
         
         var params = [Keys.parameterKeys.symbol: symbol,
                       Keys.parameterKeys.timestamp: "\(timestamp)".components(separatedBy: ".").first!] as [String : Any]
@@ -232,22 +232,22 @@ class AccountServices: BaseApiServices {
         self.request(endpoint: Keys.endPoints.order, type: .mappableJsonType, method: .get, body: nil, parameters: params, embedApiKey: true, embedSignature: true, headers: nil) { (result: Any?, error: ApiError?) in
             
             if error != nil {
-                response(nil, error)
+                completion(nil, error)
                 return
             }
             
             guard let value = result as? mappableJson else {
                 let error = ApiError.createErrorWithErrorType(.malformed, description: "Malformed Response Data")
-                response(nil, error)
+                completion(nil, error)
                 return
             }
             
             let orderModel = OrderDetailObject(JSON: value.dictionary as [String : Any])
-            response(orderModel, nil)
+            completion(orderModel, nil)
         }
     }
     
-    func cancelOrder(symbol: String, orderId: UInt64? = nil, origClientOrderId: String? = nil, newClientOrderId: String? = nil, recvWindow: Int? = nil, timestamp: TimeInterval, response: @escaping(_ orderBook: OrderDetailObject?, _ error: ApiError?) -> Swift.Void) {
+    func cancelOrder(symbol: String, orderId: UInt? = nil, origClientOrderId: String? = nil, newClientOrderId: String? = nil, recvWindow: Int? = nil, timestamp: TimeInterval, completion: @escaping(_ orderBook: OrderDetailObject?, _ error: ApiError?) -> Swift.Void) {
         
         var params = [Keys.parameterKeys.symbol: symbol,
                       Keys.parameterKeys.timestamp: "\(timestamp)".components(separatedBy: ".").first!] as [String : Any]
@@ -260,23 +260,23 @@ class AccountServices: BaseApiServices {
         self.request(endpoint: Keys.endPoints.order, type: .mappableJsonType, method: .delete, body: nil, parameters: params, embedApiKey: true, embedSignature: true, headers: nil) { (result: Any?, error: ApiError?) in
             
             if error != nil {
-                response(nil, error)
+                completion(nil, error)
                 return
             }
             
             guard let value = result as? mappableJson else {
                 let error = ApiError.createErrorWithErrorType(.malformed, description: "Malformed Response Data")
-                response(nil, error)
+                completion(nil, error)
                 return
             }
             
             let orderModel = OrderDetailObject(JSON: value.dictionary as [String : Any])
-            response(orderModel, nil)
+            completion(orderModel, nil)
         }
     }
     
     
-    func fetchOpenOrders(symbol: String? = nil, recvWindow: Int? = nil, timestamp: TimeInterval, response: @escaping(_ orderBook: [OrderDetailObject]?, _ error: ApiError?) -> Swift.Void) {
+    func fetchOpenOrders(symbol: String? = nil, recvWindow: Int? = nil, timestamp: TimeInterval, completion: @escaping(_ orderBook: [OrderDetailObject]?, _ error: ApiError?) -> Swift.Void) {
         
         var params = [Keys.parameterKeys.timestamp: "\(timestamp)".components(separatedBy: ".").first!] as [String : Any]
         
@@ -286,13 +286,13 @@ class AccountServices: BaseApiServices {
         self.request(endpoint: Keys.endPoints.openOrders, type: .arrayOfJsonType, method: .get, body: nil, parameters: params, embedApiKey: true, embedSignature: true, headers: nil) { (result: Any?, error: ApiError?) in
             
             if error != nil {
-                response(nil, error)
+                completion(nil, error)
                 return
             }
             
             guard let value = result as? arrayOfJson else {
                 let error = ApiError.createErrorWithErrorType(.malformed, description: "Malformed Response Data")
-                response(nil, error)
+                completion(nil, error)
                 return
             }
             
@@ -302,11 +302,11 @@ class AccountServices: BaseApiServices {
                 modelsArray.append(orderModel!)
             }
             
-            response(modelsArray, nil)
+            completion(modelsArray, nil)
         }
     }
     
-    func fetchAllOrders(symbol: String, limit: Int? = nil, orderId: UInt64? = nil, startTime: TimeInterval? = nil, endTime: TimeInterval? = nil, recvWindow: Int? = nil, timestamp: TimeInterval, response: @escaping(_ orderBook: [OrderDetailObject]?, _ error: ApiError?) -> Swift.Void) {
+    func fetchAllOrders(symbol: String, limit: Int? = nil, orderId: UInt? = nil, startTime: TimeInterval? = nil, endTime: TimeInterval? = nil, recvWindow: Int? = nil, timestamp: TimeInterval, completion: @escaping(_ orderBook: [OrderDetailObject]?, _ error: ApiError?) -> Swift.Void) {
         
         var params = [Keys.parameterKeys.symbol: symbol,
                       Keys.parameterKeys.timestamp: "\(timestamp)".components(separatedBy: ".").first!] as [String : Any]
@@ -320,13 +320,13 @@ class AccountServices: BaseApiServices {
         self.request(endpoint: Keys.endPoints.allOrders, type: .arrayOfJsonType, method: .get, body: nil, parameters: params, embedApiKey: true, embedSignature: true, headers: nil) { (result: Any?, error: ApiError?) in
             
             if error != nil {
-                response(nil, error)
+                completion(nil, error)
                 return
             }
             
             guard let value = result as? arrayOfJson else {
                 let error = ApiError.createErrorWithErrorType(.malformed, description: "Malformed Response Data")
-                response(nil, error)
+                completion(nil, error)
                 return
             }
             
@@ -336,11 +336,11 @@ class AccountServices: BaseApiServices {
                 modelsArray.append(orderModel!)
             }
             
-            response(modelsArray, nil)
+            completion(modelsArray, nil)
         }
     }
     
-    func postNewOCOOrder(symbol: String, listClientOrderId: String? = nil, side: OrderSide, quantity: String, limitClientOrderId: String? = nil, price: String, limitIcebergQty: Int? = nil, stopClientOrderId: String? = nil, stopPrice: String, stopLimitPrice: String, stopIcebergQty: Int? = nil, stopLimitTimeInForce: TimeInForce? = .GTC, newOrderRespType: responseType? = nil, recvWindow: Int? = 60000, timestamp: TimeInterval, response: @escaping(_ orderBook: OrderResponseObject?, _ error: ApiError?) -> Swift.Void) {
+    func postNewOCOOrder(symbol: String, listClientOrderId: String? = nil, side: OrderSide, quantity: String, limitClientOrderId: String? = nil, price: String, limitIcebergQty: Int? = nil, stopClientOrderId: String? = nil, stopPrice: String, stopLimitPrice: String, stopIcebergQty: Int? = nil, stopLimitTimeInForce: TimeInForce? = .GTC, newOrderRespType: responseType? = nil, recvWindow: Int? = 60000, timestamp: TimeInterval, completion: @escaping(_ orderBook: OrderResponseObject?, _ error: ApiError?) -> Swift.Void) {
         
         var params = [Keys.parameterKeys.symbol: symbol,
                       Keys.parameterKeys.side: side,
@@ -364,22 +364,22 @@ class AccountServices: BaseApiServices {
         self.request(endpoint: Keys.endPoints.ocoOrder, type: .mappableJsonType, method: .post, body: nil, parameters: params, embedApiKey: true, embedSignature: true, headers: nil) { (result: Any?, error: ApiError?) in
             
             if error != nil {
-                response(nil, error)
+                completion(nil, error)
                 return
             }
             
             guard let value = result as? mappableJson else {
                 let error = ApiError.createErrorWithErrorType(.malformed, description: "Malformed Response Data")
-                response(nil, error)
+                completion(nil, error)
                 return
             }
             
             let orderModel = OrderResponseObject(JSON: value.dictionary as [String : Any])
-            response(orderModel, nil)
+            completion(orderModel, nil)
         }
     }
     
-    func cancelOCOOrder(symbol: String, orderListId: Int64? = nil, listClientOrderId: String? = nil, newClientOrderId: String? = nil, recvWindow: Int? = nil, timestamp: TimeInterval, response: @escaping (_ success: Bool?, _ error: ApiError?) -> Swift.Void) {
+    func cancelOCOOrder(symbol: String, orderListId: Int? = nil, listClientOrderId: String? = nil, newClientOrderId: String? = nil, recvWindow: Int? = nil, timestamp: TimeInterval, completion: @escaping (_ success: Bool?, _ error: ApiError?) -> Swift.Void) {
         
         var params = [Keys.parameterKeys.symbol: symbol,
                       Keys.parameterKeys.timestamp: "\(timestamp)".components(separatedBy: ".").first!] as [String : Any]
@@ -392,15 +392,15 @@ class AccountServices: BaseApiServices {
         self.request(endpoint: Keys.endPoints.cancelOco, type: .mappableJsonType, method: .delete, body: nil, parameters: params, embedApiKey: true, embedSignature: true, headers: nil) { (result: Any?, error: ApiError?) in
             
             if error != nil {
-                response(false, error)
+                completion(false, error)
                 return
             }
             
-            response(true, nil)
+            completion(true, nil)
         }
     }
     
-    func queryOCOOrder(orderListId: Int64? = nil, origClientOrderId: String? = nil, recvWindow: Int? = nil, timestamp: TimeInterval, response: @escaping (_ response: OrderResponseObject?, _ error: ApiError?) -> Swift.Void) {
+    func queryOCOOrder(orderListId: Int? = nil, origClientOrderId: String? = nil, recvWindow: Int? = nil, timestamp: TimeInterval, completion: @escaping (_ response: OrderResponseObject?, _ error: ApiError?) -> Swift.Void) {
         
         var params = [Keys.parameterKeys.timestamp: "\(timestamp)".components(separatedBy: ".").first!] as [String : Any]
         
@@ -411,22 +411,22 @@ class AccountServices: BaseApiServices {
         self.request(endpoint: Keys.endPoints.queryOco, type: .mappableJsonType, method: .get, body: nil, parameters: params, embedApiKey: true, embedSignature: true, headers: nil) { (result: Any?, error: ApiError?) in
             
             if error != nil {
-                response(nil, error)
+                completion(nil, error)
                 return
             }
             
             guard let value = result as? mappableJson else {
                 let error = ApiError.createErrorWithErrorType(.malformed, description: "Malformed Response Data")
-                response(nil, error)
+                completion(nil, error)
                 return
             }
             
             let orderModel = OrderResponseObject(JSON: value.dictionary as [String : Any])
-            response(orderModel, nil)
+            completion(orderModel, nil)
         }
     }
     
-    func fetchAllOCOOrders(limit: Int? = nil, fromId: UInt64? = nil, startTime: TimeInterval? = nil, endTime: TimeInterval? = nil, recvWindow: Int? = nil, timestamp: TimeInterval, response: @escaping(_ orderBook: [OrderResponseObject]?, _ error: ApiError?) -> Swift.Void) {
+    func fetchAllOCOOrders(limit: Int? = nil, fromId: UInt? = nil, startTime: TimeInterval? = nil, endTime: TimeInterval? = nil, recvWindow: Int? = nil, timestamp: TimeInterval, completion: @escaping(_ orderBook: [OrderResponseObject]?, _ error: ApiError?) -> Swift.Void) {
         
         var params = [Keys.parameterKeys.timestamp: "\(timestamp)".components(separatedBy: ".").first!] as [String : Any]
         
@@ -439,13 +439,13 @@ class AccountServices: BaseApiServices {
         self.request(endpoint: Keys.endPoints.queryAllOcos, type: .arrayOfJsonType, method: .get, body: nil, parameters: params, embedApiKey: true, embedSignature: true, headers: nil) { (result: Any?, error: ApiError?) in
             
             if error != nil {
-                response(nil, error)
+                completion(nil, error)
                 return
             }
             
             guard let value = result as? arrayOfJson else {
                 let error = ApiError.createErrorWithErrorType(.malformed, description: "Malformed Response Data")
-                response(nil, error)
+                completion(nil, error)
                 return
             }
             
@@ -455,11 +455,11 @@ class AccountServices: BaseApiServices {
                 modelsArray.append(orderModel!)
             }
             
-            response(modelsArray, nil)
+            completion(modelsArray, nil)
         }
     }
     
-    func fetchOpenOCOOrders(recvWindow: Int? = nil, timestamp: TimeInterval, response: @escaping(_ orderBook: [OrderResponseObject]?, _ error: ApiError?) -> Swift.Void) {
+    func fetchOpenOCOOrders(recvWindow: Int? = nil, timestamp: TimeInterval, completion: @escaping(_ orderBook: [OrderResponseObject]?, _ error: ApiError?) -> Swift.Void) {
         
         var params = [Keys.parameterKeys.timestamp: "\(timestamp)".components(separatedBy: ".").first!] as [String : Any]
         
@@ -468,13 +468,13 @@ class AccountServices: BaseApiServices {
         self.request(endpoint: Keys.endPoints.queryOpenOcos, type: .arrayOfJsonType, method: .get, body: nil, parameters: params, embedApiKey: true, embedSignature: true, headers: nil) { (result: Any?, error: ApiError?) in
             
             if error != nil {
-                response(nil, error)
+                completion(nil, error)
                 return
             }
             
             guard let value = result as? arrayOfJson else {
                 let error = ApiError.createErrorWithErrorType(.malformed, description: "Malformed Response Data")
-                response(nil, error)
+                completion(nil, error)
                 return
             }
             
@@ -484,11 +484,11 @@ class AccountServices: BaseApiServices {
                 modelsArray.append(orderModel!)
             }
             
-            response(modelsArray, nil)
+            completion(modelsArray, nil)
         }
     }
     
-    func fetchAccountInformation(recvWindow: Int? = nil, timestamp: TimeInterval, response: @escaping(_ accountInfo: AccountInformation?, _ error: ApiError?) -> Swift.Void) {
+    func fetchAccountInformation(recvWindow: Int? = nil, timestamp: TimeInterval, completion: @escaping(_ accountInfo: AccountInformation?, _ error: ApiError?) -> Swift.Void) {
         
         var params = [Keys.parameterKeys.timestamp: "\(timestamp)".components(separatedBy: ".").first!] as [String : Any]
         if let recvWindow = recvWindow { params[Keys.parameterKeys.recvWindow] = recvWindow }
@@ -496,22 +496,22 @@ class AccountServices: BaseApiServices {
         self.request(endpoint: Keys.endPoints.accountInformation, type: .mappableJsonType, method: .get, body: nil, parameters: params, embedApiKey: true, embedSignature: true, headers: nil) { (result: Any?, error: ApiError?) in
             
             if error != nil {
-                response(nil, error)
+                completion(nil, error)
                 return
             }
             
             guard let value = result as? mappableJson else {
                 let error = ApiError.createErrorWithErrorType(.malformed, description: "Malformed Response Data")
-                response(nil, error)
+                completion(nil, error)
                 return
             }
             
             let accountInfo = AccountInformation(JSON: value.dictionary as [String : Any])
-            response(accountInfo, nil)
+            completion(accountInfo, nil)
         }
     }
     
-    func fetchAccountTradeList(symbol: String, limit: Int? = nil, fromId: UInt64? = nil, startTime: TimeInterval? = nil, endTime: TimeInterval? = nil, recvWindow: Int? = nil, timestamp: TimeInterval, response: @escaping(_ orderBook: [AccountOrderDetailObject]?, _ error: ApiError?) -> Swift.Void) {
+    func fetchAccountTradeList(symbol: String, limit: Int? = nil, fromId: UInt? = nil, startTime: TimeInterval? = nil, endTime: TimeInterval? = nil, recvWindow: Int? = nil, timestamp: TimeInterval, completion: @escaping(_ orderBook: [AccountOrderDetailObject]?, _ error: ApiError?) -> Swift.Void) {
         
         var params = [Keys.parameterKeys.symbol: symbol,
                       Keys.parameterKeys.timestamp: "\(timestamp)".components(separatedBy: ".").first!] as [String : Any]
@@ -525,13 +525,13 @@ class AccountServices: BaseApiServices {
         self.request(endpoint: Keys.endPoints.accountTradeList, type: .arrayOfJsonType, method: .get, body: nil, parameters: params, embedApiKey: true, embedSignature: true, headers: nil) { (result: Any?, error: ApiError?) in
             
             if error != nil {
-                response(nil, error)
+                completion(nil, error)
                 return
             }
             
             guard let value = result as? arrayOfJson else {
                 let error = ApiError.createErrorWithErrorType(.malformed, description: "Malformed Response Data")
-                response(nil, error)
+                completion(nil, error)
                 return
             }
             
@@ -541,7 +541,7 @@ class AccountServices: BaseApiServices {
                 modelsArray.append(orderModel!)
             }
             
-            response(modelsArray, nil)
+            completion(modelsArray, nil)
         }
     }
 }

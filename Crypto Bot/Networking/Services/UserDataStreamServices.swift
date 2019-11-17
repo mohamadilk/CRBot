@@ -34,24 +34,24 @@ class UserDataStreamServices: BaseApiServices {
     var socket: WebSocket?
     
     // Start a new user data stream. The stream will close after 60 minutes unless a keepalive is sent.
-    func startUserDataStream(response: @escaping(_ listenKey: String?, _ error: ApiError?) -> Swift.Void) {
+    func startUserDataStream(completion: @escaping(_ listenKey: String?, _ error: ApiError?) -> Swift.Void) {
         
         self.request(endpoint: Keys.endPoints.userDataStream, type: .mappableJsonType, method: .post, body: nil, parameters: nil, embedApiKey: true) { (result: Any?, error: ApiError?) in
            
             if error != nil {
-                response(nil, error)
+                completion(nil, error)
                 return
             }
             
             guard let value = result as? mappableJson else {
                 let error = ApiError.createErrorWithErrorType(.malformed, description: "Malformed Response Data")
-                response(nil, error)
+                completion(nil, error)
                 return
             }
             
             let key = value.dictionary[Keys.parameterKeys.listenKey]
             self.initializeWebSocket(listenKey: key as! String)
-            response(key as? String, nil)
+            completion(key as? String, nil)
         }
         
     }
@@ -62,13 +62,13 @@ class UserDataStreamServices: BaseApiServices {
         self.request(endpoint: Keys.endPoints.userDataStream, type: .mappableJsonType, method: .put, body: nil, parameters: [Keys.parameterKeys.listenKey: listenKey], embedApiKey: true) { (result: Any?, error: ApiError?) in
            
             if error != nil {
-//                response(nil, error)
+//                completion(nil, error)
                 return
             }
 //
 //            guard let value = result as? mappableJson else {
 //                let error = ApiError.createErrorWithErrorType(.malformed, description: "Malformed Response Data")
-//                response(nil, error)
+//                completion(nil, error)
 //                return
 //            }
             print("Seuccessfuly sent kepp alive")
@@ -76,16 +76,16 @@ class UserDataStreamServices: BaseApiServices {
     }
     
     // Close out a user data stream.
-    func closeAliveUserDataStream(listenKey: String, response: @escaping(_ success: Bool) -> Swift.Void) {
+    func closeAliveUserDataStream(listenKey: String, completion: @escaping(_ success: Bool) -> Swift.Void) {
         
         self.request(endpoint: Keys.endPoints.userDataStream, type: .mappableJsonType, method: .delete, body: nil, parameters: [Keys.parameterKeys.listenKey: listenKey], embedApiKey: true) { (result: Any?, error: ApiError?) in
 
             if error != nil {
-                response(false)
+                completion(false)
                 return
             }
             
-            response(true)
+            completion(true)
         }
     }
     

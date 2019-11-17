@@ -12,23 +12,23 @@ class NumbersUtilities {
     
     public static let shared = NumbersUtilities()
     
-    func formatted(price: String,for symbol: String, result:@escaping (_ price: String?, _ error: ApiError?) -> Swift.Void) {
+    func formatted(price: String,for symbol: String, completion: @escaping (_ price: String?, _ error: ApiError?) -> Swift.Void) {
         
-        ExchangeHandler.shared.getSymbol(symbol: symbol, result: { (symbolObject, error) in
+        ExchangeHandler.shared.getSymbol(symbol: symbol, completion: { (symbolObject, error) in
             if error != nil {
-                result(price,error)
+                completion(price,error)
                 return
             }
             
             guard let symbolObject = symbolObject else {
-                result(price,nil)
+                completion(price,nil)
                 return
             }
             
             let priceFilter = symbolObject.filters?.filter({ $0.filterType == .PRICE_FILTER })
             
             guard let tickSize = priceFilter?.first?.tickSize else {
-                result(price, nil)
+                completion(price, nil)
                 return
             }
 
@@ -44,27 +44,27 @@ class NumbersUtilities {
                 }
             }
             
-            result(subPrice, nil)
+            completion(subPrice, nil)
         })
     }
     
-    func formatted(quantity: String,for symbol: String, result:@escaping (_ price: String?, _ error: ApiError?) -> Swift.Void) {
+    func formatted(quantity: String,for symbol: String, completion: @escaping (_ price: String?, _ error: ApiError?) -> Swift.Void) {
         
-        ExchangeHandler.shared.getSymbol(symbol: symbol, result: { (symbolObject, error) in
+        ExchangeHandler.shared.getSymbol(symbol: symbol, completion: { (symbolObject, error) in
             if error != nil {
-                result(quantity,error)
+                completion(quantity,error)
                 return
             }
             
             guard let symbolObject = symbolObject else {
-                result(quantity,nil)
+                completion(quantity,nil)
                 return
             }
             
             let priceFilter = symbolObject.filters?.filter({ $0.filterType == .LOT_SIZE })
             
             guard let stepSize = priceFilter?.first?.stepSize else {
-                result(quantity, nil)
+                completion(quantity, nil)
                 return
             }
 
@@ -74,7 +74,7 @@ class NumbersUtilities {
 
             }
             
-            let multiplyer = round(subQuantity.doubleValue /  stepSize.doubleValue)
+            let multiplyer = floor(subQuantity.doubleValue /  stepSize.doubleValue)
             if var limitIndex = stepSize.indexDistance(of: "1") {
                 if stepSize.doubleValue < 1 {
                     limitIndex = limitIndex - 1
@@ -82,14 +82,7 @@ class NumbersUtilities {
                 subQuantity = (Double(multiplyer) * stepSize.doubleValue).toString(decimal: limitIndex)
             }
             
-//            if let limitIndex = stepSize.indexDistance(of: "1") {
-//
-//                while subQuantity.count > limitIndex && (subQuantity.last == "0" || subQuantity.last == ".") {
-//                    subQuantity = String(subQuantity.prefix(subQuantity.count - 1))
-//                }
-//            }
-            
-            result(subQuantity, nil)
+            completion(subQuantity, nil)
         })
     }
 }

@@ -18,15 +18,15 @@ class SymbolsListViewModel: NSObject {
         self.viewController = viewController
     }
     
-    func getSymbolsArray(response:@escaping (_ symbols: [SymbolObject]?, _ error: ApiError?) -> Swift.Void) {
+    func getSymbolsArray(completion: @escaping (_ symbols: [SymbolObject]?, _ error: ApiError?) -> Swift.Void) {
         ExchangeHandler.shared.getAllAvailableSymbols { (symbols, error) in
             guard error == nil else {
-                response(nil, error)
+                completion(nil, error)
                 return
             }
             
             self.symbolsArray = symbols ?? []
-            response(self.symbolsArray, nil)
+            completion(self.symbolsArray, nil)
         }
     }
 }

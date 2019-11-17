@@ -406,16 +406,16 @@ extension PlaceNewOrderDetailViewController: UITableViewDataSource {
     }
     
     func updateLatestDataWith(order: SymbolOrderBookObject) {
-        NumbersUtilities.shared.formatted(price: order.askPrice ?? "", for: order.symbol!, result: { (price, error) in
+        NumbersUtilities.shared.formatted(price: order.askPrice ?? "", for: order.symbol!, completion: { (price, error) in
             self.askPrice.text = price!
         })
-        NumbersUtilities.shared.formatted(quantity: order.askQty ?? "", for: order.symbol!, result: { (quantity, error) in
+        NumbersUtilities.shared.formatted(quantity: order.askQty ?? "", for: order.symbol!, completion: { (quantity, error) in
             self.askQuantity.text = quantity
         })
-        NumbersUtilities.shared.formatted(price: order.bidPrice ?? "", for: order.symbol!, result: { (price, error) in
+        NumbersUtilities.shared.formatted(price: order.bidPrice ?? "", for: order.symbol!, completion: { (price, error) in
             self.bidPrice.text = price!
         })
-        NumbersUtilities.shared.formatted(quantity: order.bidQty ?? "", for: order.symbol!, result: { (quantity, error) in
+        NumbersUtilities.shared.formatted(quantity: order.bidQty ?? "", for: order.symbol!, completion: { (quantity, error) in
             self.bidQuantity.text = quantity
         })
     }
@@ -472,6 +472,10 @@ extension PlaceNewOrderDetailViewController: AddTargetCellDelegate {
             if model?.targetsArray == nil {
                 model?.targetsArray = [price]
             } else {
+                if model?.targetsArray?.count ?? 0 >= 5 {
+                    AlertUtility.showAlert(title: "You have reached the maximum number of targets!")
+                    return
+                }
                 if !(model?.targetsArray?.contains(price) ?? false) {
                     model?.targetsArray?.append(price)
                 }

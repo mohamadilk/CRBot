@@ -12,14 +12,37 @@ class AccountHandler {
     
     static let shared = AccountHandler()
     
-    func getCurrentUserCredit(response: @escaping(_ accountInfo: AccountInformation?, _ error: ApiError?) -> Swift.Void){
+    func getCurrentUserCredit(completion: @escaping(_ accountInfo: AccountInformation?, _ error: ApiError?) -> Swift.Void){
         AccountServices.shared.fetchAccountInformation(timestamp: NSDate().timeIntervalSince1970 * 1000) { (info, error) in
             guard error == nil else {
-                response(nil, error)
+                completion(nil, error)
                 return
             }
             
-            response(info, nil)
+            completion(info, nil)
+        }
+    }
+    
+    func getUserActiveOrders(completion: @escaping(_ orders: [OrderDetailObject]?, _ error: ApiError?) -> Swift.Void) {
+        AccountServices.shared.fetchOpenOrders(timestamp: NSDate().timeIntervalSince1970 * 1000) { (ordersArray, error) in
+            guard error == nil else {
+                completion(nil, error)
+                return
+            }
+            completion(ordersArray, nil)
+        }
+    }
+    
+    func cancelOrder(model: OrderDetailObject, completion: @escaping(_ order: OrderDetailObject?, _ error: ApiError?) -> Swift.Void) {
+        AccountServices.shared.cancelOrder(symbol: "\(model.symbol ?? "")", orderId: model.orderId, origClientOrderId: model.origClientOrderId, timestamp: NSDate().timeIntervalSince1970 * 1000) { (order, error) in
+                completion(order, error)
+        }
+    }
+    
+    func cancelOCOOrder(model: OrderDetailObject, completion: @escaping(_ success: Bool?, _ error: ApiError?) -> Swift.Void) {
+        AccountServices.shared.cancelOCOOrder(symbol: "\(model.symbol ?? "")", orderListId: model.orderListId, listClientOrderId: model.clientOrderId, timestamp: NSDate().timeIntervalSince1970 * 1000) { (success, error) in
+            completion(success, error)
         }
     }
 }
+

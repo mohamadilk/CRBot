@@ -12,40 +12,40 @@ class StepsUtility {
     
     public static let shared = StepsUtility()
     
-    func priceStepsFor(symbol: String, result:@escaping (_ stepSize: Double?, _ error: ApiError?) -> Swift.Void) {
-        ExchangeHandler.shared.getSymbol(symbol: symbol, result: { (symbolObject, error) in
+    func priceStepsFor(symbol: String, completion: @escaping (_ stepSize: Double?, _ error: ApiError?) -> Swift.Void) {
+        ExchangeHandler.shared.getSymbol(symbol: symbol, completion: { (symbolObject, error) in
             
             if error != nil {
-                result(nil,error)
+                completion(nil,error)
                 return
             }
             
             guard let symbolObject = symbolObject else {
-                result(nil,nil)
+                completion(nil,nil)
                 return
             }
             
             let priceFilter = symbolObject.filters?.filter({ $0.filterType == .PRICE_FILTER }).first
-            result(priceFilter?.tickSize?.doubleValue, nil)
+            completion(priceFilter?.tickSize?.doubleValue, nil)
 
         })
     }
     
-    func quantutyStepsFor(symbol: String, result:@escaping (_ stepSize: Double?, _ error: ApiError?) -> Swift.Void) {
-        ExchangeHandler.shared.getSymbol(symbol: symbol, result: { (symbolObject, error) in
+    func quantutyStepsFor(symbol: String, completion: @escaping (_ stepSize: Double?, _ error: ApiError?) -> Swift.Void) {
+        ExchangeHandler.shared.getSymbol(symbol: symbol, completion: { (symbolObject, error) in
             
             if error != nil {
-                result(nil,error)
+                completion(nil,error)
                 return
             }
             
             guard let symbolObject = symbolObject else {
-                result(nil,nil)
+                completion(nil,nil)
                 return
             }
             
             let priceFilter = symbolObject.filters?.filter({ $0.filterType == .LOT_SIZE }).first
-            result(priceFilter?.stepSize?.doubleValue, nil)
+            completion(priceFilter?.stepSize?.doubleValue, nil)
 
         })
     }

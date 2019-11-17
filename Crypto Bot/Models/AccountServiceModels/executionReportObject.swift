@@ -27,7 +27,7 @@ class ExecutionReport: BaseApiModel {
     var currentExecutionType: ExecutionTypes?
     var currentOrderStatus: OrderStatus?
     var orderRejectReason: String? //will be an error code
-    var orderId: UInt64?
+    var orderId: UInt?
     var lastExecutedQuantity: String?
     var cumulativefilledQuantity: String?
     var lastExecutedPrice: String?

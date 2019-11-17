@@ -2,27 +2,39 @@ PODS:
   - Alamofire (4.9.0)
   - Arcane (2.1)
   - ObjectMapper (3.5.1)
+  - Result (3.2.4)
   - Starscream (3.0.6)
+  - SugarRecord/CoreData (3.1.2):
+    - Result (~> 3.0)
+  - UICircularProgressRing (6.4.0)
 
 DEPENDENCIES:
   - Alamofire
   - Arcane
   - ObjectMapper
   - Starscream (~> 3.0.2)
+  - SugarRecord/CoreData
+  - UICircularProgressRing
 
 SPEC REPOS:
   trunk:
     - Alamofire
     - Arcane
     - ObjectMapper
+    - Result
     - Starscream
+    - SugarRecord
+    - UICircularProgressRing
 
 SPEC CHECKSUMS:
   Alamofire: afc3e7c6db61476cb45cdd23fed06bad03bbc321
   Arcane: 3a2e2f773a112911693ad4dcf4bec4293fac63e7
   ObjectMapper: 70187b8941977c62ccfb423caf6b50be405cabf0
+  Result: d2d07204ce72856f1fd9130bbe42c35a7b0fea10
   Starscream: ef3ece99d765eeccb67de105bfa143f929026cf5
+  SugarRecord: be6aa5c18b4a4dec0de4c1f49fc61c85eabb5328
+  UICircularProgressRing: 907613633e76e561b972a3868c95517d14c71006
 
-PODFILE CHECKSUM: bd3ab3f69aa143db0f928a5e4dd55bc79ed9f31b
+PODFILE CHECKSUM: 183130e71826ab57cc91916dd800f9a447e6d103
 
 COCOAPODS: 1.8.1

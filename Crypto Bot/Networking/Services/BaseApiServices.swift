@@ -34,7 +34,7 @@ public class BaseApiServices: NSObject
                                            embedApiKey: Bool? = false,
                                            embedSignature: Bool? = false,
                                            headers: [String: String]? = nil,
-                                           response:@escaping (Any?, ApiError?) -> Void)
+                                           completion: @escaping (Any?, ApiError?) -> Void)
     {
         
         apiKey = "86L8PtiePfoWX1qv5LE4IqZ0bFGjsgt8At9nQtJcP3Vb3JGkxuJQOMm2o7ODSaKT"
@@ -47,7 +47,7 @@ public class BaseApiServices: NSObject
             } else {
                 let error = ApiError.createErrorWithErrorType(.provideKeys)
                 error.statusCode = 1000
-                response(nil, error)
+                completion(nil, error)
                 return
             }
         }
@@ -65,7 +65,7 @@ public class BaseApiServices: NSObject
             } else {
                 let error = ApiError.createErrorWithErrorType(.provideKeys)
                 error.statusCode = 1000
-                response(nil, error)
+                completion(nil, error)
                 return
             }
         }
@@ -110,7 +110,7 @@ public class BaseApiServices: NSObject
                 }
                 
                 guard error == nil else {
-                    response(nil, error)
+                    completion(nil, error)
                     return
                 }
                 
@@ -118,7 +118,7 @@ public class BaseApiServices: NSObject
                     error = ApiError()
                     error?.statusCode = 0
                     error?.description = err.localizedDescription
-                    response(nil, error)
+                    completion(nil, error)
                     return
                 }
                 
@@ -135,7 +135,7 @@ public class BaseApiServices: NSObject
                     value = arrayOfArray(array: apiResponse.value as! Array<Array<Any>>)
                     break
                 }
-                response(value, nil)
+                completion(value, nil)
         }
     }
     

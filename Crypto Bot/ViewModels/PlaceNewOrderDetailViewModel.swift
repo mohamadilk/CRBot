@@ -30,13 +30,13 @@ class PlaceNewOrderDetailViewModel: NSObject {
     init(viewController: PlaceNewOrderDetailViewController) {
         super.init()
         self.viewController = viewController
-        self.updateUserBalance(response: { _ in })
+        self.updateUserBalance(completion: { _ in })
     }
     
-    func updateUserBalance(response: @escaping(_ success: Bool) -> Void) {
+    func updateUserBalance(completion: @escaping(_ success: Bool) -> Void) {
         AccountHandler.shared.getCurrentUserCredit { (account, error) in
             self.account = account
-            response(error == nil)
+            completion(error == nil)
         }
     }
     
@@ -381,7 +381,7 @@ extension PlaceNewOrderDetailViewModel { //Validations
         let priceCells = self.viewController.datasource.filter({ $0.cellType == .CellType_price })
         if let totalModel = priceCells.filter({ $0.priceType == .total }).first {
             let totalCell = self.viewController.tableView.cellForRow(at: IndexPath(row: totalModel.index, section: 0)) as? PriceCell
-            NumbersUtilities.shared.formatted(price: value, for: self.symbol!.symbol!, result: { [weak self] (totalVlaue, error) in
+            NumbersUtilities.shared.formatted(price: value, for: self.symbol!.symbol!, completion: { [weak self] (totalVlaue, error) in
                 DispatchQueue.main.async {
                     totalCell?.priceTextfield.text =  totalVlaue
                     
@@ -502,17 +502,38 @@ extension PlaceNewOrderDetailViewModel { //Validations
 
 extension PlaceNewOrderDetailViewModel { //Place Order
     
-    func setTargetsAndPlaceNewOrder(targets: [String]?, type: OrderTypes, asset: String, currency: String, side: OrderSide, amount: String, price: String? = nil, buyStopPrice: String? = nil, buyStopLimitPrice: String? = nil, sellStopPrice: String? = nil, sellStopLimitPrice: String? = nil, response: @escaping(_ order: OrderResponseObject?, _ error: String?) -> Swift.Void) {
+    func setTargetsAndPlaceNewOrder(targets: [String]?, type: OrderTypes, asset: String, currency: String, side: OrderSide, amount: String, price: String? = nil, buyStopPrice: String? = nil, buyStopLimitPrice: String? = nil, sellStopPrice: String? = nil, sellStopLimitPrice: String? = nil, completion: @escaping(_ order: OrderResponseObject?, _ error: String?) -> Swift.Void) {
         
         OrderHandler.shared.addPricesForSymbol(symbol: "\(asset)\(currency)", targetsArray: targets, stopPrice: sellStopPrice, stopLimitPrice: sellStopLimitPrice)
         
-        OrderHandler.shared.placeNewOrderWith(type: type, asset: asset, currency: currency, side: side, amount: amount, price: price, stopPrice: (side == .SELL) ? sellStopPrice : buyStopPrice, stopLimitPrice: (side == .SELL) ? sellStopLimitPrice : buyStopLimitPrice) { (result, error) in
-            response(result, error)
+        OrderHandler.shared.placeNewOrderWith(type: type, asset: asset, currency: currency, side: side, amount: amount, price: price, stopPrice: (side == .SELL) ? sellStopPrice : buyStopPrice, stopLimitPrice: (side == .SELL) ? sellStopLimitPrice : buyStopLimitPrice) { [weak self] (result, error) in
+            completion(result, error)
+            
+            if let orderID = result?.orders?[0].orderId {
+                if sellStopPrice != nil, sellStopLimitPrice != nil, targets != nil {
+                    
+                    OrderHandler.shared.amountsFor(targets: targets!, total: amount, symbol: self?.symbol!.symbol! ?? "") { (amountsDic, error) in
+                        
+                        if amountsDic != nil, error == nil {
+                            var queuedOrders = [QueuedOrderObject]()
+                            
+                            for target in targets! {
+                                let queuedOrder = QueuedOrderObject(asset: asset, currency: currency, price: target, stopPrice: sellStopPrice!, stopLimitPrice: sellStopLimitPrice!, amount: amountsDic![target]!, orderId: "\(orderID)")
+                                queuedOrders.append(queuedOrder)
+                            }
+                            
+                            OrderHandler.shared.insertQueuedOrders(array: queuedOrders)
+                        }
+                    }
+                }
+            }
+            
             AccountHandler.shared.getCurrentUserCredit { (account, error) in
-                self.account = account
+                self?.account = account
             }
         }
     }
+    
 }
 
 extension Array {

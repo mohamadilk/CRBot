@@ -32,8 +32,8 @@ class OrderSummaryObject: BaseApiModel {
 class AccountOrderDetailObject: BaseApiModel {
     
     var symbol: String?
-    var id: Int64?
-    var orderId: Int64?
+    var id: Int?
+    var orderId: Int?
     var orderListId: Int?
     var price: String?
     var qty: String?

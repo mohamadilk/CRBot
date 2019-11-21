@@ -20,6 +20,7 @@ class CoreDataBasicEntity {
     var stopLimitPrice: String
     var amount: String
     var orderId: String
+    var uniqueId: String
     
     // MARK: - Init
     
@@ -31,6 +32,7 @@ class CoreDataBasicEntity {
         self.stopLimitPrice = object.stopLimitPrice!
         self.amount = object.amount!
         self.orderId = object.orderId!
+        self.uniqueId = object.uniqueId!
     }
 }
 

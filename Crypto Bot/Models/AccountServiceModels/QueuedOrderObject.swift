@@ -17,10 +17,11 @@ class QueuedOrderObject {
     var stopLimitPrice: String
     var amount: String
     var orderId: String
+    var uniqueId: String
     var type = OrderTypes.OCO
     let side = OrderSide.SELL
     
-    init(asset: String, currency: String, price: String, stopPrice: String, stopLimitPrice: String, amount: String, orderId: String) {
+    init(asset: String, currency: String, price: String, stopPrice: String, stopLimitPrice: String, amount: String, orderId: String, uniqueId: String) {
         self.asset = asset
         self.currency = currency
         self.price = price
@@ -28,5 +29,6 @@ class QueuedOrderObject {
         self.stopLimitPrice = stopLimitPrice
         self.amount = amount
         self.orderId = orderId
+        self.uniqueId = uniqueId
     }
 }

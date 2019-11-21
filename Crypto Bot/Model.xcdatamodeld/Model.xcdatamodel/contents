@@ -8,8 +8,9 @@
         <attribute name="price" optional="YES" attributeType="String"/>
         <attribute name="stopLimitPrice" optional="YES" attributeType="String"/>
         <attribute name="stopPrice" optional="YES" attributeType="String"/>
+        <attribute name="uniqueId" optional="YES" attributeType="String"/>
     </entity>
     <elements>
-        <element name="BasicOrderObject" positionX="-63" positionY="-18" width="128" height="148"/>
+        <element name="BasicOrderObject" positionX="-63" positionY="-18" width="128" height="163"/>
     </elements>
 </model>

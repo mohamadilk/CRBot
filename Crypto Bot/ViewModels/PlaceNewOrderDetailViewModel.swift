@@ -516,9 +516,9 @@ extension PlaceNewOrderDetailViewModel { //Place Order
                         
                         if amountsDic != nil, error == nil {
                             var queuedOrders = [QueuedOrderObject]()
-                            
-                            for target in targets! {
-                                let queuedOrder = QueuedOrderObject(asset: asset, currency: currency, price: target, stopPrice: sellStopPrice!, stopLimitPrice: sellStopLimitPrice!, amount: amountsDic![target]!, orderId: "\(orderID)")
+                            for index in 0..<targets!.count {
+                                let target = targets![index]
+                                let queuedOrder = QueuedOrderObject(asset: asset, currency: currency, price: target, stopPrice: sellStopPrice!, stopLimitPrice: sellStopLimitPrice!, amount: amountsDic![target]!, orderId: "\(orderID)", uniqueId: "\(orderID)_\(index)")
                                 queuedOrders.append(queuedOrder)
                             }
                             

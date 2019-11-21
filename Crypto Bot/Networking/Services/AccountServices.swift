@@ -349,7 +349,6 @@ class AccountServices: BaseApiServices {
                       Keys.parameterKeys.stopPrice: stopPrice,
                       Keys.parameterKeys.stopLimitPrice: stopLimitPrice,
                       Keys.parameterKeys.timestamp: "\(Int(round(timestamp)))".components(separatedBy: ".").first!] as [String : Any]
-        //        "accountType": "MAIN",
         
         print(Int(round(timestamp)))
         if let listClientOrderId = listClientOrderId { params[Keys.parameterKeys.listClientOrderId] = listClientOrderId }
@@ -379,7 +378,7 @@ class AccountServices: BaseApiServices {
         }
     }
     
-    func cancelOCOOrder(symbol: String, orderListId: Int? = nil, listClientOrderId: String? = nil, newClientOrderId: String? = nil, recvWindow: Int? = nil, timestamp: TimeInterval, completion: @escaping (_ success: Bool?, _ error: ApiError?) -> Swift.Void) {
+    func cancelOCOOrder(symbol: String, orderListId: Int? = nil, listClientOrderId: String? = nil, newClientOrderId: String? = nil, recvWindow: Int? = nil, timestamp: TimeInterval, completion: @escaping (_ result: OrderResponseObject?, _ error: ApiError?) -> Swift.Void) {
         
         var params = [Keys.parameterKeys.symbol: symbol,
                       Keys.parameterKeys.timestamp: "\(timestamp)".components(separatedBy: ".").first!] as [String : Any]
@@ -392,11 +391,19 @@ class AccountServices: BaseApiServices {
         self.request(endpoint: Keys.endPoints.cancelOco, type: .mappableJsonType, method: .delete, body: nil, parameters: params, embedApiKey: true, embedSignature: true, headers: nil) { (result: Any?, error: ApiError?) in
             
             if error != nil {
-                completion(false, error)
+                completion(nil, error)
+                return
+            }
+
+            guard let value = result as? mappableJson else {
+                let error = ApiError.createErrorWithErrorType(.malformed, description: "Malformed Response Data")
+                completion(nil, error)
                 return
             }
             
-            completion(true, nil)
+            let orderModel = OrderResponseObject(JSON: value.dictionary as [String : Any])
+            completion(orderModel, nil)
+
         }
     }
     

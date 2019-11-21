@@ -98,14 +98,6 @@ class OrderHandler: NSObject {
                     completion(nil, error?.description)
                     return
                 }
-                
-                if side == .SELL {
-                    if result != nil {
-                        print("----------> order added to cashe handler")
-                        OrdersCasheHandler.shared.newSellOrderPlaced(response: result!)
-                    }
-                }
-                
                 completion(result, nil)
             }
             
@@ -158,22 +150,20 @@ class OrderHandler: NSObject {
                 return
             }
             
-            print("----------> order added to cashe handler")
-            OrdersCasheHandler.shared.newSellOrderPlaced(response: result!)
-            
             completion(result, nil)
         }
     }
     
-    func cancelOCOOrder(symbol: String, listClientOrderId: String, completion: @escaping(_ success: Bool?, _ error: String?) -> Swift.Void) {
+    func cancelOCOOrder(symbol: String, orderListId: Int? = nil, listClientOrderId: String? = nil, completion: @escaping(_ result: OrderResponseObject?, _ error: String?) -> Swift.Void) {
         let timeStamp = NSDate().timeIntervalSince1970 * 1000
-        self.accountServices.cancelOCOOrder(symbol: symbol, listClientOrderId: listClientOrderId, timestamp: timeStamp) { (success, error) in
+        
+        self.accountServices.cancelOCOOrder(symbol: symbol, orderListId: orderListId, listClientOrderId: listClientOrderId, timestamp: timeStamp) { (result, error) in
             guard error == nil else {
-                completion(false, error?.localizedDescription)
+                completion(nil, error?.localizedDescription)
                 return
             }
             
-            completion(success, nil)
+            completion(result, nil)
         }
     }
     
@@ -284,6 +274,7 @@ class OrderHandler: NSObject {
                     _object.stopLimitPrice = order.stopLimitPrice
                     _object.amount = order.amount
                     _object.orderId = order.orderId
+                    _object.uniqueId = order.uniqueId
                     try! context.insert(_object)
                     save()
                 }
@@ -295,11 +286,69 @@ class OrderHandler: NSObject {
         
     }
     
+    public func sellOrderFullfieled(report: ExecutionReport) {
+        if report.orderType != .LIMIT_MAKER { return }
+        AccountHandler.shared.getUserActiveOrders { [weak self] (activeOrders, error) in
+            if let sellOrders = activeOrders?.filter({ $0.side == .SELL && $0.type == .LIMIT_MAKER && $0.symbol == report.symbol }), sellOrders.count > 0 {
+                for order in sellOrders {
+                    if order.stopPrice?.doubleValue ?? 0 < (report.orderPrice?.doubleValue ?? 0) * 95 / 100 {
+                        self?.cancelOCOOrder(symbol: order.symbol ?? "", orderListId: order.orderListId ?? 0) { (result, error) in
+                            if result != nil, error == nil {
+                                if let stopLossOrder = result?.orderReports?.filter({ $0.type == OrderTypes.STOP_LOSS_LIMIT }), stopLossOrder.count > 0 {
+                                    let stopPrice = stopLossOrder[0].stopPrice
+                                    let stopLimit = stopLossOrder[0].price
+                                    self?.placeNewUpdatedSellOrder(with: report, price: order.price ?? "0" , stopPrice: stopPrice ?? "0", stopLimitPrice: stopLimit ?? "0", newStopPrice: report.orderPrice ?? "0")
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+    
+    private func placeNewUpdatedSellOrder(with order: ExecutionReport, price: String, stopPrice: String, stopLimitPrice: String, newStopPrice: String) {
+        let diff = Double(stopPrice.doubleValue) - Double(stopLimitPrice.doubleValue)
+        var finalStopPrice = Double(newStopPrice.doubleValue * 95.0 / 100)
+        var newStopLimitPrice = Double(finalStopPrice - diff)
+        
+        ExchangeHandler.shared.getSymbol(symbol: order.symbol ?? "") { (symbol, error) in
+            if error != nil {
+                AlertUtility.showAlert(title: "Failed to get symbol information")
+                return
+            }
+            
+            if let pricefilter = symbol!.filters?.filter({ $0.filterType == .PRICE_FILTER }).first {
+                if let tickSize = pricefilter.tickSize {
+                    
+                    finalStopPrice = round(finalStopPrice * (Double(1) / tickSize.doubleValue)) / (Double(1) / tickSize.doubleValue)
+                    newStopLimitPrice = round(newStopLimitPrice * (Double(1) / tickSize.doubleValue)) / (Double(1) / tickSize.doubleValue)
+                    
+                    NumbersUtilities.shared.formatted(price: finalStopPrice.toString(), for: symbol?.symbol ?? "") { (stopPrice, error) in
+                        guard error == nil else {
+                            return
+                        }
+                        NumbersUtilities.shared.formatted(price: newStopLimitPrice.toString(), for: symbol?.symbol ?? "") { (limitPrice, error) in
+                            guard error == nil else {
+                                return
+                            }
+                            self.placeNewOrderWith(type: .OCO, asset: symbol?.baseAsset ?? "", currency: symbol?.quoteAsset ?? "", side: .SELL, amount: order.orderQuantity ?? "0", price: price, stopPrice: stopPrice, stopLimitPrice: limitPrice) { (result, error) in
+                                 if error != nil {
+                                    AlertUtility.showAlert(title: order.symbol ?? "ReSell Failed!", message: error)
+                                 }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+    
     func loadAllQueuedOrders() -> [QueuedOrderObject]? {
         if let orders = try? db.fetch(FetchRequest<BasicOrderObject>()).map(CoreDataBasicEntity.init) {
             var queuedOrders = [QueuedOrderObject]()
             for order in orders {
-                let queuedOrder = QueuedOrderObject(asset: order.asset, currency: order.currency, price: order.price, stopPrice: order.stopPrice, stopLimitPrice: order.stopLimitPrice, amount: order.amount, orderId: order.orderId)
+                let queuedOrder = QueuedOrderObject(asset: order.asset, currency: order.currency, price: order.price, stopPrice: order.stopPrice, stopLimitPrice: order.stopLimitPrice, amount: order.amount, orderId: order.orderId, uniqueId: "\(order.uniqueId)")
                 queuedOrders.append(queuedOrder)
             }
             return queuedOrders
@@ -342,7 +391,7 @@ class OrderHandler: NSObject {
             if amountsDic != nil, error == nil {
                 var queuedOrders = [QueuedOrderObject]()
                 for target in targets {
-                    let queuedOrder = QueuedOrderObject(asset: order.asset, currency: order.currency, price: target, stopPrice: order.stopPrice, stopLimitPrice: order.stopLimitPrice, amount: amountsDic![target]!, orderId: order.orderId)
+                    let queuedOrder = QueuedOrderObject(asset: order.asset, currency: order.currency, price: target, stopPrice: order.stopPrice, stopLimitPrice: order.stopLimitPrice, amount: amountsDic![target]!, orderId: order.orderId, uniqueId: "\(order.uniqueId)")
                     queuedOrders.append(queuedOrder)
                 }
                 OrderHandler.shared.insertQueuedOrders(array: queuedOrders)
@@ -352,7 +401,7 @@ class OrderHandler: NSObject {
     
     private func delete(object: QueuedOrderObject) -> Bool {
         try! db.operation({ (context, save) -> Void in
-            guard let obj = try! context.request(BasicOrderObject.self).filtered(with: NSPredicate(format: "asset = %@ AND currency = %@", object.asset, object.currency)).fetch().first else { return }
+            guard let obj = try! context.request(BasicOrderObject.self).filtered(with: NSPredicate(format: "uniqueId = %@ AND asset = %@ AND currency = %@",object.uniqueId, object.asset, object.currency, object.price)).fetch().first else { return }
             _ = try? context.remove(obj)
             save()
             

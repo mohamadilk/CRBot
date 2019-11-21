@@ -21,6 +21,11 @@ class ActiveOrdersViewModel: NSObject {
     init(viewController: ActiveOrdersViewController) {
         super.init()
         self.viewController = viewController
+        NotificationCenter.default.addObserver(self, selector: #selector(updateUserOrders), name: NSNotification.Name(rawValue: "ordersUpdated"), object: nil)
+    }
+    
+    @objc func updateUserOrders() {
+        getUserActiveOrders()
     }
     
     func getUserActiveOrders() {
@@ -29,12 +34,16 @@ class ActiveOrdersViewModel: NSObject {
                 guard error == nil, activeOrders != nil else { return }
                 self?.ordersArray = activeOrders!
                 self?.viewController.reloadData()
+                self?.updateQueuedOrders()
             }
         }
     }
     
     func getUserQueuedOrders() {
         queuedOrdersArray = OrderHandler.shared.loadAllQueuedOrders() ?? []
+        queuedOrdersArray.sort { (first, secont) -> Bool in
+            return first.orderId.doubleValue < secont.orderId.doubleValue
+        }
     }
     
     func deleteQueuedOrder(model: QueuedOrderObject) {
@@ -42,5 +51,25 @@ class ActiveOrdersViewModel: NSObject {
             getUserQueuedOrders()
             viewController.reloadData()
         }
+    }
+    
+    func updateQueuedOrders() {
+        var orderIds = [String]()
+        for activeOrder in self.ordersArray {
+            if let _id = activeOrder.orderId {
+                orderIds.append("\(_id)")
+            }
+        }
+        
+        if let queuedOrders = OrderHandler.shared.loadAllQueuedOrders() {
+            for order in queuedOrders {
+                if !orderIds.contains(order.orderId) {
+                    deleteQueuedOrder(model: order)
+                }
+            }
+        }
+        
+        getUserQueuedOrders()
+        viewController.reloadData()
     }
 }

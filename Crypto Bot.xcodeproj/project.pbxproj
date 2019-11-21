@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		A03AC515F51118D9400BD141 /* Pods_Crypto_Bot.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0385FFA55B7CCAD1D4B4EEB5 /* Pods_Crypto_Bot.framework */; };
-		CB10892C23585FD500C96AB6 /* OrdersCasheHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB10892B23585FD500C96AB6 /* OrdersCasheHandler.swift */; };
 		CB143EFA236ADE6B00A4E283 /* MarketDataHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB143EF9236ADE6B00A4E283 /* MarketDataHandler.swift */; };
 		CB23D500234E13A80053E6DE /* outboundAccountInfoObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB23D4FF234E13A80053E6DE /* outboundAccountInfoObject.swift */; };
 		CB23D504234E164C0053E6DE /* executionReportObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB23D503234E164C0053E6DE /* executionReportObject.swift */; };
@@ -94,7 +93,6 @@
 		0385FFA55B7CCAD1D4B4EEB5 /* Pods_Crypto_Bot.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Crypto_Bot.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		77699EA74655B965B5F61FCE /* Pods-Crypto Bot.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Crypto Bot.release.xcconfig"; path = "Target Support Files/Pods-Crypto Bot/Pods-Crypto Bot.release.xcconfig"; sourceTree = "<group>"; };
 		A65E444D5554E7E149D5C999 /* Pods-Crypto Bot.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Crypto Bot.debug.xcconfig"; path = "Target Support Files/Pods-Crypto Bot/Pods-Crypto Bot.debug.xcconfig"; sourceTree = "<group>"; };
-		CB10892B23585FD500C96AB6 /* OrdersCasheHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrdersCasheHandler.swift; sourceTree = "<group>"; };
 		CB143EF9236ADE6B00A4E283 /* MarketDataHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarketDataHandler.swift; sourceTree = "<group>"; };
 		CB23D4FF234E13A80053E6DE /* outboundAccountInfoObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = outboundAccountInfoObject.swift; sourceTree = "<group>"; };
 		CB23D503234E164C0053E6DE /* executionReportObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = executionReportObject.swift; sourceTree = "<group>"; };
@@ -215,7 +213,6 @@
 				D192FE082351D6520090A194 /* UserStreamHandler.swift */,
 				D192FE0A2351DCF10090A194 /* systemBRAIN.swift */,
 				D192FE0C23520A630090A194 /* OrderHandler.swift */,
-				CB10892B23585FD500C96AB6 /* OrdersCasheHandler.swift */,
 				CB143EF9236ADE6B00A4E283 /* MarketDataHandler.swift */,
 				D13B48E12381364B00FDBA3B /* DBHandler.swift */,
 			);
@@ -653,7 +650,6 @@
 				D172A794236854C9008701BA /* PlaceNewOrderDetailViewModel.swift in Sources */,
 				CB25719D2345E11D007DBD6F /* ApiError.swift in Sources */,
 				CB711F54234B3A01008F7A33 /* GeneralServices.swift in Sources */,
-				CB10892C23585FD500C96AB6 /* OrdersCasheHandler.swift in Sources */,
 				CBC1BCED234C9B40009F6E2C /* SymbolOrderBookObject.swift in Sources */,
 				CB2571842345DFB9007DBD6F /* SceneDelegate.swift in Sources */,
 				D1C6354C2368AEE900D9745B /* AMDots.swift in Sources */,

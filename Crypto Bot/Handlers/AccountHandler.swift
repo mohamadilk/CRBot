@@ -39,9 +39,9 @@ class AccountHandler {
         }
     }
     
-    func cancelOCOOrder(model: OrderDetailObject, completion: @escaping(_ success: Bool?, _ error: ApiError?) -> Swift.Void) {
-        AccountServices.shared.cancelOCOOrder(symbol: "\(model.symbol ?? "")", orderListId: model.orderListId, listClientOrderId: model.clientOrderId, timestamp: NSDate().timeIntervalSince1970 * 1000) { (success, error) in
-            completion(success, error)
+    func cancelOCOOrder(model: OrderDetailObject, completion: @escaping(_ result: OrderResponseObject?, _ error: ApiError?) -> Swift.Void) {
+        AccountServices.shared.cancelOCOOrder(symbol: "\(model.symbol ?? "")", orderListId: model.orderListId, listClientOrderId: model.clientOrderId, timestamp: NSDate().timeIntervalSince1970 * 1000) { (result, error) in
+            completion(result, error)
         }
     }
 }

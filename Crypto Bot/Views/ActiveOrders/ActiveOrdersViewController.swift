@@ -7,8 +7,9 @@
 //
 
 import UIKit
+import NVActivityIndicatorView
 
-class ActiveOrdersViewController: UIViewController {
+class ActiveOrdersViewController: UIViewController, NVActivityIndicatorViewable {
 
     var viewModel: ActiveOrdersViewModel!
     
@@ -29,6 +30,7 @@ class ActiveOrdersViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        startAnimating()
         viewModel.getUserQueuedOrders()
         viewModel.getUserActiveOrders()
         
@@ -40,6 +42,7 @@ class ActiveOrdersViewController: UIViewController {
     }
     
     func checkForEmptyState() {
+        stopAnimating()
         if segmentedControl.selectedSegmentIndex == 0 {
             if let orders = viewModel?.ordersArray, orders.count > 0 {
                 emptyStateLabel.isHidden = true

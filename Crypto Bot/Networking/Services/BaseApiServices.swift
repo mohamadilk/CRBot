@@ -11,6 +11,20 @@ import Foundation
 import ObjectMapper
 import Arcane
 
+enum FilterFailures: String {
+    case PRICE_FILTER = "Filter failure: PRICE_FILTER"
+    case PERCENT_PRICE = "Filter failure: PERCENT_PRICE"
+    case LOT_SIZE = "Filter failure: LOT_SIZE"
+    case MIN_NOTIONAL = "Filter failure: MIN_NOTIONAL"
+    case ICEBERG_PARTS = "Filter failure: ICEBERG_PARTS"
+    case MARKET_LOT_SIZE = "Filter failure: MARKET_LOT_SIZE"
+    case MAX_NUM_ORDERS = "Filter failure: MAX_NUM_ORDERS"
+    case MAX_ALGO_ORDERS = "Filter failure: MAX_ALGO_ORDERS"
+    case MAX_NUM_ICEBERG_ORDERS = "Filter failure: MAX_NUM_ICEBERG_ORDERS"
+    case EXCHANGE_MAX_NUM_ORDERS = "Filter failure: EXCHANGE_MAX_NUM_ORDERS"
+    case EXCHANGE_MAX_ALGO_ORDERS = "Filter failure: EXCHANGE_MAX_ALGO_ORDERS"
+}
+
 public class BaseApiServices: NSObject
 {
     
@@ -84,9 +98,8 @@ public class BaseApiServices: NSObject
                 case 200...299:
                     break
                 case 400:
-                    apiResponse.result.ifSuccess {
-                        let result = apiResponse.result.value as! [String: Any]
-                        error = ApiError.createErrorWithErrorType(.unknown, description: result["msg"] as? String)
+                    if let result = apiResponse.result.value as? [String: Any] {
+                        error = ApiError.createErrorWithErrorType(.unknown, description: self.errorDescriptionMessage(msg: result["msg"] as? String ?? "Something went wrong! please try again"))
                         error?.statusCode = result["code"] as? Int
                     }
                     break
@@ -153,6 +166,47 @@ public class BaseApiServices: NSObject
         }
         
         return finalUrl
+    }
+    
+    private func errorDescriptionMessage(msg: String) -> String {
+        switch msg {
+        case FilterFailures.PRICE_FILTER.rawValue:
+            return "Price is too high, too low, and/or not following the tick size rule for the symbol."
+            
+        case FilterFailures.PERCENT_PRICE.rawValue:
+            return "Price is too high or too low from the average weighted price over the last minutes."
+            
+        case FilterFailures.LOT_SIZE.rawValue:
+            return "Quantity is too high, too low, and/or not following the step size rule for the symbol."
+            
+        case FilterFailures.ICEBERG_PARTS.rawValue:
+            return "ICEBERG order would break into too many parts; icebergQty is too small."
+            
+        case FilterFailures.MIN_NOTIONAL.rawValue:
+            return "Price * Quantity is too low to be a valid order for the symbol."
+            
+        case FilterFailures.MARKET_LOT_SIZE.rawValue:
+            return "MARKET order's quantity is too high, too low, and/or not following the step size rule for the symbol."
+            
+        case FilterFailures.MAX_NUM_ORDERS.rawValue:
+            return "Account has too many open orders on the symbol."
+            
+        case FilterFailures.MAX_ALGO_ORDERS.rawValue:
+            return "Account has too many open stop loss and/or take profit orders on the symbol."
+            
+        case FilterFailures.MAX_NUM_ICEBERG_ORDERS.rawValue:
+            return "Account has too many open iceberg orders on the symbol."
+            
+        case FilterFailures.EXCHANGE_MAX_NUM_ORDERS.rawValue:
+            return "Account has too many open orders on the exchange."
+            
+        case FilterFailures.EXCHANGE_MAX_ALGO_ORDERS.rawValue:
+            return "Account has too many open stop loss and/or take profit orders on the exchange."
+            
+        default:
+            break
+        }
+        return msg
     }
 }
 

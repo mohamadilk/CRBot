@@ -75,6 +75,7 @@ class PlaceNewOrderDetailViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         loadingView.start()
+        viewModel.updateUserBalance { _ in }
         viewModel.initialUpdatePrices(symbol: symbol)
     }
     
@@ -169,20 +170,18 @@ class PlaceNewOrderDetailViewController: UIViewController {
             }
         }
         
-        self.viewModel.setTargetsAndPlaceNewOrder(targets: targetsArray, type: orderTpye, asset: symbol.baseAsset!, currency: symbol.quoteAsset!, side: orderSide, amount: amount, price: price, buyStopPrice: buyStopPrice, buyStopLimitPrice: buyStopLimitPrice, sellStopPrice: sellStopPrice, sellStopLimitPrice: sellStopLimitPrice) { (response, error) in
+        self.viewModel.setTargetsAndPlaceNewOrder(targets: targetsArray, type: orderTpye, asset: symbol.baseAsset!, currency: symbol.quoteAsset!, side: orderSide, amount: amount, price: price, buyStopPrice: buyStopPrice, buyStopLimitPrice: buyStopLimitPrice, sellStopPrice: sellStopPrice, sellStopLimitPrice: sellStopLimitPrice) { [weak self] (response, error) in
             if error != nil {
                 AlertUtility.showAlert(title: error!)
                 return
             }
             
-            AlertUtility.showAlert(title: String(format: "Successfully placed %@ order", self.orderTpye.rawValue))
-            print(response as Any)
-        }
-        
-        if self.orderSide == .BUY {
-            
-        } else {
-            
+            let alert = UIAlertController(title: String(format: "Successfully placed %@ order", self?.orderTpye.rawValue ?? ""), message: nil, preferredStyle: .alert)
+            let action = UIAlertAction(title: "Ok", style: .default) { _ in
+                self?.tabBarController?.selectedIndex = 0
+            }
+            alert.addAction(action)
+            self?.present(alert, animated: true, completion: nil)
         }
     }
     

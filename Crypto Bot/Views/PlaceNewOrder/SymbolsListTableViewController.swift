@@ -7,13 +7,14 @@
 //
 
 import UIKit
+import NVActivityIndicatorView
 
 protocol SymbolsListTableViewControllerDelegate {
     
     func didSelect(symbol: SymbolObject)
 }
 
-class SymbolsListTableViewController: UITableViewController {
+class SymbolsListTableViewController: UITableViewController, NVActivityIndicatorViewable {
 
     var viewModel: SymbolsListViewModel!
     var datasource = [SymbolObject]()
@@ -31,8 +32,10 @@ class SymbolsListTableViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         tableView.tableFooterView = UIView()
+        startAnimating()
         viewModel = SymbolsListViewModel(viewController: self)
         viewModel.getSymbolsArray { (symbolsArray, error) in
+            self.stopAnimating()
             guard error == nil, symbolsArray != nil else {
                 AlertUtility.showAlert(title: "Something went wrong, pull down to retry.")
                 return

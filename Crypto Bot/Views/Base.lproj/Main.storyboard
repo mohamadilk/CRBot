@@ -577,11 +577,11 @@
             </objects>
             <point key="canvasLocation" x="2799" y="453"/>
         </scene>
-        <!--Active Orders-->
+        <!--Orders-->
         <scene sceneID="k2b-rx-46Z">
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="ryI-o6-1ey" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Active Orders" id="Lda-jb-f6N"/>
+                    <tabBarItem key="tabBarItem" title="Orders" id="Lda-jb-f6N"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="5DK-SW-fBb">
                         <rect key="frame" x="0.0" y="44" width="414" height="44"/>

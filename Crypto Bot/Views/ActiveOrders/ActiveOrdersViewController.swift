@@ -101,25 +101,35 @@ extension ActiveOrdersViewController: UITableViewDataSource {
 
 extension ActiveOrdersViewController :ActiveOrderTableViewCellDelegate {
     func didCancelOrder(model: OrderDetailObject) {
-        if model.orderListId ?? 0 > 0 {
-            AccountHandler.shared.cancelOCOOrder(model: model) { [weak self] (success, error) in
-                guard error == nil else {
-                    AlertUtility.showAlert(title: error?.localizedDescription ?? "Failed to cancel order, please try again.")
-                    return
+        let alert = UIAlertController(title: "Are you sure you want to cancel this order?", message: nil, preferredStyle: .alert)
+        let delete = UIAlertAction(title: "Yes", style: .destructive) { _ in
+            if model.orderListId ?? 0 > 0 {
+                AccountHandler.shared.cancelOCOOrder(model: model) { [weak self] (success, error) in
+                    guard error == nil else {
+                        AlertUtility.showAlert(title: error?.localizedDescription ?? "Failed to cancel order, please try again.")
+                        return
+                    }
+                    self?.viewModel.getUserActiveOrders()
+                    self?.viewModel.getUserQueuedOrders()
                 }
-                self?.viewModel.getUserActiveOrders()
-                self?.viewModel.getUserQueuedOrders()
-            }
-        } else {
-            AccountHandler.shared.cancelOrder(model: model) { [weak self] (order, error) in
-                guard error == nil else {
-                    AlertUtility.showAlert(title: error?.localizedDescription ?? "Failed to cancel order, please try again.")
-                    return
+            } else {
+                AccountHandler.shared.cancelOrder(model: model) { [weak self] (order, error) in
+                    guard error == nil else {
+                        AlertUtility.showAlert(title: error?.localizedDescription ?? "Failed to cancel order, please try again.")
+                        return
+                    }
+                    self?.viewModel.getUserActiveOrders()
+                    self?.viewModel.getUserQueuedOrders()
                 }
-                self?.viewModel.getUserActiveOrders()
-                self?.viewModel.getUserQueuedOrders()
             }
         }
+       let cancel = UIAlertAction(title: "No", style: .cancel, handler: nil)
+       
+       alert.addAction(delete)
+       alert.addAction(cancel)
+       
+       present(alert, animated: true, completion: nil)
+        
     }
 }
 

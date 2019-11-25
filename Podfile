@@ -14,4 +14,6 @@ target 'Crypto Bot' do
     pod 'UICircularProgressRing'
     pod 'SugarRecord/CoreData'
     pod 'NVActivityIndicatorView'
+    pod 'PieCharts'
+    pod 'Kingfisher', '~> 5.0'
 end

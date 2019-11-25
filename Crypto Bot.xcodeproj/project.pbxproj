@@ -64,6 +64,8 @@
 		CBC1BCFE234DC441009F6E2C /* OrderObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBC1BCFD234DC441009F6E2C /* OrderObject.swift */; };
 		CBC1BD00234DDC6A009F6E2C /* AccountInformation.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBC1BCFF234DDC6A009F6E2C /* AccountInformation.swift */; };
 		CBC1BD02234DDD2A009F6E2C /* BalanceObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBC1BD01234DDD29009F6E2C /* BalanceObject.swift */; };
+		D110D10C238A92790080B4CF /* PortfolioViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D110D10B238A92790080B4CF /* PortfolioViewController.swift */; };
+		D110D10E238A92B20080B4CF /* PortfolioViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D110D10D238A92B20080B4CF /* PortfolioViewModel.swift */; };
 		D1138F07236B46D600766FD1 /* NumbersUtilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1138F06236B46D600766FD1 /* NumbersUtilities.swift */; };
 		D13B48DE238008E000FDBA3B /* QueuedOrderObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = D13B48DD238008E000FDBA3B /* QueuedOrderObject.swift */; };
 		D13B48E0238037BC00FDBA3B /* QueuedOrderTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D13B48DF238037BC00FDBA3B /* QueuedOrderTableViewCell.swift */; };
@@ -82,6 +84,9 @@
 		D1A22595237B372F0094BB2C /* ActiveOrdersViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1A22594237B372F0094BB2C /* ActiveOrdersViewController.swift */; };
 		D1A22597237B37710094BB2C /* ActiveOrdersViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1A22596237B37710094BB2C /* ActiveOrdersViewModel.swift */; };
 		D1A22599237B52200094BB2C /* ActiveOrderTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1A22598237B52200094BB2C /* ActiveOrderTableViewCell.swift */; };
+		D1C152DC238B069E00830C24 /* Color+Hex.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1C152DA238B069E00830C24 /* Color+Hex.swift */; };
+		D1C152DD238B069E00830C24 /* CryptoIconURLBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1C152DB238B069E00830C24 /* CryptoIconURLBuilder.swift */; };
+		D1C152DF238C662900830C24 /* PupmHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1C152DE238C662900830C24 /* PupmHandler.swift */; };
 		D1C635482368737900D9745B /* ColorUtility.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1C635472368737900D9745B /* ColorUtility.swift */; };
 		D1C6354A23689A7400D9745B /* StepperView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1C6354923689A7400D9745B /* StepperView.swift */; };
 		D1C6354C2368AEE900D9745B /* AMDots.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1C6354B2368AEE900D9745B /* AMDots.swift */; };
@@ -151,6 +156,8 @@
 		CBC1BCFD234DC441009F6E2C /* OrderObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderObject.swift; sourceTree = "<group>"; };
 		CBC1BCFF234DDC6A009F6E2C /* AccountInformation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountInformation.swift; sourceTree = "<group>"; };
 		CBC1BD01234DDD29009F6E2C /* BalanceObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BalanceObject.swift; sourceTree = "<group>"; };
+		D110D10B238A92790080B4CF /* PortfolioViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PortfolioViewController.swift; sourceTree = "<group>"; };
+		D110D10D238A92B20080B4CF /* PortfolioViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PortfolioViewModel.swift; sourceTree = "<group>"; };
 		D1138F06236B46D600766FD1 /* NumbersUtilities.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NumbersUtilities.swift; sourceTree = "<group>"; };
 		D13B48DD238008E000FDBA3B /* QueuedOrderObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QueuedOrderObject.swift; sourceTree = "<group>"; };
 		D13B48DF238037BC00FDBA3B /* QueuedOrderTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QueuedOrderTableViewCell.swift; sourceTree = "<group>"; };
@@ -169,6 +176,9 @@
 		D1A22594237B372F0094BB2C /* ActiveOrdersViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActiveOrdersViewController.swift; sourceTree = "<group>"; };
 		D1A22596237B37710094BB2C /* ActiveOrdersViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActiveOrdersViewModel.swift; sourceTree = "<group>"; };
 		D1A22598237B52200094BB2C /* ActiveOrderTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActiveOrderTableViewCell.swift; sourceTree = "<group>"; };
+		D1C152DA238B069E00830C24 /* Color+Hex.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Color+Hex.swift"; sourceTree = "<group>"; };
+		D1C152DB238B069E00830C24 /* CryptoIconURLBuilder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CryptoIconURLBuilder.swift; sourceTree = "<group>"; };
+		D1C152DE238C662900830C24 /* PupmHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PupmHandler.swift; sourceTree = "<group>"; };
 		D1C635472368737900D9745B /* ColorUtility.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorUtility.swift; sourceTree = "<group>"; };
 		D1C6354923689A7400D9745B /* StepperView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepperView.swift; sourceTree = "<group>"; };
 		D1C6354B2368AEE900D9745B /* AMDots.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AMDots.swift; sourceTree = "<group>"; };
@@ -215,6 +225,7 @@
 				D192FE0C23520A630090A194 /* OrderHandler.swift */,
 				CB143EF9236ADE6B00A4E283 /* MarketDataHandler.swift */,
 				D13B48E12381364B00FDBA3B /* DBHandler.swift */,
+				D1C152DE238C662900830C24 /* PupmHandler.swift */,
 			);
 			path = Handlers;
 			sourceTree = "<group>";
@@ -222,6 +233,7 @@
 		CB23D508234F07270053E6DE /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				D110D10A238A92530080B4CF /* Portfolio */,
 				CB2571872345DFB9007DBD6F /* Main.storyboard */,
 				D1A22593237B36EC0094BB2C /* ActiveOrders */,
 				CB8AACD0234F73EE0096DD07 /* CustomViews */,
@@ -236,6 +248,7 @@
 				D172A793236854C9008701BA /* PlaceNewOrderDetailViewModel.swift */,
 				CBBE8F61236AB8E0004279D6 /* SymbolsListViewModel.swift */,
 				D1A22596237B37710094BB2C /* ActiveOrdersViewModel.swift */,
+				D110D10D238A92B20080B4CF /* PortfolioViewModel.swift */,
 			);
 			path = ViewModels;
 			sourceTree = "<group>";
@@ -272,6 +285,7 @@
 		CB2571802345DFB9007DBD6F /* Crypto Bot */ = {
 			isa = PBXGroup;
 			children = (
+				D1C152D8238B066B00830C24 /* ThirdParties */,
 				CB23D509234F07310053E6DE /* ViewModels */,
 				CB23D508234F07270053E6DE /* Views */,
 				CB23D505234F03E20053E6DE /* Handlers */,
@@ -431,6 +445,14 @@
 			path = AccountServiceModels;
 			sourceTree = "<group>";
 		};
+		D110D10A238A92530080B4CF /* Portfolio */ = {
+			isa = PBXGroup;
+			children = (
+				D110D10B238A92790080B4CF /* PortfolioViewController.swift */,
+			);
+			path = Portfolio;
+			sourceTree = "<group>";
+		};
 		D158D4082370BFAA00AAEE04 /* CellModel */ = {
 			isa = PBXGroup;
 			children = (
@@ -460,6 +482,23 @@
 				D19A0089236C92F40036EB6B /* StepsHandler.swift */,
 			);
 			path = Utilities;
+			sourceTree = "<group>";
+		};
+		D1C152D8238B066B00830C24 /* ThirdParties */ = {
+			isa = PBXGroup;
+			children = (
+				D1C152D9238B067600830C24 /* CryptoURLBuilder */,
+			);
+			path = ThirdParties;
+			sourceTree = "<group>";
+		};
+		D1C152D9238B067600830C24 /* CryptoURLBuilder */ = {
+			isa = PBXGroup;
+			children = (
+				D1C152DA238B069E00830C24 /* Color+Hex.swift */,
+				D1C152DB238B069E00830C24 /* CryptoIconURLBuilder.swift */,
+			);
+			path = CryptoURLBuilder;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -601,8 +640,10 @@
 				D1A22597237B37710094BB2C /* ActiveOrdersViewModel.swift in Sources */,
 				D1138F07236B46D600766FD1 /* NumbersUtilities.swift in Sources */,
 				CB8AACD2234F741F0096DD07 /* ToolbarPickerView.swift in Sources */,
+				D1C152DC238B069E00830C24 /* Color+Hex.swift in Sources */,
 				D1C910B5238168E700F374AE /* Model.xcdatamodeld in Sources */,
 				CBBE8F62236AB8E0004279D6 /* SymbolsListViewModel.swift in Sources */,
+				D1C152DD238B069E00830C24 /* CryptoIconURLBuilder.swift in Sources */,
 				CBC1BD00234DDC6A009F6E2C /* AccountInformation.swift in Sources */,
 				D13B48E72381644900FDBA3B /* BasicOrderObject.swift in Sources */,
 				CB8AACD42350B9B20096DD07 /* ExchangeHandler.swift in Sources */,
@@ -626,6 +667,7 @@
 				CBC1BCEB234C9978009F6E2C /* SymbolPriceObject.swift in Sources */,
 				CB711F60234B3FD8008F7A33 /* FilterObject.swift in Sources */,
 				D172A78F23684378008701BA /* TargetCollectionViewCell.swift in Sources */,
+				D110D10E238A92B20080B4CF /* PortfolioViewModel.swift in Sources */,
 				CB711F6E234B62A3008F7A33 /* TradeObject.swift in Sources */,
 				CB4BB5EA234C6AE200C7B078 /* AggregateTradeObject.swift in Sources */,
 				CBC1BCF2234CA682009F6E2C /* OrderFillObject.swift in Sources */,
@@ -645,6 +687,7 @@
 				D192FE0B2351DCF10090A194 /* systemBRAIN.swift in Sources */,
 				CB711F5B234B3C71008F7A33 /* ExchangeInformationResponce.swift in Sources */,
 				CBC1BCF8234CD41A009F6E2C /* OrderDetailObject.swift in Sources */,
+				D110D10C238A92790080B4CF /* PortfolioViewController.swift in Sources */,
 				D19A008A236C92F40036EB6B /* StepsHandler.swift in Sources */,
 				CB711F5E234B3D8B008F7A33 /* RateLimitObject.swift in Sources */,
 				D172A794236854C9008701BA /* PlaceNewOrderDetailViewModel.swift in Sources */,
@@ -652,6 +695,7 @@
 				CB711F54234B3A01008F7A33 /* GeneralServices.swift in Sources */,
 				CBC1BCED234C9B40009F6E2C /* SymbolOrderBookObject.swift in Sources */,
 				CB2571842345DFB9007DBD6F /* SceneDelegate.swift in Sources */,
+				D1C152DF238C662900830C24 /* PupmHandler.swift in Sources */,
 				D1C6354C2368AEE900D9745B /* AMDots.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -82,6 +82,7 @@
 		D1A22595237B372F0094BB2C /* ActiveOrdersViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1A22594237B372F0094BB2C /* ActiveOrdersViewController.swift */; };
 		D1A22597237B37710094BB2C /* ActiveOrdersViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1A22596237B37710094BB2C /* ActiveOrdersViewModel.swift */; };
 		D1A22599237B52200094BB2C /* ActiveOrderTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1A22598237B52200094BB2C /* ActiveOrderTableViewCell.swift */; };
+		D1C152E1238C6F7C00830C24 /* PupmHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1C152E0238C6F7C00830C24 /* PupmHandler.swift */; };
 		D1C635482368737900D9745B /* ColorUtility.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1C635472368737900D9745B /* ColorUtility.swift */; };
 		D1C6354A23689A7400D9745B /* StepperView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1C6354923689A7400D9745B /* StepperView.swift */; };
 		D1C6354C2368AEE900D9745B /* AMDots.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1C6354B2368AEE900D9745B /* AMDots.swift */; };
@@ -169,6 +170,7 @@
 		D1A22594237B372F0094BB2C /* ActiveOrdersViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActiveOrdersViewController.swift; sourceTree = "<group>"; };
 		D1A22596237B37710094BB2C /* ActiveOrdersViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActiveOrdersViewModel.swift; sourceTree = "<group>"; };
 		D1A22598237B52200094BB2C /* ActiveOrderTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActiveOrderTableViewCell.swift; sourceTree = "<group>"; };
+		D1C152E0238C6F7C00830C24 /* PupmHandler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PupmHandler.swift; sourceTree = "<group>"; };
 		D1C635472368737900D9745B /* ColorUtility.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorUtility.swift; sourceTree = "<group>"; };
 		D1C6354923689A7400D9745B /* StepperView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepperView.swift; sourceTree = "<group>"; };
 		D1C6354B2368AEE900D9745B /* AMDots.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AMDots.swift; sourceTree = "<group>"; };
@@ -208,6 +210,7 @@
 		CB23D505234F03E20053E6DE /* Handlers */ = {
 			isa = PBXGroup;
 			children = (
+				D1C152E0238C6F7C00830C24 /* PupmHandler.swift */,
 				CB8AACCE234F67500096DD07 /* AccountHandler.swift */,
 				CB8AACD32350B9B10096DD07 /* ExchangeHandler.swift */,
 				D192FE082351D6520090A194 /* UserStreamHandler.swift */,
@@ -602,6 +605,7 @@
 				D1138F07236B46D600766FD1 /* NumbersUtilities.swift in Sources */,
 				CB8AACD2234F741F0096DD07 /* ToolbarPickerView.swift in Sources */,
 				D1C910B5238168E700F374AE /* Model.xcdatamodeld in Sources */,
+				D1C152E1238C6F7C00830C24 /* PupmHandler.swift in Sources */,
 				CBBE8F62236AB8E0004279D6 /* SymbolsListViewModel.swift in Sources */,
 				CBC1BD00234DDC6A009F6E2C /* AccountInformation.swift in Sources */,
 				D13B48E72381644900FDBA3B /* BasicOrderObject.swift in Sources */,

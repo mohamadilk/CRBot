@@ -13,6 +13,7 @@ import CoreData
 class OrderHandler: NSObject {
     
     public static let shared = OrderHandler()
+    var queuedOrdersDic = [String: QueuedOrderObject]()
     
     lazy var db: CoreDataDefaultStorage = {
         let store = CoreDataStore.named("cd_basic")
@@ -265,6 +266,7 @@ class OrderHandler: NSObject {
     func insertQueuedOrders(array: [QueuedOrderObject]) {
         if array.count > 0 {
             for order in array {
+                self.queuedOrdersDic[order.asset+order.currency] = order
                 try! db.operation { (context, save) -> Void in
                     let _object: BasicOrderObject = try! context.new()
                     _object.asset = order.asset
@@ -339,6 +341,82 @@ class OrderHandler: NSObject {
                             }
                         }
                     }
+                }
+            }
+        }
+    }
+    
+    func placePumpOrder(for symbol: String) {
+        currentFreeBalance(side: .BUY) { (freeBalance, error) in
+            guard error == nil, freeBalance != nil, freeBalance! > 0.0 else { return }
+            var dedicated: Double = 0.0
+            
+            if freeBalance! < 0.0030 {
+                dedicated = freeBalance!
+            } else {
+                dedicated = 0.0030
+            }
+            
+            if let symbolObject = ExchangeHandler.shared.getSyncSymbol(symbol: symbol) {
+                MarketDataServices.shared.fetchSymbolPriceTicker(symbol: symbol) { (symbolPrice, error) in
+                    guard error == nil, symbolPrice != nil else { return }
+                    
+                    NumbersUtilities.shared.formatted(price: (symbolPrice!.price!.doubleValue * 1.011).toString() , for: symbol) { (price, error) in
+                        guard error == nil, price != nil else { return }
+                        
+                        NumbersUtilities.shared.formatted(price: (symbolPrice!.price!.doubleValue * 0.992).toString(), for: symbol) { (stopPrice, error) in
+                            guard error == nil, stopPrice != nil else { return }
+                            
+                            NumbersUtilities.shared.formatted(price: (symbolPrice!.price!.doubleValue * 0.990).toString(), for: symbol) { (limitPrice, error) in
+                                guard error == nil, limitPrice != nil else { return }
+                                
+                                NumbersUtilities.shared.formatted(quantity: (dedicated / price!.doubleValue).toString(), for: symbol) { (quantity, error) in
+                                    guard error == nil, quantity != nil else { return }
+                                    
+                                    self.placeNewOrderWith(type: .MARKET, asset: symbolObject.baseAsset ?? "", currency: symbolObject.quoteAsset ?? "", side: .BUY, amount: quantity!) { (response, error) in
+                                        guard error == nil, response != nil else { return }
+                                        
+                                        NumbersUtilities.shared.formatted(quantity: (response?.origQty!)!, for: symbol) { (amount, error) in
+                                            guard error == nil, amount != nil else { return }
+                                            
+                                            let queuedOrder = QueuedOrderObject(asset: symbolObject.baseAsset!, currency: symbolObject.quoteAsset!, price: price!, stopPrice: stopPrice!, stopLimitPrice: limitPrice!, amount: amount!, orderId: "MARKET_PUMP_\(symbol)", uniqueId: "MARKET_PUMP_\(symbol)_\(amount!)")
+                                            
+                                            self.insertQueuedOrders(array: [queuedOrder])
+                                            print("ORDER INSERTED INTO DATABASE: >>>>>> MARKET_PUMP_\(symbol)")
+
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+    
+    private func currentFreeBalance(side: OrderSide, completion:  @escaping(_ balance: Double?, _ error: ApiError?) -> Swift.Void) {
+        AccountHandler.shared.getCurrentUserCredit { (account, error) in
+            guard error == nil, account != nil else {
+                completion(0, error)
+                return
+            }
+            
+            if side == .SELL {
+                if let balance = account!.balances?.filter({ $0.asset == "BTC" }).first {
+                    if let free = balance.free?.doubleValue {
+                        completion(free, nil)
+                        return
+                    }
+                    completion(nil, nil)
+                }
+            } else {
+                if let balance = account!.balances?.filter({ $0.asset == "BTC" }).first {
+                    if let free = balance.free?.doubleValue {
+                        completion(free * 0.999, nil)
+                        return
+                    }
+                    completion(nil, nil)
                 }
             }
         }

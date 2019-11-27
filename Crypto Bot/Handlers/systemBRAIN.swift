@@ -33,10 +33,10 @@ extension systemBRAIN: UserStreamHandlerDelegate {
         case .NEW:
             switch report.side! {
             case .BUY:
-                print("executionReportReceived ----------> NEW BUY ORDER PLACED")
+//                print("executionReportReceived ----------> NEW BUY ORDER PLACED")
                 break
             case .SELL:
-                print("NEW SELL ORDER PLACED")
+//                print("NEW SELL ORDER PLACED")
                 break
             }
             break
@@ -54,7 +54,7 @@ extension systemBRAIN: UserStreamHandlerDelegate {
         case .FILLED:
             switch report.side! {
             case .BUY:
-                print("executionReportReceived ----------> BUY ORDER FILLED, TIME TO SELL!")
+//                print("executionReportReceived ----------> BUY ORDER FILLED, TIME TO SELL!")
                 self.placeSellOrderForExecutedBuyOrder(report: report) { (success, error) in
                     guard error == nil else {
                         return
@@ -115,68 +115,36 @@ extension systemBRAIN: UserStreamHandlerDelegate {
                     }
                 }
             }
+        } else {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+                if let queuedOrders = self.orderHandler.loadAllQueuedOrders()?.filter({ $0.orderId == "MARKET_PUMP_\(report.symbol!)" }), queuedOrders.count > 0 {
+                    let queuedOrder = queuedOrders[0]
+
+                    self.orderHandler.placeNewOrderWith(type: .OCO, asset: queuedOrder.asset, currency: queuedOrder.currency, side: .SELL, amount: queuedOrder.amount, price: queuedOrder.price, stopPrice: queuedOrder.stopPrice, stopLimitPrice: queuedOrder.stopLimitPrice) { (response, error) in
+                        guard error == nil, response != nil else {
+                            completion(false, error)
+                            print(error ?? "")
+                            return
+                        }
+                        completion(true, nil)
+                    }
+                } else {
+                    if let queuedOrder = self.orderHandler.queuedOrdersDic[report.symbol!] {
+                        self.orderHandler.queuedOrdersDic.removeValue(forKey: report.symbol!)
+                        self.orderHandler.placeNewOrderWith(type: .OCO, asset: queuedOrder.asset, currency: queuedOrder.currency, side: .SELL, amount: queuedOrder.amount, price: queuedOrder.price, stopPrice: queuedOrder.stopPrice, stopLimitPrice: queuedOrder.stopLimitPrice) { (response, error) in
+                            guard error == nil, response != nil else {
+                                completion(false, error)
+                                print(error ?? "")
+                                return
+                            }
+                            completion(true, nil)
+                        }
+
+                    }
+                }
+            }
         }
     }
-    
-//    private func placeSellOrderFor(type: OrderTypes, asset: String, currency: String , side: OrderSide, price: [String], stopPrice: String, stopLimitPrice: String, percentages: [String], completion: @escaping(_ order: OrderResponseObject?, _ error: String?) -> Swift.Void) {
-//
-//        var targets = price
-//        let targetPrice = targets.remove(at: 0)
-//
-//        var updatablePercentArray = percentages
-//        let percent = updatablePercentArray.remove(at: 0)
-//
-//        orderHandler.automaticallyPlaceNewOrderWith(type: type, asset: asset, currency: currency, side: side, price: targetPrice, stopPrice: stopPrice, stopLimitPrice: stopLimitPrice, percentage: percent) { (result, error) in
-//            guard error == nil, result != nil else {
-//
-//                if error == "Quantity does not meet minimum amount" {
-//                    updatablePercentArray = ["100"]
-//
-//                    self.placeSellOrderFor(type: type, asset: asset, currency: currency, side: side, price: price, stopPrice: stopPrice, stopLimitPrice: stopLimitPrice, percentages: updatablePercentArray) { (result, error) in
-//                        guard error == nil, result != nil else {
-//                            completion(nil, error)
-//                            return
-//                        }
-//                        completion(result, nil)
-//                    }
-//                    return
-//                } else {
-//                    completion(nil, error)
-//                    return
-//                }
-//
-//            }
-//
-//            if updatablePercentArray.count > 0 {
-//                self.placeSellOrderFor(type: type, asset: asset, currency: currency, side: side, price: targets, stopPrice: stopPrice, stopLimitPrice: stopLimitPrice, percentages: updatablePercentArray) { (result, error) in
-//                    guard error == nil, result != nil else {
-//                        completion(nil, error)
-//                        return
-//                    }
-//                    completion(result, nil)
-//                }
-//            } else {
-//                completion(result, nil)
-//            }
-//        }
-//    }
-//
-//    private func calculatePercentageBasedOn(targets: [String]) -> [String] {
-//        switch targets.count {
-//        case 1:
-//            return ["100"]
-//        case 2:
-//            return ["50","100"]
-//        case 3:
-//            return ["35","50","100"]
-//        case 4:
-//            return ["25","35","50","100"]
-//        case 5:
-//            return ["20","25","35","50","100"]
-//        default:
-//            return ["100"]
-//        }
-//    }
 }
 
 

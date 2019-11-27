@@ -25,6 +25,7 @@ class ActiveOrdersViewController: UIViewController, NVActivityIndicatorViewable 
         super.viewDidLoad()
         viewModel = ActiveOrdersViewModel(viewController: self)
         tableView.tableFooterView = UIView()
+        _ = PupmHandler.shared
         // Do any additional setup after loading the view.
     }
     

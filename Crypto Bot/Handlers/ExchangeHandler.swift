@@ -31,6 +31,16 @@ class ExchangeHandler {
         }
     }
     
+    func getSyncSymbol(symbol: String) -> SymbolObject? {
+        guard exchangeInfo != nil else {
+            return nil
+        }
+        if let symbols = exchangeInfo!.symbols?.filter({ $0.symbol == symbol }) {
+            return symbols[0]
+        }
+        return nil
+    }
+    
     func getSymbol(symbol: String, completion: @escaping (_ info: SymbolObject?, _ error: ApiError?) -> Swift.Void) {
         
         guard exchangeInfo == nil else {

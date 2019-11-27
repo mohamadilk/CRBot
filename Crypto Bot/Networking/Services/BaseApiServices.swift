@@ -90,7 +90,7 @@ public class BaseApiServices: NSObject
                            encoding: JSONEncoding.default,
                            headers: requestHeaders)
             .responseJSON { (apiResponse) in
-                print(apiResponse)
+//                print(apiResponse)
                 var error: ApiError?
                 let statusCode = apiResponse.response?.statusCode ?? 0
                 

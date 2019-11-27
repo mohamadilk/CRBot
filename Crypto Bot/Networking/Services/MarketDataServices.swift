@@ -151,27 +151,27 @@ class MarketDataServices: BaseApiServices {
         if let start = startTime { params[Keys.parameterKeys.startTime] = start }
         if let end = endTime { params[Keys.parameterKeys.endTime] = end }
         
-//        self.request(endpoint: Keys.endPoints.klines, type: .arrayOfArrayType, method: .get, body: nil, parameters: params) { (result: Any?, error: ApiError?) in
-//
-//            if error != nil {
-//                completion(nil, error)
-//                return
-//            }
-//
-//            guard let value = result as? arrayOfJson else {
-//                let error = ApiError.createErrorWithErrorType(.malformed, description: "Malformed Response Data")
-//                completion(nil, error)
-//                return
-//            }
-//
-//            var candlesArray = [CandleObject]()
-//            for model in value.array {
-//
-//                let candle = CandleObject(openTime: (model[0] as! TimeInterval), open: (model[1] as! String), high: (model[2] as! String), low: (model[3] as! String), close: (model[4] as! String), volume: (model[5] as! String), closeTime: (model[6] as! TimeInterval), quoteAssetVolume: (model[7] as! String), numberOfTrades: (model[8] as! Int), takerBuyBaseAssetVolume: (model[9] as! String), takerBuyquoteAssetVolume: (model[10] as! String), ignore: (model[11] as! String))
-//                candlesArray.append(candle)
-//            }
-//            completion(candlesArray, nil)
-//        }
+        self.request(endpoint: Keys.endPoints.klines, type: .arrayOfArrayType, method: .get, body: nil, parameters: params) { (result: Any?, error: ApiError?) in
+
+            if error != nil {
+                completion(nil, error)
+                return
+            }
+
+            guard let value = result as? arrayOfArray else {
+                let error = ApiError.createErrorWithErrorType(.malformed, description: "Malformed Response Data")
+                completion(nil, error)
+                return
+            }
+
+            var candlesArray = [CandleObject]()
+            for model in value.array {
+
+                let candle = CandleObject(openTime: (model[0] as! TimeInterval), open: (model[1] as! String), high: (model[2] as! String), low: (model[3] as! String), close: (model[4] as! String), volume: (model[5] as! String), closeTime: (model[6] as! TimeInterval), quoteAssetVolume: (model[7] as! String), numberOfTrades: (model[8] as! Int), takerBuyBaseAssetVolume: (model[9] as! String), takerBuyquoteAssetVolume: (model[10] as! String), ignore: (model[11] as! String))
+                candlesArray.append(candle)
+            }
+            completion(candlesArray, nil)
+        }
     }
     
     func fetchCurrentAvaragePrice(symbol: String, completion: @escaping(_ orderBook: AvaragePriceObject?, _ error: ApiError?) -> Swift.Void) {

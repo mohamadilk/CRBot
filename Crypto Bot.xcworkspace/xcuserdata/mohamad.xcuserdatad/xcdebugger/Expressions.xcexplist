@@ -3,78 +3,7 @@
    version = "1.0">
    <ContextStates>
       <ContextState
-         contextName = "closure #1 in closure #1 in PlaceNewOrderDetailViewModel.setTargetsAndPlaceNewOrder(targets:type:asset:currency:side:amount:price:buyStopPrice:buyStopLimitPrice:sellStopPrice:sellStopLimitPrice:completion:):PlaceNewOrderDetailViewModel.swift">
-      </ContextState>
-      <ContextState
-         contextName = "specialized closure #1 in OrderHandler.updateOtherOrdersAndDelete(order:allOrders:):OrderHandler.swift">
-         <PersistentStrings>
-            <PersistentString
-               value = "queuedOrders">
-            </PersistentString>
-         </PersistentStrings>
-      </ContextState>
-      <ContextState
          contextName = "PlaceNewOrderDetailViewController.targetAddedWith(price:cellIndex:):PlaceNewOrderDetailViewController.swift">
-      </ContextState>
-      <ContextState
-         contextName = "PlaceNewOrderDetailViewController.autoSellSwitchValueChanged(isEnable:cellIndex:):PlaceNewOrderDetailViewController.swift">
-         <PersistentStrings>
-            <PersistentString
-               value = "datasource">
-            </PersistentString>
-         </PersistentStrings>
-      </ContextState>
-      <ContextState
-         contextName = "PlaceNewOrderDetailViewController.tableView(_:cellForRowAt:):PlaceNewOrderDetailViewController.swift">
-         <PersistentStrings>
-            <PersistentString
-               value = "datasource">
-            </PersistentString>
-         </PersistentStrings>
-      </ContextState>
-      <ContextState
-         contextName = "closure #1 in OrderHandler.sellOrderFullfieled(report:):OrderHandler.swift">
-         <PersistentStrings>
-            <PersistentString
-               value = "activeOrders">
-            </PersistentString>
-         </PersistentStrings>
-      </ContextState>
-      <ContextState
-         contextName = "closure #1 in closure #1 in ActiveOrdersViewModel.getUserActiveOrders():ActiveOrdersViewModel.swift">
-      </ContextState>
-      <ContextState
-         contextName = "PlaceNewOrderDetailViewController.submitOrder(_:):PlaceNewOrderDetailViewController.swift">
-         <PersistentStrings>
-            <PersistentString
-               value = "self.datasource">
-            </PersistentString>
-         </PersistentStrings>
-      </ContextState>
-      <ContextState
-         contextName = "closure #1 in AccountServices.cancelOCOOrder(symbol:orderListId:listClientOrderId:newClientOrderId:recvWindow:timestamp:completion:):AccountServices.swift">
-         <PersistentStrings>
-            <PersistentString
-               value = "result as [String: Any]">
-            </PersistentString>
-            <PersistentString
-               value = "OrderResponseObject(JSON: result as? [String: Any] ?? [:])">
-            </PersistentString>
-         </PersistentStrings>
-      </ContextState>
-      <ContextState
-         contextName = "TargetCollectionViewCell.awakeFromNib():TargetCollectionViewCell.swift">
-         <PersistentStrings>
-            <PersistentString
-               value = "clearButton?.imageView?.image">
-            </PersistentString>
-         </PersistentStrings>
-      </ContextState>
-      <ContextState
-         contextName = "PlaceNewOrderDetailViewController.didRemove(target:):PlaceNewOrderDetailViewController.swift">
-      </ContextState>
-      <ContextState
-         contextName = "closure #1 in systemBRAIN.placeSellOrderForExecutedBuyOrder(report:response:):systemBRAIN.swift">
       </ContextState>
       <ContextState
          contextName = "TargetsCell.addNewTarget(price:):TargetsCell.swift">
@@ -85,13 +14,24 @@
          </PersistentStrings>
       </ContextState>
       <ContextState
-         contextName = "OrderHandler.deleteQueuedOrder(object:):OrderHandler.swift">
+         contextName = "PlaceNewOrderDetailViewController.submitOrder(_:):PlaceNewOrderDetailViewController.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "self.datasource">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "PupmHandler.watchListUpdated():PupmHandler.swift">
       </ContextState>
       <ContextState
          contextName = "closure #2 in PlaceNewOrderDetailViewModel.setTargetsAndPlaceNewOrder(targets:type:asset:currency:side:amount:price:buyStopPrice:buyStopLimitPrice:sellStopPrice:sellStopLimitPrice:completion:):PlaceNewOrderDetailViewModel.swift">
       </ContextState>
       <ContextState
-         contextName = "OrderHandler.queuedOrdersWith(orderId:):OrderHandler.swift">
+         contextName = "closure #1 in closure #1 in ActiveOrdersViewModel.getUserActiveOrders():ActiveOrdersViewModel.swift">
+      </ContextState>
+      <ContextState
+         contextName = "closure #1 in closure #1 in PlaceNewOrderDetailViewModel.setTargetsAndPlaceNewOrder(targets:type:asset:currency:side:amount:price:buyStopPrice:buyStopLimitPrice:sellStopPrice:sellStopLimitPrice:completion:):PlaceNewOrderDetailViewModel.swift">
       </ContextState>
       <ContextState
          contextName = "closure #2 in closure #1 in OrderHandler.sellOrderFullfieled(report:):OrderHandler.swift">
@@ -108,6 +48,58 @@
          </PersistentStrings>
       </ContextState>
       <ContextState
+         contextName = "closure #3 in systemBRAIN.placeSellOrderForExecutedBuyOrder(report:completion:):systemBRAIN.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "self.orderHandler.loadAllQueuedOrders()">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "TargetCollectionViewCell.awakeFromNib():TargetCollectionViewCell.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "clearButton?.imageView?.image">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "PlaceNewOrderDetailViewController.autoSellSwitchValueChanged(isEnable:cellIndex:):PlaceNewOrderDetailViewController.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "datasource">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "PlaceNewOrderDetailViewController.didRemove(target:):PlaceNewOrderDetailViewController.swift">
+      </ContextState>
+      <ContextState
+         contextName = "OrderHandler.queuedOrdersWith(orderId:):OrderHandler.swift">
+      </ContextState>
+      <ContextState
+         contextName = "PupmHandler.filterByCandleSticData(candidates:):PupmHandler.swift">
+      </ContextState>
+      <ContextState
+         contextName = "OrderHandler.insertQueuedOrders(array:):OrderHandler.swift">
+      </ContextState>
+      <ContextState
+         contextName = "PlaceNewOrderDetailViewController.tableView(_:cellForRowAt:):PlaceNewOrderDetailViewController.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "datasource">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "closure #1 in PupmHandler.updateSecondsData():PupmHandler.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "self.watchList">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
          contextName = "TargetsCell.collectionView(_:cellForItemAt:):TargetsCell.swift">
          <PersistentStrings>
             <PersistentString
@@ -116,7 +108,37 @@
          </PersistentStrings>
       </ContextState>
       <ContextState
-         contextName = "OrderHandler.insertQueuedOrders(array:):OrderHandler.swift">
+         contextName = "specialized closure #1 in OrderHandler.updateOtherOrdersAndDelete(order:allOrders:):OrderHandler.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "queuedOrders">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "closure #1 in AccountServices.cancelOCOOrder(symbol:orderListId:listClientOrderId:newClientOrderId:recvWindow:timestamp:completion:):AccountServices.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "result as [String: Any]">
+            </PersistentString>
+            <PersistentString
+               value = "OrderResponseObject(JSON: result as? [String: Any] ?? [:])">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "closure #1 in OrderHandler.sellOrderFullfieled(report:):OrderHandler.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "activeOrders">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "closure #1 in systemBRAIN.placeSellOrderForExecutedBuyOrder(report:response:):systemBRAIN.swift">
+      </ContextState>
+      <ContextState
+         contextName = "OrderHandler.deleteQueuedOrder(object:):OrderHandler.swift">
       </ContextState>
    </ContextStates>
 </VariablesViewState>

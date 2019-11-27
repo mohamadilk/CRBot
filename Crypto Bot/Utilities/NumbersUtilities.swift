@@ -39,7 +39,11 @@ class NumbersUtilities {
             }
             
             if let limitIndex = tickSize.indexDistance(of: "1") {
-                while subPrice.count > limitIndex + 1 && (subPrice.last == "0" || subPrice.last == ".") {
+                while subPrice.count > limitIndex + 1 {
+                    subPrice = String(subPrice.prefix(subPrice.count - 1))
+                }
+                
+                while (subPrice.last == "0" || subPrice.last == ".") {
                     subPrice = String(subPrice.prefix(subPrice.count - 1))
                 }
             }
@@ -74,7 +78,7 @@ class NumbersUtilities {
 
             }
             
-            let multiplyer = floor(subQuantity.doubleValue /  stepSize.doubleValue)
+            let multiplyer = floor(subQuantity.doubleValue /  stepSize.doubleValue) - 3
             if var limitIndex = stepSize.indexDistance(of: "1") {
                 if stepSize.doubleValue < 1 {
                     limitIndex = limitIndex - 1
@@ -84,6 +88,20 @@ class NumbersUtilities {
             
             completion(subQuantity, nil)
         })
+    }
+    
+    func stepSize(for symbol: String) -> String? {
+        guard let symbolObject = ExchangeHandler.shared.getSyncSymbol(symbol: symbol) else {
+            return nil
+        }
+        
+        let amountFilter = symbolObject.filters?.filter({ $0.filterType == .LOT_SIZE })
+        
+        guard let stepSize = amountFilter?.first?.stepSize else {
+            return nil
+        }
+        
+        return stepSize
     }
 }
 

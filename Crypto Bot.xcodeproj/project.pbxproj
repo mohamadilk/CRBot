@@ -83,6 +83,7 @@
 		D1A22597237B37710094BB2C /* ActiveOrdersViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1A22596237B37710094BB2C /* ActiveOrdersViewModel.swift */; };
 		D1A22599237B52200094BB2C /* ActiveOrderTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1A22598237B52200094BB2C /* ActiveOrderTableViewCell.swift */; };
 		D1C152E1238C6F7C00830C24 /* PupmHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1C152E0238C6F7C00830C24 /* PupmHandler.swift */; };
+		D1C152E3238D87FE00830C24 /* CandidateSymbolObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1C152E2238D87FE00830C24 /* CandidateSymbolObject.swift */; };
 		D1C635482368737900D9745B /* ColorUtility.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1C635472368737900D9745B /* ColorUtility.swift */; };
 		D1C6354A23689A7400D9745B /* StepperView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1C6354923689A7400D9745B /* StepperView.swift */; };
 		D1C6354C2368AEE900D9745B /* AMDots.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1C6354B2368AEE900D9745B /* AMDots.swift */; };
@@ -171,6 +172,7 @@
 		D1A22596237B37710094BB2C /* ActiveOrdersViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActiveOrdersViewModel.swift; sourceTree = "<group>"; };
 		D1A22598237B52200094BB2C /* ActiveOrderTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActiveOrderTableViewCell.swift; sourceTree = "<group>"; };
 		D1C152E0238C6F7C00830C24 /* PupmHandler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PupmHandler.swift; sourceTree = "<group>"; };
+		D1C152E2238D87FE00830C24 /* CandidateSymbolObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CandidateSymbolObject.swift; sourceTree = "<group>"; };
 		D1C635472368737900D9745B /* ColorUtility.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorUtility.swift; sourceTree = "<group>"; };
 		D1C6354923689A7400D9745B /* StepperView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepperView.swift; sourceTree = "<group>"; };
 		D1C6354B2368AEE900D9745B /* AMDots.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AMDots.swift; sourceTree = "<group>"; };
@@ -320,6 +322,7 @@
 				CB711F5C234B3D74008F7A33 /* EnumModels */,
 				CB711F59234B3C4C008F7A33 /* GeneralServicesModels */,
 				CB25719A2345E0F9007DBD6F /* ApiModels */,
+				D1C152E2238D87FE00830C24 /* CandidateSymbolObject.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -634,6 +637,7 @@
 				CB4BB5EA234C6AE200C7B078 /* AggregateTradeObject.swift in Sources */,
 				CBC1BCF2234CA682009F6E2C /* OrderFillObject.swift in Sources */,
 				CBC1BCF4234CCDAF009F6E2C /* ServerResponseTypes.swift in Sources */,
+				D1C152E3238D87FE00830C24 /* CandidateSymbolObject.swift in Sources */,
 				CB711F56234B3A64008F7A33 /* AccountServices.swift in Sources */,
 				CB711F52234B3116008F7A33 /* MarketDataServices.swift in Sources */,
 				CBAFCC2023671F9D00EA3370 /* PlaceNewOrderDetailViewController.swift in Sources */,

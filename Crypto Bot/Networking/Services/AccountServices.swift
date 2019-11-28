@@ -22,7 +22,7 @@ fileprivate struct Keys
         fileprivate static let queryOpenOcos = "/api/v3/openOrderList"
         fileprivate static let accountInformation = "/api/v3/account" // 5
         fileprivate static let accountTradeList = "/api/v3/myTrades"
-        fileprivate static let userDataStream = "/api/v1/userDataStream"
+        fileprivate static let userDataStream = "/api/v3/userDataStream"
     }
     
     fileprivate struct parameterKeys {

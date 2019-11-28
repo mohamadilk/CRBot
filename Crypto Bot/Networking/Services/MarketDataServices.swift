@@ -12,13 +12,13 @@ import ObjectMapper
 fileprivate struct Keys
 {
     fileprivate struct endPoints {
-        fileprivate static let orderBook = "/api/v1/depth"
-        fileprivate static let trades = "/api/v1/trades"
-        fileprivate static let historicalTrades = "/api/v1/historicalTrades"
-        fileprivate static let aggTrades = "/api/v1/aggTrades"
-        fileprivate static let klines = "/api/v1/klines"
+        fileprivate static let orderBook = "/api/v3/depth"
+        fileprivate static let trades = "/api/v3/trades"
+        fileprivate static let historicalTrades = "/api/v3/historicalTrades"
+        fileprivate static let aggTrades = "/api/v3/aggTrades"
+        fileprivate static let klines = "/api/v3/klines"
         fileprivate static let avgPrice = "/api/v3/avgPrice"
-        fileprivate static let oneDayTicker = "/api/v1/ticker/24hr"
+        fileprivate static let oneDayTicker = "/api/v3/ticker/24hr"
         fileprivate static let SymbolPriceTicker = "/api/v3/ticker/price"
         fileprivate static let SymbolOrderBookTicker = "/api/v3/ticker/bookTicker"
     }

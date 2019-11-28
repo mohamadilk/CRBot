@@ -12,7 +12,7 @@ import Starscream
 fileprivate struct Keys
 {
     fileprivate struct endPoints {
-        fileprivate static let userDataStream = "/api/v1/userDataStream"
+        fileprivate static let userDataStream = "/api/v3/userDataStream"
     }
     
     fileprivate struct parameterKeys {

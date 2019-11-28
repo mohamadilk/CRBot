@@ -15,7 +15,7 @@ class PupmHandler {
     var minutesTimer: Timer?
     var secondsTimer: Timer?
     
-    var firstPrice = [String: String]()
+//    var firstPrice = [String: String]()
     var secondPrice = [String: String]()
     var currentPrice = [String: String]()
     
@@ -24,13 +24,18 @@ class PupmHandler {
     
     var finalApprovedArray: [String]?
     
-    let tradeFactor: Double = 0.1
+    let tradeFactor: Double = 0.8
     let passToTradeCount = 3
     
     var candidateDetectionCountDict = [String: Int]()
-    let detectionConfirmationLimit = 2
+    let detectionConfirmationLimit = 3
     
     var activeOrders = [String]()
+    var dayInfoArray: [OneDayTickerPriceChangeObject]?
+    var avarageValumePerSymbol = [String: Double]()
+    
+    let minimumTradeCount = 10
+    let minimumVolumeMultiplyer: Double = 4.0
     
     init() {
         minutesTimer = Timer.scheduledTimer(withTimeInterval: 20, repeats: true, block: { _ in
@@ -42,7 +47,24 @@ class PupmHandler {
             self.updateSecondsData()
         })
         secondsTimer?.fire()
+        
+        MarketDataServices.shared.fetchOneDayTickerPriceChangeStatistics { (dayInfo, error) in
+            guard error == nil, dayInfo != nil else {
+                return
+            }
+            
+            self.dayInfoArray = dayInfo
+            for symbolInfo in self.dayInfoArray ?? [] {
+                if let symbol = symbolInfo.symbol {
+                    if let volume = symbolInfo.volume?.doubleValue {
+                        self.avarageValumePerSymbol[symbol] = volume / 1440.0
+                    }
+                }
+            }
+        }
     }
+    
+    
     
     private func updateMinutesData() {
         activeOrders.removeAll()
@@ -51,7 +73,7 @@ class PupmHandler {
                 return
             }
             
-            if self.firstPrice.keys.count == 0, self.secondPrice.keys.count == 0,self.currentPrice.keys.count == 0 { //First minute data received
+            if self.secondPrice.keys.count == 0,self.currentPrice.keys.count == 0 { //First minute data received
                 for symbolPrice in symbolPricesArray! {
                     if let symbol = symbolPrice.symbol, let price = symbolPrice.price {
                         self.currentPrice[symbol] = price
@@ -59,7 +81,7 @@ class PupmHandler {
                 }
                 return
                 
-            } else if self.firstPrice.keys.count == 0, self.secondPrice.keys.count == 0, self.currentPrice.keys.count > 0 { //Second minute of data received
+            } else if self.secondPrice.keys.count == 0, self.currentPrice.keys.count > 0 { //Second minute of data received
                 self.secondPrice = self.currentPrice
                 for symbolPrice in symbolPricesArray! {
                     if let symbol = symbolPrice.symbol, let price = symbolPrice.price {
@@ -68,15 +90,16 @@ class PupmHandler {
                 }
                 
                 
-            } else if self.secondPrice.keys.count > 0, self.currentPrice.keys.count > 0  { // Data after second minute received
-                self.firstPrice = self.secondPrice
-                self.secondPrice = self.currentPrice
-                for symbolPrice in symbolPricesArray! {
-                    if let symbol = symbolPrice.symbol, let price = symbolPrice.price {
-                        self.currentPrice[symbol] = price
-                    }
-                }
             }
+//            else if self.secondPrice.keys.count > 0, self.currentPrice.keys.count > 0  { // Data after second minute received
+//                self.firstPrice = self.secondPrice
+//                self.secondPrice = self.currentPrice
+//                for symbolPrice in symbolPricesArray! {
+//                    if let symbol = symbolPrice.symbol, let price = symbolPrice.price {
+//                        self.currentPrice[symbol] = price
+//                    }
+//                }
+//            }
         }
     }
     
@@ -105,17 +128,17 @@ class PupmHandler {
                     guard let secondPrice = self.secondPrice[symbol] else { continue }
                     guard symbolObject.price?.doubleValue ?? 0 > secondPrice.doubleValue else {
                         self.secondPrice.removeValue(forKey: symbol)
-                        self.firstPrice.removeValue(forKey: symbol)
+//                        self.firstPrice.removeValue(forKey: symbol)
                         self.watchList = self.watchList.filter({ $0.symbolOrderBook?.symbol != symbol })
                         continue
                     }
-
-                    if self.firstPrice.keys.count > 0 , let firstPrice = self.firstPrice[symbol] {
-                        if firstPrice == secondPrice { continue }
-                        let firstPercentage = (secondPrice.doubleValue / firstPrice.doubleValue - 1) * 100
-                        rawScore = rawScore + firstPercentage
-                        weightedScore = weightedScore + firstPercentage
-                    }
+//
+//                    if self.firstPrice.keys.count > 0 , let firstPrice = self.firstPrice[symbol] {
+//                        if firstPrice == secondPrice { continue }
+//                        let firstPercentage = (secondPrice.doubleValue / firstPrice.doubleValue - 1) * 100
+//                        rawScore = rawScore + firstPercentage
+//                        weightedScore = weightedScore + firstPercentage
+//                    }
                     
                     if let currentPrice = self.currentPrice[symbol] {
                         if currentPrice == secondPrice { continue }
@@ -168,24 +191,29 @@ class PupmHandler {
                 guard candlesArray != nil, error == nil else { return }
                 
                 var totalTrades = 0
+                var totalVolume: Double = 0.0
+                
                 for candle in candlesArray! {
                     if candle.open?.doubleValue ?? 1 >= candle.close?.doubleValue ?? 0 { return }
                     totalTrades = totalTrades + (candle.numberOfTrades ?? 0)
+                    totalVolume = totalVolume + (candle.volume?.doubleValue ?? 0.0)
                 }
                 
-                if totalTrades > 10 {
-                    if self.activeOrders.contains(symbol) { return }
-                    print(">>>>>>>>>>>>>> CANDIDATE CONFIRMED \(symbol)")
-                    if let count = self.candidateDetectionCountDict[symbol] {
-                        self.candidateDetectionCountDict[symbol] = count + 1
-                        if self.candidateDetectionCountDict[symbol] == self.detectionConfirmationLimit {
-                            print(">>>>>>>>>>>>>> DETECTED \(symbol)")
-                            self.activeOrders.append(symbol)
-                            self.candidateDetectionCountDict.removeValue(forKey: symbol)
-                            OrderHandler.shared.placePumpOrder(for: symbol)
+                if totalTrades >= self.minimumTradeCount {
+                    if totalVolume > (self.avarageValumePerSymbol[symbol] ?? 0) * self.minimumVolumeMultiplyer {
+                        if self.activeOrders.contains(symbol) { return }
+                        print(">>>>>>>>>>>>>> CANDIDATE CONFIRMED \(symbol)")
+                        if let count = self.candidateDetectionCountDict[symbol] {
+                            self.candidateDetectionCountDict[symbol] = count + 1
+                            if self.candidateDetectionCountDict[symbol] ?? 0 >= self.detectionConfirmationLimit {
+                                print(">>>>>>>>>>>>>> DETECTED \(symbol)")
+                                self.activeOrders.append(symbol)
+                                self.candidateDetectionCountDict.removeValue(forKey: symbol)
+                                OrderHandler.shared.placePumpOrder(for: symbol)
+                            }
+                        } else {
+                            self.candidateDetectionCountDict[symbol] = 1
                         }
-                    } else {
-                        self.candidateDetectionCountDict[symbol] = 1
                     }
                 }
             }

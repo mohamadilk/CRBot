@@ -24,7 +24,7 @@ class PupmHandler {
     
     var finalApprovedArray: [String]?
     
-    let tradeFactor: Double = 0.8
+    let tradeFactor: Double = 0.5
     let passToTradeCount = 3
     
     var candidateDetectionCountDict = [String: Int]()
@@ -35,7 +35,7 @@ class PupmHandler {
     var avarageValumePerSymbol = [String: Double]()
     
     let minimumTradeCount = 10
-    let minimumVolumeMultiplyer: Double = 4.0
+    let minimumVolumeMultiplyer: Double = 6.0
     
     init() {
         minutesTimer = Timer.scheduledTimer(withTimeInterval: 20, repeats: true, block: { _ in
@@ -67,7 +67,6 @@ class PupmHandler {
     
     
     private func updateMinutesData() {
-        activeOrders.removeAll()
         MarketDataServices.shared.fetchSymbolPriceTicker { [unowned self] (symbolPricesArray, error) in
             guard error == nil, symbolPricesArray != nil else {
                 return
@@ -186,7 +185,7 @@ class PupmHandler {
     
     func filterByCandleSticData(candidates: [CandidateSymbolObject]) {
         for candida in candidates {
-            guard let symbol = candida.symbolOrderBook?.symbol else { return }
+            guard let symbol = candida.symbolOrderBook?.symbol else { continue }
             MarketDataServices.shared.fetchCandlestickData(symbol: symbol, interval: CandlestickChartIntervals.oneMin.rawValue, limit: 2) { (candlesArray, error) in
                 guard candlesArray != nil, error == nil else { return }
                 
@@ -201,20 +200,28 @@ class PupmHandler {
                 
                 if totalTrades >= self.minimumTradeCount {
                     if totalVolume > (self.avarageValumePerSymbol[symbol] ?? 0) * self.minimumVolumeMultiplyer {
-                        if self.activeOrders.contains(symbol) { return }
-                        print(">>>>>>>>>>>>>> CANDIDATE CONFIRMED \(symbol)")
-                        if let count = self.candidateDetectionCountDict[symbol] {
-                            self.candidateDetectionCountDict[symbol] = count + 1
-                            if self.candidateDetectionCountDict[symbol] ?? 0 >= self.detectionConfirmationLimit {
-                                print(">>>>>>>>>>>>>> DETECTED \(symbol)")
-                                self.activeOrders.append(symbol)
-                                self.candidateDetectionCountDict.removeValue(forKey: symbol)
-                                OrderHandler.shared.placePumpOrder(for: symbol)
+                        
+                        if !self.activeOrders.contains(symbol) {
+                            print(">>>>>>>>>>>>>> CANDIDATE CONFIRMED \(symbol)")
+                            if let count = self.candidateDetectionCountDict[symbol] {
+                                self.candidateDetectionCountDict[symbol] = count + 1
+                                if self.candidateDetectionCountDict[symbol] ?? 0 >= self.detectionConfirmationLimit {
+                                    print(">>>>>>>>>>>>>> DETECTED \(symbol)")
+                                    self.activeOrders.append(symbol)
+                                    self.candidateDetectionCountDict.removeValue(forKey: symbol)
+                                    OrderHandler.shared.placePumpOrder(for: symbol)
+                                }
+                            } else {
+                                self.candidateDetectionCountDict[symbol] = 1
                             }
                         } else {
-                            self.candidateDetectionCountDict[symbol] = 1
+                            print("Already in active orders \(symbol)")
                         }
+                    } else {
+                        print("Does not meet minimum volume \(symbol)\n\n Avarage Volume: \(self.avarageValumePerSymbol[symbol] ?? 0)\n Total Volume: \(totalVolume)")
                     }
+                } else {
+                    print("Does not meet minimum trade count \(symbol)")
                 }
             }
         }

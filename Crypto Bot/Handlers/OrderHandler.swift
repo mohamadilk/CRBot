@@ -289,6 +289,10 @@ class OrderHandler: NSObject {
     }
     
     public func sellOrderFullfieled(report: ExecutionReport) {
+        if let index = PupmHandler.shared.activeOrders.index(of: report.symbol!) {
+            PupmHandler.shared.activeOrders.remove(at: index)
+        }
+        
         if report.orderType != .LIMIT_MAKER { return }
         AccountHandler.shared.getUserActiveOrders { [weak self] (activeOrders, error) in
             if let sellOrders = activeOrders?.filter({ $0.side == .SELL && $0.type == .LIMIT_MAKER && $0.symbol == report.symbol }), sellOrders.count > 0 {
@@ -361,13 +365,13 @@ class OrderHandler: NSObject {
                 MarketDataServices.shared.fetchSymbolPriceTicker(symbol: symbol) { (symbolPrice, error) in
                     guard error == nil, symbolPrice != nil else { return }
                     
-                    NumbersUtilities.shared.formatted(price: (symbolPrice!.price!.doubleValue * 1.011).toString() , for: symbol) { (price, error) in
+                    NumbersUtilities.shared.formatted(price: (symbolPrice!.price!.doubleValue * 1.009).toString() , for: symbol) { (price, error) in
                         guard error == nil, price != nil else { return }
                         
-                        NumbersUtilities.shared.formatted(price: (symbolPrice!.price!.doubleValue * 0.992).toString(), for: symbol) { (stopPrice, error) in
+                        NumbersUtilities.shared.formatted(price: (symbolPrice!.price!.doubleValue * 0.987).toString(), for: symbol) { (stopPrice, error) in
                             guard error == nil, stopPrice != nil else { return }
                             
-                            NumbersUtilities.shared.formatted(price: (symbolPrice!.price!.doubleValue * 0.990).toString(), for: symbol) { (limitPrice, error) in
+                            NumbersUtilities.shared.formatted(price: (symbolPrice!.price!.doubleValue * 0.985).toString(), for: symbol) { (limitPrice, error) in
                                 guard error == nil, limitPrice != nil else { return }
                                 
                                 NumbersUtilities.shared.formatted(quantity: (dedicated / price!.doubleValue).toString(), for: symbol) { (quantity, error) in

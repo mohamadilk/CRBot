@@ -71,7 +71,6 @@ class UserDataStreamServices: BaseApiServices {
 //                completion(nil, error)
 //                return
 //            }
-            print("Seuccessfuly sent kepp alive")
         }
     }
     

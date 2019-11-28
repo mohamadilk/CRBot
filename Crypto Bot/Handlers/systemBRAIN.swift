@@ -116,30 +116,54 @@ extension systemBRAIN: UserStreamHandlerDelegate {
                 }
             }
         } else {
-            DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
                 if let queuedOrders = self.orderHandler.loadAllQueuedOrders()?.filter({ $0.orderId == "MARKET_PUMP_\(report.symbol!)" }), queuedOrders.count > 0 {
                     let queuedOrder = queuedOrders[0]
 
-                    self.orderHandler.placeNewOrderWith(type: .OCO, asset: queuedOrder.asset, currency: queuedOrder.currency, side: .SELL, amount: queuedOrder.amount, price: queuedOrder.price, stopPrice: queuedOrder.stopPrice, stopLimitPrice: queuedOrder.stopLimitPrice) { (response, error) in
-                        guard error == nil, response != nil else {
-                            completion(false, error)
-                            print(error ?? "")
-                            return
+                    AccountHandler.shared.getCurrentUserCredit { (accountInfo, error) in
+                        guard error == nil, accountInfo != nil else { return }
+                        
+                        if let balance = accountInfo!.balances?.filter({ $0.asset == queuedOrder.asset }).first {
+                            if let free = balance.free {
+                                NumbersUtilities.shared.formatted(quantity: free, for: report.symbol!) { (amount, error) in
+                                    guard error == nil, amount != nil else { return }
+                                    
+                                    self.orderHandler.placeNewOrderWith(type: .OCO, asset: queuedOrder.asset, currency: queuedOrder.currency, side: .SELL, amount: amount!, price: queuedOrder.price, stopPrice: queuedOrder.stopPrice, stopLimitPrice: queuedOrder.stopLimitPrice) { (response, error) in
+                                        guard error == nil, response != nil else {
+                                            completion(false, error)
+                                            print(error ?? "")
+                                            return
+                                        }
+                                        completion(true, nil)
+                                    }
+                                }
+                            }
                         }
-                        completion(true, nil)
                     }
                 } else {
                     if let queuedOrder = self.orderHandler.queuedOrdersDic[report.symbol!] {
-                        self.orderHandler.queuedOrdersDic.removeValue(forKey: report.symbol!)
-                        self.orderHandler.placeNewOrderWith(type: .OCO, asset: queuedOrder.asset, currency: queuedOrder.currency, side: .SELL, amount: queuedOrder.amount, price: queuedOrder.price, stopPrice: queuedOrder.stopPrice, stopLimitPrice: queuedOrder.stopLimitPrice) { (response, error) in
-                            guard error == nil, response != nil else {
-                                completion(false, error)
-                                print(error ?? "")
-                                return
+                        AccountHandler.shared.getCurrentUserCredit { (accountInfo, error) in
+                            guard error == nil, accountInfo != nil else { return }
+                            
+                            if let balance = accountInfo!.balances?.filter({ $0.asset == queuedOrder.asset }).first {
+                                if let free = balance.free {
+                                    
+                                    self.orderHandler.queuedOrdersDic.removeValue(forKey: report.symbol!)
+                                    NumbersUtilities.shared.formatted(quantity: free, for: report.symbol!) { (amount, error) in
+                                        guard error == nil, amount != nil else { return }
+                                        
+                                        self.orderHandler.placeNewOrderWith(type: .OCO, asset: queuedOrder.asset, currency: queuedOrder.currency, side: .SELL, amount: amount!, price: queuedOrder.price, stopPrice: queuedOrder.stopPrice, stopLimitPrice: queuedOrder.stopLimitPrice) { (response, error) in
+                                            guard error == nil, response != nil else {
+                                                completion(false, error)
+                                                print(error ?? "")
+                                                return
+                                            }
+                                            completion(true, nil)
+                                        }
+                                    }
+                                }
                             }
-                            completion(true, nil)
                         }
-
                     }
                 }
             }

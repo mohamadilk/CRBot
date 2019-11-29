@@ -33,10 +33,10 @@ extension systemBRAIN: UserStreamHandlerDelegate {
         case .NEW:
             switch report.side! {
             case .BUY:
-//                print("executionReportReceived ----------> NEW BUY ORDER PLACED")
+//                NSLog("executionReportReceived ----------> NEW BUY ORDER PLACED")
                 break
             case .SELL:
-//                print("NEW SELL ORDER PLACED")
+//                NSLog("NEW SELL ORDER PLACED")
                 break
             }
             break
@@ -54,7 +54,7 @@ extension systemBRAIN: UserStreamHandlerDelegate {
         case .FILLED:
             switch report.side! {
             case .BUY:
-//                print("executionReportReceived ----------> BUY ORDER FILLED, TIME TO SELL!")
+//                NSLog("executionReportReceived ----------> BUY ORDER FILLED, TIME TO SELL!")
                 self.placeSellOrderForExecutedBuyOrder(report: report) { (success, error) in
                     guard error == nil else {
                         return
@@ -117,49 +117,30 @@ extension systemBRAIN: UserStreamHandlerDelegate {
             }
         } else {
             DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                var order: QueuedOrderObject?
                 if let queuedOrders = self.orderHandler.loadAllQueuedOrders()?.filter({ $0.orderId == "MARKET_PUMP_\(report.symbol!)" }), queuedOrders.count > 0 {
-                    let queuedOrder = queuedOrders[0]
-
+                    order = queuedOrders[0]
+                } else if let queuedOrder = self.orderHandler.queuedOrdersDic[report.symbol!] {
+                    order = queuedOrder
+                }
+                
+                if let queuedOrder = order {
                     AccountHandler.shared.getCurrentUserCredit { (accountInfo, error) in
                         guard error == nil, accountInfo != nil else { return }
                         
                         if let balance = accountInfo!.balances?.filter({ $0.asset == queuedOrder.asset }).first {
                             if let free = balance.free {
+                                self.orderHandler.queuedOrdersDic.removeValue(forKey: report.symbol!)
                                 NumbersUtilities.shared.formatted(quantity: free, for: report.symbol!) { (amount, error) in
                                     guard error == nil, amount != nil else { return }
                                     
                                     self.orderHandler.placeNewOrderWith(type: .OCO, asset: queuedOrder.asset, currency: queuedOrder.currency, side: .SELL, amount: amount!, price: queuedOrder.price, stopPrice: queuedOrder.stopPrice, stopLimitPrice: queuedOrder.stopLimitPrice) { (response, error) in
                                         guard error == nil, response != nil else {
                                             completion(false, error)
-                                            print(error ?? "")
+                                            NSLog(error ?? "")
                                             return
                                         }
                                         completion(true, nil)
-                                    }
-                                }
-                            }
-                        }
-                    }
-                } else {
-                    if let queuedOrder = self.orderHandler.queuedOrdersDic[report.symbol!] {
-                        AccountHandler.shared.getCurrentUserCredit { (accountInfo, error) in
-                            guard error == nil, accountInfo != nil else { return }
-                            
-                            if let balance = accountInfo!.balances?.filter({ $0.asset == queuedOrder.asset }).first {
-                                if let free = balance.free {
-                                    
-                                    self.orderHandler.queuedOrdersDic.removeValue(forKey: report.symbol!)
-                                    NumbersUtilities.shared.formatted(quantity: free, for: report.symbol!) { (amount, error) in
-                                        guard error == nil, amount != nil else { return }
-                                        
-                                        self.orderHandler.placeNewOrderWith(type: .OCO, asset: queuedOrder.asset, currency: queuedOrder.currency, side: .SELL, amount: amount!, price: queuedOrder.price, stopPrice: queuedOrder.stopPrice, stopLimitPrice: queuedOrder.stopLimitPrice) { (response, error) in
-                                            guard error == nil, response != nil else {
-                                                completion(false, error)
-                                                print(error ?? "")
-                                                return
-                                            }
-                                            completion(true, nil)
-                                        }
                                     }
                                 }
                             }

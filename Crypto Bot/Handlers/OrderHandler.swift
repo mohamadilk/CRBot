@@ -14,6 +14,9 @@ class OrderHandler: NSObject {
     
     public static let shared = OrderHandler()
     var queuedOrdersDic = [String: QueuedOrderObject]()
+    var stopPriceCounter = [String: [String: Double]]()
+
+    var stopPriceUpdateTimer: Timer?
     
     lazy var db: CoreDataDefaultStorage = {
         let store = CoreDataStore.named("cd_basic")
@@ -144,7 +147,7 @@ class OrderHandler: NSObject {
     }
     
     func replaceOCOSellOrder(symbol: String, price: String, stopPrice: String, stopLimitPrice: String, quantity: String, completion: @escaping(_ order: OrderResponseObject?, _ error: String?) -> Swift.Void) {
-        print("..................................")
+        NSLog("..................................")
         self.accountServices.postNewOCOOrder(symbol: symbol, side: .SELL, quantity: quantity, price: price, stopPrice: stopPrice, stopLimitPrice: stopLimitPrice, timestamp: NSDate().timeIntervalSince1970 * 1000) { (result, error) in
             guard error == nil else {
                 completion(nil, error?.description)
@@ -289,8 +292,8 @@ class OrderHandler: NSObject {
     }
     
     public func sellOrderFullfieled(report: ExecutionReport) {
-        if let index = PupmHandler.shared.activeOrders.index(of: report.symbol!) {
-            PupmHandler.shared.activeOrders.remove(at: index)
+        if let index = PumpHandler.shared.activeOrders.index(of: report.symbol!) {
+            PumpHandler.shared.activeOrders.remove(at: index)
         }
         
         if report.orderType != .LIMIT_MAKER { return }
@@ -350,7 +353,25 @@ class OrderHandler: NSObject {
         }
     }
     
+    @objc func updateStopLossCountDict() {
+        for symbol in self.stopPriceCounter.keys {
+            let symbolInfo = self.stopPriceCounter[symbol]
+            let time = symbolInfo!["time"]
+            
+            let difference = Calendar.current.dateComponents([.hour, .minute], from: Date(timeIntervalSinceNow: time!), to: Date())
+            if let minuts = difference.minute, minuts > 5 {
+                self.stopPriceCounter.removeValue(forKey: symbol)
+            }
+        }
+    }
+    
     func placePumpOrder(for symbol: String) {
+        
+        if stopPriceUpdateTimer == nil {
+            stopPriceUpdateTimer = Timer.scheduledTimer(timeInterval: 300, target: self, selector: #selector(updateStopLossCountDict), userInfo: nil, repeats: true)
+            stopPriceUpdateTimer?.fire()
+        }
+        
         currentFreeBalance(side: .BUY) { (freeBalance, error) in
             guard error == nil, freeBalance != nil, freeBalance! > 0.0 else { return }
             var dedicated: Double = 0.0
@@ -361,17 +382,25 @@ class OrderHandler: NSObject {
                 dedicated = 0.0030
             }
             
+            if let _ = self.stopPriceCounter[symbol] {
+                self.stopPriceCounter[symbol]!["count"] = self.stopPriceCounter[symbol]!["count"]! + 1.0
+                self.stopPriceCounter[symbol]!["time"] = NSDate().timeIntervalSince1970
+            } else {
+                self.stopPriceCounter[symbol] = ["count":1.0, "time": NSDate().timeIntervalSince1970]
+            }
+            
             if let symbolObject = ExchangeHandler.shared.getSyncSymbol(symbol: symbol) {
                 MarketDataServices.shared.fetchSymbolPriceTicker(symbol: symbol) { (symbolPrice, error) in
                     guard error == nil, symbolPrice != nil else { return }
                     
-                    NumbersUtilities.shared.formatted(price: (symbolPrice!.price!.doubleValue * 1.009).toString() , for: symbol) { (price, error) in
+                    NumbersUtilities.shared.formatted(price: (symbolPrice!.price!.doubleValue * self.profitBasedOnMarketSituation()).toString() , for: symbol) { (price, error) in
                         guard error == nil, price != nil else { return }
                         
-                        NumbersUtilities.shared.formatted(price: (symbolPrice!.price!.doubleValue * 0.987).toString(), for: symbol) { (stopPrice, error) in
+                        let stopLossAmount = self.stopLossValue(symbol: symbol, price: symbolPrice!.price!)
+                        NumbersUtilities.shared.formatted(price: stopLossAmount.toString(), for: symbol) { (stopPrice, error) in
                             guard error == nil, stopPrice != nil else { return }
                             
-                            NumbersUtilities.shared.formatted(price: (symbolPrice!.price!.doubleValue * 0.985).toString(), for: symbol) { (limitPrice, error) in
+                            NumbersUtilities.shared.formatted(price: (stopLossAmount * 0.998).toString(), for: symbol) { (limitPrice, error) in
                                 guard error == nil, limitPrice != nil else { return }
                                 
                                 NumbersUtilities.shared.formatted(quantity: (dedicated / price!.doubleValue).toString(), for: symbol) { (quantity, error) in
@@ -386,7 +415,7 @@ class OrderHandler: NSObject {
                                             let queuedOrder = QueuedOrderObject(asset: symbolObject.baseAsset!, currency: symbolObject.quoteAsset!, price: price!, stopPrice: stopPrice!, stopLimitPrice: limitPrice!, amount: amount!, orderId: "MARKET_PUMP_\(symbol)", uniqueId: "MARKET_PUMP_\(symbol)_\(amount!)")
                                             
                                             self.insertQueuedOrders(array: [queuedOrder])
-                                            print("ORDER INSERTED INTO DATABASE: >>>>>> MARKET_PUMP_\(symbol)")
+                                            NSLog("ORDER INSERTED INTO DATABASE: >>>>>> MARKET_PUMP_\(symbol)")
 
                                         }
                                     }
@@ -397,6 +426,51 @@ class OrderHandler: NSObject {
                 }
             }
         }
+    }
+    
+    func profitBasedOnMarketSituation() -> Double {
+        
+        let marketFactor = PumpHandler.shared.marketMultiplayer
+        switch marketFactor {
+        case ..<2:
+            return 1.009
+        case 2..<5:
+            return 1.008
+        case 5..<10:
+            return 1.007
+        case 10..<15:
+            return 1.006
+        case 15..<20:
+            return 1.005
+        default:
+            return 1.004
+        }
+    }
+    
+    func stopLossValue(symbol: String, price: String) -> Double {
+        
+        if let symbolInfo = stopPriceCounter[symbol] {
+            if let count = symbolInfo["count"] {
+                switch count {
+                case 1.0:
+                    return (price.doubleValue * 0.987)
+                    
+                case 2.0:
+                        return (price.doubleValue * 0.990)
+                        
+                case 3.0:
+                        return (price.doubleValue * 0.993)
+                        
+                case 4.0...1000.0:
+                        return (price.doubleValue * 0.995)
+                        
+                default:
+                    break
+                }
+            }
+        }
+        
+        return (price.doubleValue * 0.987)
     }
     
     private func currentFreeBalance(side: OrderSide, completion:  @escaping(_ balance: Double?, _ error: ApiError?) -> Swift.Void) {

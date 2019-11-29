@@ -8,14 +8,13 @@
 
 import Foundation
 
-class PupmHandler {
+class PumpHandler {
     
-    public static let shared = PupmHandler()
+    public static let shared = PumpHandler()
     
     var minutesTimer: Timer?
     var secondsTimer: Timer?
     
-//    var firstPrice = [String: String]()
     var secondPrice = [String: String]()
     var currentPrice = [String: String]()
     
@@ -35,7 +34,9 @@ class PupmHandler {
     var avarageValumePerSymbol = [String: Double]()
     
     let minimumTradeCount = 10
-    let minimumVolumeMultiplyer: Double = 6.0
+    var minimumVolumeMultiplyer: Double = 4.0
+    
+    var marketMultiplayer: Double = 1
     
     init() {
         minutesTimer = Timer.scheduledTimer(withTimeInterval: 20, repeats: true, block: { _ in
@@ -80,7 +81,7 @@ class PupmHandler {
                 }
                 return
                 
-            } else if self.secondPrice.keys.count == 0, self.currentPrice.keys.count > 0 { //Second minute of data received
+            } else { //Second minute of data received
                 self.secondPrice = self.currentPrice
                 for symbolPrice in symbolPricesArray! {
                     if let symbol = symbolPrice.symbol, let price = symbolPrice.price {
@@ -116,6 +117,7 @@ class PupmHandler {
             self.watchList = []
             
             if let btcOrders = symbolOrderBooksArray?.filter({ ($0.symbol?.contains("BTC") ?? false) }), btcOrders.count > 0 {
+                var passedOrders = 0
                 for symbolObject in btcOrders {
 
                     guard let symbol = symbolObject.symbol else { continue }
@@ -125,12 +127,7 @@ class PupmHandler {
                     var rawScore: Double = 0.0
                     
                     guard let secondPrice = self.secondPrice[symbol] else { continue }
-                    guard symbolObject.price?.doubleValue ?? 0 > secondPrice.doubleValue else {
-                        self.secondPrice.removeValue(forKey: symbol)
-//                        self.firstPrice.removeValue(forKey: symbol)
-                        self.watchList = self.watchList.filter({ $0.symbolOrderBook?.symbol != symbol })
-                        continue
-                    }
+                    guard symbolObject.price?.doubleValue ?? 0 > secondPrice.doubleValue else { continue }
 //
 //                    if self.firstPrice.keys.count > 0 , let firstPrice = self.firstPrice[symbol] {
 //                        if firstPrice == secondPrice { continue }
@@ -151,7 +148,8 @@ class PupmHandler {
                             weightedScore = weightedScore + currentPercent * 5
                         }
                     }
-                    
+                    NSLog(">>>>>> Symbol \(symbol) Raw Score is: \(rawScore)")
+                    passedOrders += 1
                     if rawScore > self.tradeFactor {
                         let candidate = CandidateSymbolObject()
                         candidate.rawScore = rawScore
@@ -161,14 +159,22 @@ class PupmHandler {
                         self.watchList.append(candidate)
                     }
                 }
+                self.updateMarketMultipyer(passedOrders: passedOrders, total: btcOrders.count)
                 self.watchListUpdated()
             }
         }
     }
     
+    func updateMarketMultipyer(passedOrders: Int, total: Int) {
+        marketMultiplayer = Double(total / passedOrders)
+        NSLog("Market factor: \(marketMultiplayer)")
+        minimumVolumeMultiplyer = 3.8 + (20.0 * marketMultiplayer / 100.0)
+    }
+    
     func watchListUpdated() {
         var watchList = self.watchList
         guard watchList.count > 0 else {
+            NSLog("Watch list is empty")
             return
         }
         watchList = watchList.sorted(by: { $0.weightedScore! > $1.weightedScore! })
@@ -186,42 +192,47 @@ class PupmHandler {
     func filterByCandleSticData(candidates: [CandidateSymbolObject]) {
         for candida in candidates {
             guard let symbol = candida.symbolOrderBook?.symbol else { continue }
-            MarketDataServices.shared.fetchCandlestickData(symbol: symbol, interval: CandlestickChartIntervals.oneMin.rawValue, limit: 2) { (candlesArray, error) in
-                guard candlesArray != nil, error == nil else { return }
+            MarketDataServices.shared.fetchCandlestickData(symbol: symbol, interval: CandlestickChartIntervals.oneMin.rawValue, limit: 3) { (candlesArray, error) in
+                guard var candlesArray = candlesArray, error == nil else { return }
                 
-                var totalTrades = 0
-                var totalVolume: Double = 0.0
-                
-                for candle in candlesArray! {
+                let oldCandle = candlesArray.remove(at: 0)
+
+                var totalTrades = oldCandle.numberOfTrades!
+                var totalVolume: Double = (oldCandle.volume?.doubleValue)!
+                                
+                for candle in candlesArray {
                     if candle.open?.doubleValue ?? 1 >= candle.close?.doubleValue ?? 0 { return }
                     totalTrades = totalTrades + (candle.numberOfTrades ?? 0)
                     totalVolume = totalVolume + (candle.volume?.doubleValue ?? 0.0)
                 }
                 
+                
+                
                 if totalTrades >= self.minimumTradeCount {
                     if totalVolume > (self.avarageValumePerSymbol[symbol] ?? 0) * self.minimumVolumeMultiplyer {
                         
                         if !self.activeOrders.contains(symbol) {
-                            print(">>>>>>>>>>>>>> CANDIDATE CONFIRMED \(symbol)")
+                            NSLog(">>>>>>>>>>>>>> CANDIDATE CONFIRMED \(symbol)")
                             if let count = self.candidateDetectionCountDict[symbol] {
                                 self.candidateDetectionCountDict[symbol] = count + 1
                                 if self.candidateDetectionCountDict[symbol] ?? 0 >= self.detectionConfirmationLimit {
-                                    print(">>>>>>>>>>>>>> DETECTED \(symbol)")
+                                    NSLog(">>>>>>>>>>>>>> DETECTED \(symbol)")
                                     self.activeOrders.append(symbol)
                                     self.candidateDetectionCountDict.removeValue(forKey: symbol)
                                     OrderHandler.shared.placePumpOrder(for: symbol)
+
                                 }
                             } else {
                                 self.candidateDetectionCountDict[symbol] = 1
                             }
                         } else {
-                            print("Already in active orders \(symbol)")
+                            NSLog("Already in active orders \(symbol)")
                         }
                     } else {
-                        print("Does not meet minimum volume \(symbol)\n\n Avarage Volume: \(self.avarageValumePerSymbol[symbol] ?? 0)\n Total Volume: \(totalVolume)")
+                        NSLog("Does not meet minimum volume \(symbol)\n\n Avarage Volume: \(self.avarageValumePerSymbol[symbol] ?? 0)\n Total Volume: \(totalVolume)")
                     }
                 } else {
-                    print("Does not meet minimum trade count \(symbol)")
+                    NSLog("Does not meet minimum trade count \(symbol)")
                 }
             }
         }

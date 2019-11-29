@@ -8,14 +8,14 @@
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
             uuid = "9298EEA4-27B4-47BF-B212-A3CC01A1AA6E"
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Crypto Bot/Handlers/systemBRAIN.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "135"
-            endingLineNumber = "135"
+            startingLineNumber = "137"
+            endingLineNumber = "137"
             landmarkName = "placeSellOrderForExecutedBuyOrder(report:completion:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -24,7 +24,7 @@
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
             uuid = "55D48452-BB9B-404F-99FA-C60319952AB6"
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Crypto Bot/Handlers/systemBRAIN.swift"
@@ -34,45 +34,13 @@
             endingLineNumber = "120"
             landmarkName = "placeSellOrderForExecutedBuyOrder(report:completion:)"
             landmarkType = "7">
-            <Locations>
-               <Location
-                  uuid = "55D48452-BB9B-404F-99FA-C60319952AB6 - ba024eed41957aaa"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "closure #3 () -&gt; () in Crypto_Bot.systemBRAIN.placeSellOrderForExecutedBuyOrder(report: Crypto_Bot.ExecutionReport, completion: (Swift.Optional&lt;Swift.Bool&gt;, Swift.Optional&lt;Swift.String&gt;) -&gt; ()) -&gt; ()"
-                  moduleName = "Crypto Bot"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/mohammadilkhani/CRBot/Crypto%20Bot/Handlers/systemBRAIN.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "120"
-                  endingLineNumber = "120"
-                  offsetFromSymbolStart = "84">
-               </Location>
-               <Location
-                  uuid = "55D48452-BB9B-404F-99FA-C60319952AB6 - 87ba7263d387e01d"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "closure #1 (Crypto_Bot.QueuedOrderObject) -&gt; Swift.Bool in closure #3 () -&gt; () in Crypto_Bot.systemBRAIN.placeSellOrderForExecutedBuyOrder(report: Crypto_Bot.ExecutionReport, completion: (Swift.Optional&lt;Swift.Bool&gt;, Swift.Optional&lt;Swift.String&gt;) -&gt; ()) -&gt; ()"
-                  moduleName = "Crypto Bot"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/mohammadilkhani/CRBot/Crypto%20Bot/Handlers/systemBRAIN.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "120"
-                  endingLineNumber = "120"
-                  offsetFromSymbolStart = "107">
-               </Location>
-            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
             uuid = "8052E1E7-26A3-474D-8501-84F0C0D1D73C"
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Crypto Bot/Handlers/PupmHandler.swift"
@@ -82,6 +50,54 @@
             endingLineNumber = "155"
             landmarkName = "updateSecondsData()"
             landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "9087F86F-1BEF-461B-87B8-D323B534DC51"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Crypto Bot/Handlers/OrderHandler.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "447"
+            endingLineNumber = "447"
+            landmarkName = "placePumpOrder(for:completion:)"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "9087F86F-1BEF-461B-87B8-D323B534DC51 - 18ae0e9d02a13a37"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #1 (Swift.Optional&lt;Crypto_Bot.AccountInformation&gt;, Swift.Optional&lt;Crypto_Bot.ApiError&gt;) -&gt; () in closure #1 () -&gt; () in closure #1 (Swift.Optional&lt;Swift.String&gt;, Swift.Optional&lt;Crypto_Bot.ApiError&gt;) -&gt; () in closure #1 (Swift.Optional&lt;Crypto_Bot.OrderResponseObject&gt;, Swift.Optional&lt;Swift.String&gt;) -&gt; () in closure #1 (Swift.Optional&lt;Swift.String&gt;, Swift.Optional&lt;Crypto_Bot.ApiError&gt;) -&gt; () in closure #1 (Swift.Optional&lt;Swift.String&gt;, Swift.Optional&lt;Crypto_Bot.ApiError&gt;) -&gt; () in closure #1 (Swift.Optional&lt;Swift.String&gt;, Swift.Optional&lt;Crypto_Bot.ApiError&gt;) -&gt; () in closure #1 (Swift.Optional&lt;Swift.String&gt;, Swift.Optional&lt;Crypto_Bot.ApiError&gt;) -&gt; () in closure #1 (Swift.Optional&lt;Crypto_Bot.SymbolPriceObject&gt;, Swift.Optional&lt;Crypto_Bot.ApiError&gt;) -&gt; () in closure #1 (Swift.Optional&lt;Swift.Double&gt;, Swift.Optional&lt;Crypto_Bot.ApiError&gt;) -&gt; () in Crypto_Bot.OrderHandler.placePumpOrder(for: Swift.String, completion: (Swift.Optional&lt;Swift.Bool&gt;, Swift.Optional&lt;Swift.String&gt;) -&gt; ()) -&gt; ()"
+                  moduleName = "Crypto Bot"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/mohammadilkhani/CRBot/Crypto%20Bot/Handlers/OrderHandler.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "447"
+                  endingLineNumber = "447"
+                  offsetFromSymbolStart = "2162">
+               </Location>
+               <Location
+                  uuid = "9087F86F-1BEF-461B-87B8-D323B534DC51 - 2702db91730afa39"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #2 (Swift.Optional&lt;Swift.String&gt;, Swift.Optional&lt;Crypto_Bot.ApiError&gt;) -&gt; () in closure #1 (Swift.Optional&lt;Crypto_Bot.AccountInformation&gt;, Swift.Optional&lt;Crypto_Bot.ApiError&gt;) -&gt; () in closure #1 () -&gt; () in closure #1 (Swift.Optional&lt;Swift.String&gt;, Swift.Optional&lt;Crypto_Bot.ApiError&gt;) -&gt; () in closure #1 (Swift.Optional&lt;Crypto_Bot.OrderResponseObject&gt;, Swift.Optional&lt;Swift.String&gt;) -&gt; () in closure #1 (Swift.Optional&lt;Swift.String&gt;, Swift.Optional&lt;Crypto_Bot.ApiError&gt;) -&gt; () in closure #1 (Swift.Optional&lt;Swift.String&gt;, Swift.Optional&lt;Crypto_Bot.ApiError&gt;) -&gt; () in closure #1 (Swift.Optional&lt;Swift.String&gt;, Swift.Optional&lt;Crypto_Bot.ApiError&gt;) -&gt; () in closure #1 (Swift.Optional&lt;Swift.String&gt;, Swift.Optional&lt;Crypto_Bot.ApiError&gt;) -&gt; () in closure #1 (Swift.Optional&lt;Crypto_Bot.SymbolPriceObject&gt;, Swift.Optional&lt;Crypto_Bot.ApiError&gt;) -&gt; () in closure #1 (Swift.Optional&lt;Swift.Double&gt;, Swift.Optional&lt;Crypto_Bot.ApiError&gt;) -&gt; () in Crypto_Bot.OrderHandler.placePumpOrder(for: Swift.String, completion: (Swift.Optional&lt;Swift.Bool&gt;, Swift.Optional&lt;Swift.String&gt;) -&gt; ()) -&gt; ()"
+                  moduleName = "Crypto Bot"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/mohammadilkhani/CRBot/Crypto%20Bot/Handlers/OrderHandler.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "448"
+                  endingLineNumber = "448"
+                  offsetFromSymbolStart = "275">
+               </Location>
+            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

@@ -217,9 +217,12 @@ class PumpHandler {
                                 self.candidateDetectionCountDict[symbol] = count + 1
                                 if self.candidateDetectionCountDict[symbol] ?? 0 >= self.detectionConfirmationLimit {
                                     NSLog(">>>>>>>>>>>>>> DETECTED \(symbol)")
-                                    self.activeOrders.append(symbol)
                                     self.candidateDetectionCountDict.removeValue(forKey: symbol)
-                                    OrderHandler.shared.placePumpOrder(for: symbol)
+                                    OrderHandler.shared.placePumpOrder(for: symbol) { (success, error) in
+                                        if success ?? false {
+                                            self.activeOrders.append(symbol)
+                                        }
+                                    }
 
                                 }
                             } else {
@@ -227,6 +230,9 @@ class PumpHandler {
                             }
                         } else {
                             NSLog("Already in active orders \(symbol)")
+                            for order in self.activeOrders {
+                                NSLog("\(order)\n")
+                            }
                         }
                     } else {
                         NSLog("Does not meet minimum volume \(symbol)\n\n Avarage Volume: \(self.avarageValumePerSymbol[symbol] ?? 0)\n Total Volume: \(totalVolume)")

@@ -54,7 +54,7 @@ extension systemBRAIN: UserStreamHandlerDelegate {
         case .FILLED:
             switch report.side! {
             case .BUY:
-//                NSLog("executionReportReceived ----------> BUY ORDER FILLED, TIME TO SELL!")
+                NSLog("executionReportReceived ----------> BUY ORDER FILLED, TIME TO SELL! \(report.symbol!)")
                 self.placeSellOrderForExecutedBuyOrder(report: report) { (success, error) in
                     guard error == nil else {
                         return
@@ -116,30 +116,38 @@ extension systemBRAIN: UserStreamHandlerDelegate {
                 }
             }
         } else {
-            DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
                 var order: QueuedOrderObject?
                 if let queuedOrders = self.orderHandler.loadAllQueuedOrders()?.filter({ $0.orderId == "MARKET_PUMP_\(report.symbol!)" }), queuedOrders.count > 0 {
+                    NSLog("Order fetched from database \(report.symbol!)")
                     order = queuedOrders[0]
                 } else if let queuedOrder = self.orderHandler.queuedOrdersDic[report.symbol!] {
+                    NSLog("Order fetched from memory \(report.symbol!)")
                     order = queuedOrder
+                } else {
+                    NSLog("Could not fetch order \(report.symbol!)")
                 }
                 
                 if let queuedOrder = order {
                     AccountHandler.shared.getCurrentUserCredit { (accountInfo, error) in
                         guard error == nil, accountInfo != nil else { return }
-                        
+
                         if let balance = accountInfo!.balances?.filter({ $0.asset == queuedOrder.asset }).first {
                             if let free = balance.free {
+                                NSLog("Fetched user credit: \(free)")
+
                                 self.orderHandler.queuedOrdersDic.removeValue(forKey: report.symbol!)
                                 NumbersUtilities.shared.formatted(quantity: free, for: report.symbol!) { (amount, error) in
                                     guard error == nil, amount != nil else { return }
                                     
                                     self.orderHandler.placeNewOrderWith(type: .OCO, asset: queuedOrder.asset, currency: queuedOrder.currency, side: .SELL, amount: amount!, price: queuedOrder.price, stopPrice: queuedOrder.stopPrice, stopLimitPrice: queuedOrder.stopLimitPrice) { (response, error) in
                                         guard error == nil, response != nil else {
+                                            NSLog("Failed to place order with error: \(error?.description ?? "")")
                                             completion(false, error)
                                             NSLog(error ?? "")
                                             return
                                         }
+                                        NSLog("Successfully placed order")
                                         completion(true, nil)
                                     }
                                 }

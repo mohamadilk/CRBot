@@ -201,13 +201,22 @@ class PumpHandler {
                 var totalVolume: Double = (oldCandle.volume?.doubleValue)!
                                 
                 for candle in candlesArray {
-                    if candle.open?.doubleValue ?? 1 >= candle.close?.doubleValue ?? 0 { return }
+                    if candle.open?.doubleValue ?? 1 > candle.close?.doubleValue ?? 0 {
+                        NSLog("Symbol candle sticks has some negative: \(symbol)")
+                        return
+                    }
+                    
+                    let avarage = (candle.close?.doubleValue ?? 0) - (candle.open?.doubleValue ?? 0)
+                    let high = (candle.high?.doubleValue ?? 0) - (candle.close?.doubleValue ?? 0)
+                    if  avarage < high {
+                        NSLog("Symbol candle sticks has some atmpspher!!: \(symbol)")
+                        return
+                    }
+                    
                     totalTrades = totalTrades + (candle.numberOfTrades ?? 0)
                     totalVolume = totalVolume + (candle.volume?.doubleValue ?? 0.0)
                 }
-                
-                
-                
+
                 if totalTrades >= self.minimumTradeCount {
                     if totalVolume > (self.avarageValumePerSymbol[symbol] ?? 0) * self.minimumVolumeMultiplyer {
                         

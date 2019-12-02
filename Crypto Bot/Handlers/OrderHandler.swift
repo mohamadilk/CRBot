@@ -15,7 +15,7 @@ class OrderHandler: NSObject {
     public static let shared = OrderHandler()
     var queuedOrdersDic = [String: QueuedOrderObject]()
     var stopPriceCounter = [String: [String: Double]]()
-
+    
     var stopPriceUpdateTimer: Timer?
     
     lazy var db: CoreDataDefaultStorage = {
@@ -29,10 +29,10 @@ class OrderHandler: NSObject {
     let accountServices = AccountServices.shared
     
     func automaticallyPlaceNewOrderWith(type: OrderTypes, asset: String, currency: String , side: OrderSide, price: String, stopPrice: String? = nil, stopLimitPrice: String? = nil, percentage: String,  completion: @escaping(_ order: OrderResponseObject?, _ error: String?) -> Swift.Void) {
-
+        
         var baseAsset: String = ""
         var quoteAsset: String = ""
-
+        
         if side == OrderSide.BUY {
             baseAsset = asset
             quoteAsset = currency
@@ -40,7 +40,7 @@ class OrderHandler: NSObject {
             baseAsset = currency
             quoteAsset = asset
         }
-
+        
         quantityFor(asset: asset, currency: currency, baseAssset: baseAsset, quoteAsset: quoteAsset, side: side, percent: percentage, price: price, buyStopLimitPrice: stopLimitPrice) { (quantity, error) in
             guard error == nil else { return }
             
@@ -56,7 +56,7 @@ class OrderHandler: NSObject {
                         completion(result, error)
                     }
                 }
-
+                
             } else {
                 completion(nil, nil)
             }
@@ -196,7 +196,7 @@ class OrderHandler: NSObject {
                 completion(0, error?.localizedDescription)
                 return
             }
-                        
+            
             ExchangeHandler.shared.getSymbol(symbol: "\(asset)\(currency)") { (symbol, error) in
                 guard error == nil, symbol != nil else {
                     completion(0, error?.localizedDescription)
@@ -342,9 +342,9 @@ class OrderHandler: NSObject {
                                 return
                             }
                             self.placeNewOrderWith(type: .OCO, asset: symbol?.baseAsset ?? "", currency: symbol?.quoteAsset ?? "", side: .SELL, amount: order.orderQuantity ?? "0", price: price, stopPrice: stopPrice, stopLimitPrice: limitPrice) { (result, error) in
-                                 if error != nil {
+                                if error != nil {
                                     AlertUtility.showAlert(title: order.symbol ?? "ReSell Failed!", message: error)
-                                 }
+                                }
                             }
                         }
                     }
@@ -365,6 +365,21 @@ class OrderHandler: NSObject {
         }
     }
     
+    func properAmount(freeBalance: Double) -> Double? {
+        
+        var dedicated: Double = 0.0
+        
+        if freeBalance >= 0.002 {
+            dedicated = 0.002
+        } else if freeBalance > 0.0001 {
+            dedicated = freeBalance
+        } else {
+            NSLog("Free balance is too low \(freeBalance)")
+        }
+        
+        return dedicated
+    }
+    
     func placePumpOrder(for symbol: String, completion: @escaping(_ success: Bool?, _ error: String?) -> Swift.Void) {
         
         if stopPriceUpdateTimer == nil {
@@ -373,16 +388,13 @@ class OrderHandler: NSObject {
         }
         
         currentFreeBalance(side: .BUY) { (freeBalance, error) in
-            guard error == nil, freeBalance != nil, freeBalance! > 0.0 else { return }
-            NSLog("Place pump order current balance received \(freeBalance!)")
-            var dedicated: Double = 0.0
+            guard error == nil, freeBalance != nil, freeBalance! > 0.0 else {
+                NSLog("could not fetch free balance: \(symbol)")
+                return
+            }
             
-            if freeBalance! >= 0.0030 {
-                dedicated = 0.0030
-            } else if freeBalance! > 0.001 {
-                dedicated = freeBalance!
-            } else {
-                NSLog("Free balance is too low \(freeBalance!)")
+            guard let dedicated = self.properAmount(freeBalance: freeBalance!), dedicated > 0 else {
+                NSLog("could not dedicate free balance: \(symbol)")
                 return
             }
             
@@ -393,108 +405,191 @@ class OrderHandler: NSObject {
                 self.stopPriceCounter[symbol] = ["count":1.0, "time": NSDate().timeIntervalSince1970]
             }
             
-            if let symbolObject = ExchangeHandler.shared.getSyncSymbol(symbol: symbol) {
-                MarketDataServices.shared.fetchSymbolPriceTicker(symbol: symbol) { (symbolPrice, error) in
-                    guard error == nil, symbolPrice != nil else { return }
-                    NSLog("Place pump order symbol price received \(symbolPrice!.price!)")
+            guard let symbolObject = ExchangeHandler.shared.getSyncSymbol(symbol: symbol) else { return }
+            
+            MarketDataServices.shared.fetchSymbolPriceTicker(symbol: symbol) { (symbolPrice, error) in
+                guard error == nil, symbolPrice != nil else {
+                    NSLog("could not fetch symbol price ticker: \(symbol), \(error?.description ?? "")")
+                    return
+                }
+                
+                guard let price = NumbersUtilities.shared.formatted(price: (symbolPrice!.price!.doubleValue * self.profitBasedOnMarketSituation(price: symbolPrice!.price!.doubleValue)).toString(), for: symbol) else {
+                    NSLog("could not format symbol price: \(symbol)")
+                    return
+                }
+                
+                guard let stopPrice = NumbersUtilities.shared.formatted(price: self.stopLossValue(symbol: symbol, price: symbolPrice!.price!).toString(), for: symbol) else {
+                    NSLog("could not format stop price: \(symbol)")
+                    return
+                }
+                
+                guard let limitPrice = NumbersUtilities.shared.formatted(price: (stopPrice.doubleValue * 0.998).toString(), for: symbol) else {
+                    NSLog("could not format limit price: \(symbol)")
+                    return
+                }
+                
+                NSLog("Raw quantity\((dedicated / price.doubleValue))")
+                
+                guard let quantity = NumbersUtilities.shared.formatted(quantity: (dedicated / price.doubleValue).toString(), for: symbol) else {
+                    NSLog("could not format quantity: \(symbol)")
+                    return
+                }
+                
+                NSLog("Place pump order formatted quantity \(quantity)")
+                
+                self.placeNewOrderWith(type: .MARKET, asset: symbolObject.baseAsset ?? "", currency: symbolObject.quoteAsset ?? "", side: .BUY, amount: quantity) { (response, error) in
+                    guard error == nil, response != nil else {
+                        NSLog("Failed to place market order: \(symbol) \(error ?? "")")
+                        return
+                    }
+                    NSLog("Placed order \(response!.symbol!)")
+                    
+                    guard let newAmount = NumbersUtilities.shared.formatted(quantity: response?.origQty ?? "", for: symbol) else {
+                        NSLog("could not format quantity: \(symbol)")
+                        return
+                    }
+                    
+                    let queuedOrder = QueuedOrderObject(asset: symbolObject.baseAsset!, currency: symbolObject.quoteAsset!, price: price, stopPrice: stopPrice, stopLimitPrice: limitPrice, amount: newAmount, orderId: "MARKET_PUMP_\(symbol)", uniqueId: "MARKET_PUMP_\(symbol)_\(newAmount)")
+                    
+                    self.insertQueuedOrders(array: [queuedOrder])
+                    NSLog("ORDER INSERTED INTO DATABASE: >>>>>> MARKET_PUMP_\(symbol)")
+                    
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                        AccountHandler.shared.getCurrentUserCredit { (account, error) in
+                            guard error == nil, account != nil else {
+                                return
+                            }
+                            
+                            guard let balance = account!.balances?.filter({ $0.asset == symbolObject.baseAsset! }).first, let free = balance.free?.doubleValue, free > 0 else {
+                                NSLog("Preparing to place order after 0.5 seconds, could not get free value: \(symbol), or value is 0")
+                                return
+                            }
+                            
+                            NSLog("Preparing to place order after 0.5 seconds, free value: \(free)")
+                            
+                            guard let amount = NumbersUtilities.shared.formatted(quantity: free.toString(), for: symbol) else {
+                                NSLog("Preparing to place order after 0.5 seconds, could not format free value: \(symbol)")
+                                return
+                            }
+                            
+                            self.queuedOrdersDic.removeValue(forKey: symbolObject.symbol!)
+                            
+                            MarketDataServices.shared.fetchSymbolPriceTicker(symbol: symbol) { (symbolPrice, error) in
+                                guard error == nil, symbolPrice != nil else {
+                                    NSLog("could not fetch symbol price ticker: \(symbol), \(error?.description ?? "")")
+                                    return
+                                }
+                                NSLog("market price: \(symbol): \(symbolPrice!.price!)")
+                                
+                                guard let newPrice = NumbersUtilities.shared.formatted(price: (symbolPrice!.price!.doubleValue * self.profitBasedOnMarketSituation(price: price.doubleValue)).toString(), for: symbol) else {
+                                    NSLog("could not format symbol price: \(symbol)")
+                                    return
+                                }
+                                
+                                guard let newStopPrice = NumbersUtilities.shared.formatted(price: self.stopLossValue(symbol: symbol, price: symbolPrice!.price!).toString(), for: symbol) else {
+                                    NSLog("could not format stop price: \(symbol)")
+                                    return
+                                }
 
-                    NumbersUtilities.shared.formatted(price: (symbolPrice!.price!.doubleValue * self.profitBasedOnMarketSituation()).toString() , for: symbol) { (price, error) in
-                        guard error == nil, price != nil else { return }
-                        NSLog("Place pump order formatted price \(price!)")
-
-                        let stopLossAmount = self.stopLossValue(symbol: symbol, price: symbolPrice!.price!)
-                        NSLog("stopLossAmount \(stopLossAmount)")
-
-                        NumbersUtilities.shared.formatted(price: stopLossAmount.toString(), for: symbol) { (stopPrice, error) in
-                            guard error == nil, stopPrice != nil else { return }
-                            NSLog("Place pump order formatted stop price \(stopPrice!)")
-
-                            NumbersUtilities.shared.formatted(price: (stopLossAmount * 0.998).toString(), for: symbol) { (limitPrice, error) in
-                                guard error == nil, limitPrice != nil else { return }
-                                NSLog("Place pump order formatted limit price \(limitPrice!)")
-
-                                NSLog("Raw quantity\((dedicated / price!.doubleValue))")
-                                NumbersUtilities.shared.formatted(quantity: (dedicated / price!.doubleValue).toString(), for: symbol) { (quantity, error) in
-                                    guard error == nil, quantity != nil else { return }
-                                    NSLog("Place pump order formatted quantity \(quantity!)")
-
-                                    self.placeNewOrderWith(type: .MARKET, asset: symbolObject.baseAsset ?? "", currency: symbolObject.quoteAsset ?? "", side: .BUY, amount: quantity!) { (response, error) in
-                                        guard error == nil, response != nil else {
-                                            NSLog("Failed to place order: \(error ?? "")")
-                                            return
-                                        }
-                                        NSLog("Placed order \(response!.symbol!)")
+                                guard let newLimitPrice = NumbersUtilities.shared.formatted(price: (newStopPrice.doubleValue * 0.998).toString(), for: symbol) else {
+                                    NSLog("could not format limit price: \(symbol)")
+                                    return
+                                }
+                                
+                                NSLog("Raw quantity\((dedicated / price.doubleValue))")
+                                NSLog("Symbol: \(queuedOrder.asset)\(queuedOrder.currency), amount: \(amount), price: \(newPrice), stopPrice: \(newStopPrice), stopLimitPrice: \(newLimitPrice)")
+                                
+                                
+                                self.placeNewOrderWith(type: .OCO, asset: queuedOrder.asset, currency: queuedOrder.currency, side: .SELL, amount: amount, price: newPrice, stopPrice: newStopPrice, stopLimitPrice: newLimitPrice) { (orderResponse, error) in
+                                    guard error == nil, response != nil else {
+                                        NSLog("Failed to place oco order: \(error ?? "")")
                                         
-                                        NumbersUtilities.shared.formatted(quantity: (response?.origQty!)!, for: symbol) { (amount, error) in
-                                            guard error == nil, amount != nil else { return }
-                                            
-                                            let queuedOrder = QueuedOrderObject(asset: symbolObject.baseAsset!, currency: symbolObject.quoteAsset!, price: price!, stopPrice: stopPrice!, stopLimitPrice: limitPrice!, amount: amount!, orderId: "MARKET_PUMP_\(symbol)", uniqueId: "MARKET_PUMP_\(symbol)_\(amount!)")
-                                            
-                                            self.insertQueuedOrders(array: [queuedOrder])
-                                            NSLog("ORDER INSERTED INTO DATABASE: >>>>>> MARKET_PUMP_\(symbol)")
-                                            
-                                            DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
-                                                AccountHandler.shared.getCurrentUserCredit { (account, error) in
-                                                    guard error == nil, account != nil else {
+                                        DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+                                            self.placeNewOrderWith(type: .MARKET, asset: queuedOrder.asset, currency: queuedOrder.currency, side: .SELL, amount: amount) { (result, error) in
+                                                guard error == nil, response != nil else {
+                                                    NSLog("Failed to place order with error: \(error?.description ?? "")")
+                                                    return
+                                                }
+                                                NSLog("Successfully placed market order")
+                                            }
+                                        }
+                                        
+                                        return
+                                    }
+                                    NSLog("Successfully placed oco order, time activated: \(symbol)")
+                                    
+                                    DispatchQueue.main.asyncAfter(deadline: .now() + 900) {
+                                        if let orderListId = orderResponse?.orderReports?.first?.orderListId {
+                                            self.cancelOCOOrder(symbol: orderResponse?.symbol ?? "", orderListId: orderListId) { (responseObject, error) in
+                                                guard responseObject != nil, error == nil else {
+                                                    NSLog("Failed to cancel oco order")
+                                                    return
+                                                }
+                                                
+                                                self.placeNewOrderWith(type: .MARKET, asset: queuedOrder.asset, currency: queuedOrder.currency, side: .SELL, amount: amount) { (result, error) in
+                                                    guard error == nil, response != nil else {
+                                                        NSLog("Failed to place order with error: \(error?.description ?? "")")
                                                         return
                                                     }
-                                                    
-                                                    if let balance = account!.balances?.filter({ $0.asset == symbolObject.baseAsset! }).first {
-                                                        if let free = balance.free?.doubleValue {
-                                                            NSLog("Preparing to place order after 1.5 seconds! free value: \(free)")
-                                                            self.queuedOrdersDic.removeValue(forKey: symbolObject.symbol!)
-                                                            
-                                                            NumbersUtilities.shared.formatted(quantity: free.toString(), for: symbolObject.symbol!) { (amount, error) in
-                                                                NSLog("Formatted ammount: \(amount!)")
-                                                                guard error == nil, amount != nil else { return }
-
-                                                                self.placeNewOrderWith(type: .OCO, asset: queuedOrder.asset, currency: queuedOrder.currency, side: .SELL, amount: amount!, price: queuedOrder.price, stopPrice: queuedOrder.stopPrice, stopLimitPrice: queuedOrder.stopLimitPrice) { (response, error) in
-                                                                        guard error == nil, response != nil else {
-                                                                        NSLog("Failed to place order with error: \(error?.description ?? "")")
-                                                                        return
-                                                                        }
-                                                                NSLog("Successfully placed order")
-                                                                }
-                                                            }
-                                                        }
-                                                    }
+                                                    NSLog("Successfully placed market order")
                                                 }
                                             }
-                                            
-                                            completion(true, nil)
-
+                                        } else {
+                                            NSLog("could not get orderListId: \(symbol)")
                                         }
                                     }
                                 }
+
                             }
                         }
                     }
+                    completion(true, nil)
                 }
             }
         }
     }
     
-    func profitBasedOnMarketSituation() -> Double {
-        return 1.004
+    func profitBasedOnMarketSituation(price: Double) -> Double {
+        
         let marketFactor = PumpHandler.shared.marketMultiplayer
-        switch marketFactor {
-        case ..<2:
-            return 1.009
-        case 2..<5:
-            return 1.008
-        case 5..<10:
-            return 1.007
-        case 10..<15:
-            return 1.006
-        case 15..<20:
-            return 1.005
+
+        switch price {
+        case 0.000001..<0.000002:
+            return 1.02
+            
+        case 0.000002..<0.000004:
+            return 1.015
+           
+        case 0.000004..<0.00001:
+            return 1.012
+            
+        case 0.00001..<0.00002:
+            return 1.010
+            
         default:
-            return 1.004
+            switch marketFactor {
+            case ..<2:
+                return 1.009
+                
+            case 2..<5:
+                return 1.008
+                
+            case 5..<10:
+                return 1.007
+                
+            case 10..<15:
+                return 1.006
+                
+            case 15..<20:
+                return 1.005
+                
+            default:
+                return 1.004
+            }
         }
     }
     
     func stopLossValue(symbol: String, price: String) -> Double {
-        return (price.doubleValue * 0.997)
         if let symbolInfo = stopPriceCounter[symbol] {
             if let count = symbolInfo["count"] {
                 switch count {
@@ -502,14 +597,14 @@ class OrderHandler: NSObject {
                     return (price.doubleValue * 0.987)
                     
                 case 2.0:
-                        return (price.doubleValue * 0.990)
-                        
+                    return (price.doubleValue * 0.990)
+                    
                 case 3.0:
-                        return (price.doubleValue * 0.993)
-                        
+                    return (price.doubleValue * 0.993)
+                    
                 case 4.0...1000.0:
-                        return (price.doubleValue * 0.995)
-                        
+                    return (price.doubleValue * 0.995)
+                    
                 default:
                     break
                 }
@@ -610,5 +705,5 @@ class OrderHandler: NSObject {
         })
         return true
     }
-
+    
 }

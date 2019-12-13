@@ -14,4 +14,5 @@ target 'Crypto Bot' do
     pod 'UICircularProgressRing'
     pod 'SugarRecord/CoreData'
     pod 'NVActivityIndicatorView'
+    pod 'Charts'
 end

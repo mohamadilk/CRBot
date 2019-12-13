@@ -14,6 +14,7 @@ class CandidateSymbolObject: NSObject {
     
     var rawScore: Double?
     var weightedScore: Double?
+    var latestPrice: String?
     
     func getTargetPercent() -> Double {
         return rawScore ?? 0

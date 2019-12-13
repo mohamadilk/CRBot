@@ -9,7 +9,7 @@
 import Foundation
 
 class CandleObject {
-
+    
     var openTime: TimeInterval?
     var open: String?
     var high: String?
@@ -37,5 +37,39 @@ class CandleObject {
         self.takerBuyBaseAssetVolume = takerBuyBaseAssetVolume
         self.takerBuyquoteAssetVolume = takerBuyquoteAssetVolume
         self.ignore = ignore
+    }
+}
+
+class CandlesDataContainer {
+    
+    var oldCandle: CandleObject!
+    var lastCandle: CandleObject!
+    var oneToLastCandle: CandleObject!
+    
+    var tradedCandlesCount = 0
+    var samplesArray = [Double?]()
+    
+    init?(candles: [CandleObject], latestPrice: String) {
+        
+        guard candles.count > 0 else { return nil }
+        for i in 0..<candles.count {
+            
+            let candleObject = candles[i]
+            samplesArray.append(candleObject.close?.doubleValue)
+            
+            if i == candles.count - 2 { lastCandle = candleObject }
+            if i == candles.count - 3 { oneToLastCandle = candleObject }
+            if i == candles.count - 4 { oldCandle = candleObject }
+            
+            if candles.count > 7 {
+                if (candles.count - 7)..<(candles.count - 1) ~= i {
+                    if ((candleObject.open?.doubleValue ?? 0) != (candleObject.close?.doubleValue ?? 0)) {
+                        tradedCandlesCount += 1
+                    }
+                }
+            }
+        }
+        
+        samplesArray.append(latestPrice.doubleValue)
     }
 }

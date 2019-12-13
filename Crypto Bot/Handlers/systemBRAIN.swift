@@ -54,7 +54,7 @@ extension systemBRAIN: UserStreamHandlerDelegate {
         case .FILLED:
             switch report.side! {
             case .BUY:
-                NSLog("executionReportReceived ----------> BUY ORDER FILLED, TIME TO SELL! \(report.symbol!)")
+                print(Date(), "executionReportReceived ----------> BUY ORDER FILLED, TIME TO SELL! \(report.symbol!)" ,to: &logger)
                 self.placeSellOrderForExecutedBuyOrder(report: report) { (success, error) in
                     guard error == nil else {
                         return

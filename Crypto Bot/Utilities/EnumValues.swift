@@ -110,7 +110,7 @@ enum CandlestickChartIntervals: String {
     case threeMin = "3m"
     case fiveMin = "5m"
     case fifteenMin = "15m"
-    case thertyMin = "30m"
+    case thirtyMin = "30m"
     case oneHour = "1h"
     case twoHour = "2h"
     case fourHour = "4h"

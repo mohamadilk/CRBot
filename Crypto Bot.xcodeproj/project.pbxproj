@@ -65,6 +65,20 @@
 		CBC1BD00234DDC6A009F6E2C /* AccountInformation.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBC1BCFF234DDC6A009F6E2C /* AccountInformation.swift */; };
 		CBC1BD02234DDD2A009F6E2C /* BalanceObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBC1BD01234DDD29009F6E2C /* BalanceObject.swift */; };
 		D1138F07236B46D600766FD1 /* NumbersUtilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1138F06236B46D600766FD1 /* NumbersUtilities.swift */; };
+		D123E0A82395955C00FE6FB1 /* Logger.swift in Sources */ = {isa = PBXBuildFile; fileRef = D123E0A72395955C00FE6FB1 /* Logger.swift */; };
+		D12E3565239FC9AE005297FB /* RSI.swift in Sources */ = {isa = PBXBuildFile; fileRef = D12E3564239FC9AE005297FB /* RSI.swift */; };
+		D12E3567239FC9D3005297FB /* MovingAvarage.swift in Sources */ = {isa = PBXBuildFile; fileRef = D12E3566239FC9D3005297FB /* MovingAvarage.swift */; };
+		D12E3569239FD0A1005297FB /* Ichimoku.swift in Sources */ = {isa = PBXBuildFile; fileRef = D12E3568239FD0A1005297FB /* Ichimoku.swift */; };
+		D12E356B23A383C6005297FB /* ChartDetailTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D12E356A23A383C6005297FB /* ChartDetailTableViewController.swift */; };
+		D12E356F23A3B343005297FB /* BaseChartViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D12E356E23A3B343005297FB /* BaseChartViewController.swift */; };
+		D12E358323A3C465005297FB /* CandleStickChartViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D12E358223A3C465005297FB /* CandleStickChartViewController.swift */; };
+		D12E358523A3C478005297FB /* CandleStickChartViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = D12E358423A3C478005297FB /* CandleStickChartViewController.xib */; };
+		D131C7D7239A3AB20071CC85 /* LineChart2ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D131C7D5239A3AB20071CC85 /* LineChart2ViewController.swift */; };
+		D131C7D8239A3AB20071CC85 /* LineChart2ViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = D131C7D6239A3AB20071CC85 /* LineChart2ViewController.xib */; };
+		D131C7DC239A9C200071CC85 /* bell.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = D131C7DB239A9C200071CC85 /* bell.mp3 */; };
+		D131C7DE239A9C2D0071CC85 /* coin.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = D131C7DD239A9C2D0071CC85 /* coin.mp3 */; };
+		D131C7E0239A9C350071CC85 /* failed.wav in Resources */ = {isa = PBXBuildFile; fileRef = D131C7DF239A9C350071CC85 /* failed.wav */; };
+		D131C7E2239A9C560071CC85 /* MAudioPlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = D131C7E1239A9C560071CC85 /* MAudioPlayer.swift */; };
 		D13B48DE238008E000FDBA3B /* QueuedOrderObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = D13B48DD238008E000FDBA3B /* QueuedOrderObject.swift */; };
 		D13B48E0238037BC00FDBA3B /* QueuedOrderTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D13B48DF238037BC00FDBA3B /* QueuedOrderTableViewCell.swift */; };
 		D13B48E22381364B00FDBA3B /* DBHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = D13B48E12381364B00FDBA3B /* DBHandler.swift */; };
@@ -154,6 +168,20 @@
 		CBC1BCFF234DDC6A009F6E2C /* AccountInformation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountInformation.swift; sourceTree = "<group>"; };
 		CBC1BD01234DDD29009F6E2C /* BalanceObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BalanceObject.swift; sourceTree = "<group>"; };
 		D1138F06236B46D600766FD1 /* NumbersUtilities.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NumbersUtilities.swift; sourceTree = "<group>"; };
+		D123E0A72395955C00FE6FB1 /* Logger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Logger.swift; sourceTree = "<group>"; };
+		D12E3564239FC9AE005297FB /* RSI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RSI.swift; sourceTree = "<group>"; };
+		D12E3566239FC9D3005297FB /* MovingAvarage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovingAvarage.swift; sourceTree = "<group>"; };
+		D12E3568239FD0A1005297FB /* Ichimoku.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Ichimoku.swift; sourceTree = "<group>"; };
+		D12E356A23A383C6005297FB /* ChartDetailTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartDetailTableViewController.swift; sourceTree = "<group>"; };
+		D12E356E23A3B343005297FB /* BaseChartViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseChartViewController.swift; sourceTree = "<group>"; };
+		D12E358223A3C465005297FB /* CandleStickChartViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CandleStickChartViewController.swift; sourceTree = "<group>"; };
+		D12E358423A3C478005297FB /* CandleStickChartViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CandleStickChartViewController.xib; sourceTree = "<group>"; };
+		D131C7D5239A3AB20071CC85 /* LineChart2ViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LineChart2ViewController.swift; sourceTree = "<group>"; };
+		D131C7D6239A3AB20071CC85 /* LineChart2ViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LineChart2ViewController.xib; sourceTree = "<group>"; };
+		D131C7DB239A9C200071CC85 /* bell.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = bell.mp3; sourceTree = "<group>"; };
+		D131C7DD239A9C2D0071CC85 /* coin.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = coin.mp3; sourceTree = "<group>"; };
+		D131C7DF239A9C350071CC85 /* failed.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = failed.wav; sourceTree = "<group>"; };
+		D131C7E1239A9C560071CC85 /* MAudioPlayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MAudioPlayer.swift; sourceTree = "<group>"; };
 		D13B48DD238008E000FDBA3B /* QueuedOrderObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QueuedOrderObject.swift; sourceTree = "<group>"; };
 		D13B48DF238037BC00FDBA3B /* QueuedOrderTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QueuedOrderTableViewCell.swift; sourceTree = "<group>"; };
 		D13B48E12381364B00FDBA3B /* DBHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DBHandler.swift; sourceTree = "<group>"; };
@@ -227,6 +255,7 @@
 		CB23D508234F07270053E6DE /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				D131C7D4239A3AA60071CC85 /* Charts */,
 				CB2571872345DFB9007DBD6F /* Main.storyboard */,
 				D1A22593237B36EC0094BB2C /* ActiveOrders */,
 				CB8AACD0234F73EE0096DD07 /* CustomViews */,
@@ -289,6 +318,9 @@
 				D1C910B3238168E700F374AE /* Model.xcdatamodeld */,
 				CB25718C2345DFC0007DBD6F /* LaunchScreen.storyboard */,
 				CB25718F2345DFC0007DBD6F /* Info.plist */,
+				D131C7DB239A9C200071CC85 /* bell.mp3 */,
+				D131C7DD239A9C2D0071CC85 /* coin.mp3 */,
+				D131C7DF239A9C350071CC85 /* failed.wav */,
 			);
 			path = "Crypto Bot";
 			sourceTree = "<group>";
@@ -437,6 +469,37 @@
 			path = AccountServiceModels;
 			sourceTree = "<group>";
 		};
+		D12E3563239FC99B005297FB /* Indicators */ = {
+			isa = PBXGroup;
+			children = (
+				D12E3564239FC9AE005297FB /* RSI.swift */,
+				D12E3566239FC9D3005297FB /* MovingAvarage.swift */,
+				D12E3568239FD0A1005297FB /* Ichimoku.swift */,
+			);
+			path = Indicators;
+			sourceTree = "<group>";
+		};
+		D12E357023A3B762005297FB /* CandleStick */ = {
+			isa = PBXGroup;
+			children = (
+				D12E358223A3C465005297FB /* CandleStickChartViewController.swift */,
+				D12E358423A3C478005297FB /* CandleStickChartViewController.xib */,
+			);
+			path = CandleStick;
+			sourceTree = "<group>";
+		};
+		D131C7D4239A3AA60071CC85 /* Charts */ = {
+			isa = PBXGroup;
+			children = (
+				D12E357023A3B762005297FB /* CandleStick */,
+				D12E356E23A3B343005297FB /* BaseChartViewController.swift */,
+				D131C7D5239A3AB20071CC85 /* LineChart2ViewController.swift */,
+				D131C7D6239A3AB20071CC85 /* LineChart2ViewController.xib */,
+				D12E356A23A383C6005297FB /* ChartDetailTableViewController.swift */,
+			);
+			path = Charts;
+			sourceTree = "<group>";
+		};
 		D158D4082370BFAA00AAEE04 /* CellModel */ = {
 			isa = PBXGroup;
 			children = (
@@ -458,12 +521,15 @@
 		D1BEA61B23465EEE00677FA7 /* Utilities */ = {
 			isa = PBXGroup;
 			children = (
+				D12E3563239FC99B005297FB /* Indicators */,
 				CBC1BCF3234CCDAF009F6E2C /* ServerResponseTypes.swift */,
 				CBC1BCF5234CCE7F009F6E2C /* EnumValues.swift */,
 				CB8AACCC234F629A0096DD07 /* AlertUtility.swift */,
 				D1C635472368737900D9745B /* ColorUtility.swift */,
 				D1138F06236B46D600766FD1 /* NumbersUtilities.swift */,
 				D19A0089236C92F40036EB6B /* StepsHandler.swift */,
+				D123E0A72395955C00FE6FB1 /* Logger.swift */,
+				D131C7E1239A9C560071CC85 /* MAudioPlayer.swift */,
 			);
 			path = Utilities;
 			sourceTree = "<group>";
@@ -529,15 +595,20 @@
 			buildActionMask = 2147483647;
 			files = (
 				CB25718E2345DFC0007DBD6F /* LaunchScreen.storyboard in Resources */,
+				D131C7D8239A3AB20071CC85 /* LineChart2ViewController.xib in Resources */,
 				CBAFCC092366FCFE00EA3370 /* AmountCell.xib in Resources */,
+				D12E358523A3C478005297FB /* CandleStickChartViewController.xib in Resources */,
 				CBAFCC152367092000EA3370 /* AddTargetCell.xib in Resources */,
 				CBAFCC192367101600EA3370 /* TargetsCell.xib in Resources */,
+				D131C7DE239A9C2D0071CC85 /* coin.mp3 in Resources */,
+				D131C7DC239A9C200071CC85 /* bell.mp3 in Resources */,
 				CBAFCC052366E5B800EA3370 /* PriceCell.xib in Resources */,
 				CB25718B2345DFC0007DBD6F /* Assets.xcassets in Resources */,
 				CBAFCC0D236705B200EA3370 /* DescriptionCell.xib in Resources */,
 				D172A79023684378008701BA /* TargetCollectionViewCell.xib in Resources */,
 				CBAFCC11236706BE00EA3370 /* SwitchCell.xib in Resources */,
 				CB2571892345DFB9007DBD6F /* Main.storyboard in Resources */,
+				D131C7E0239A9C350071CC85 /* failed.wav in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -597,7 +668,9 @@
 				CBBE8F60236AB8BB004279D6 /* SymbolsListTableViewController.swift in Sources */,
 				CB711F58234B3A87008F7A33 /* UserDataStreamServices.swift in Sources */,
 				CBAFCC082366FCFE00EA3370 /* AmountCell.swift in Sources */,
+				D12E3565239FC9AE005297FB /* RSI.swift in Sources */,
 				CBC1BCE5234C7E0D009F6E2C /* CandleObject.swift in Sources */,
+				D131C7E2239A9C560071CC85 /* MAudioPlayer.swift in Sources */,
 				CB711F6A234B5BC6008F7A33 /* BidAskObject.swift in Sources */,
 				CB23D500234E13A80053E6DE /* outboundAccountInfoObject.swift in Sources */,
 				CB2571A02345E164007DBD6F /* BaseApiModel.swift in Sources */,
@@ -612,6 +685,7 @@
 				CBBE8F62236AB8E0004279D6 /* SymbolsListViewModel.swift in Sources */,
 				CBC1BD00234DDC6A009F6E2C /* AccountInformation.swift in Sources */,
 				D13B48E72381644900FDBA3B /* BasicOrderObject.swift in Sources */,
+				D123E0A82395955C00FE6FB1 /* Logger.swift in Sources */,
 				CB8AACD42350B9B20096DD07 /* ExchangeHandler.swift in Sources */,
 				CBAFCC10236706BE00EA3370 /* SwitchCell.swift in Sources */,
 				CBAFCC142367092000EA3370 /* AddTargetCell.swift in Sources */,
@@ -631,8 +705,10 @@
 				CBAFCC182367101600EA3370 /* TargetsCell.swift in Sources */,
 				D172A79223684E44008701BA /* BaseTableViewCell.swift in Sources */,
 				CBC1BCEB234C9978009F6E2C /* SymbolPriceObject.swift in Sources */,
+				D12E356B23A383C6005297FB /* ChartDetailTableViewController.swift in Sources */,
 				CB711F60234B3FD8008F7A33 /* FilterObject.swift in Sources */,
 				D172A78F23684378008701BA /* TargetCollectionViewCell.swift in Sources */,
+				D12E3569239FD0A1005297FB /* Ichimoku.swift in Sources */,
 				CB711F6E234B62A3008F7A33 /* TradeObject.swift in Sources */,
 				CB4BB5EA234C6AE200C7B078 /* AggregateTradeObject.swift in Sources */,
 				CBC1BCF2234CA682009F6E2C /* OrderFillObject.swift in Sources */,
@@ -653,9 +729,13 @@
 				D192FE0B2351DCF10090A194 /* systemBRAIN.swift in Sources */,
 				CB711F5B234B3C71008F7A33 /* ExchangeInformationResponce.swift in Sources */,
 				CBC1BCF8234CD41A009F6E2C /* OrderDetailObject.swift in Sources */,
+				D12E356F23A3B343005297FB /* BaseChartViewController.swift in Sources */,
+				D12E358323A3C465005297FB /* CandleStickChartViewController.swift in Sources */,
 				D19A008A236C92F40036EB6B /* StepsHandler.swift in Sources */,
 				CB711F5E234B3D8B008F7A33 /* RateLimitObject.swift in Sources */,
 				D172A794236854C9008701BA /* PlaceNewOrderDetailViewModel.swift in Sources */,
+				D12E3567239FC9D3005297FB /* MovingAvarage.swift in Sources */,
+				D131C7D7239A3AB20071CC85 /* LineChart2ViewController.swift in Sources */,
 				CB25719D2345E11D007DBD6F /* ApiError.swift in Sources */,
 				CB711F54234B3A01008F7A33 /* GeneralServices.swift in Sources */,
 				CBC1BCED234C9B40009F6E2C /* SymbolOrderBookObject.swift in Sources */,

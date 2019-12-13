@@ -14,6 +14,17 @@
          </PersistentStrings>
       </ContextState>
       <ContextState
+         contextName = "closure #1 in LineChart2ViewController.setDataCount(_:):LineChart2ViewController.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "yValues">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "PupmHandler.watchListUpdated():PupmHandler.swift">
+      </ContextState>
+      <ContextState
          contextName = "PlaceNewOrderDetailViewController.submitOrder(_:):PlaceNewOrderDetailViewController.swift">
          <PersistentStrings>
             <PersistentString
@@ -22,16 +33,37 @@
          </PersistentStrings>
       </ContextState>
       <ContextState
-         contextName = "PupmHandler.watchListUpdated():PupmHandler.swift">
-      </ContextState>
-      <ContextState
-         contextName = "closure #2 in PlaceNewOrderDetailViewModel.setTargetsAndPlaceNewOrder(targets:type:asset:currency:side:amount:price:buyStopPrice:buyStopLimitPrice:sellStopPrice:sellStopLimitPrice:completion:):PlaceNewOrderDetailViewModel.swift">
-      </ContextState>
-      <ContextState
          contextName = "closure #1 in closure #1 in ActiveOrdersViewModel.getUserActiveOrders():ActiveOrdersViewModel.swift">
       </ContextState>
       <ContextState
+         contextName = "closure #1 in closure #1 in closure #1 in LineChart2ViewController.viewDidLoad():LineChart2ViewController.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "self.RSIValues">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "closure #3 in systemBRAIN.placeSellOrderForExecutedBuyOrder(report:completion:):systemBRAIN.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "self.orderHandler.loadAllQueuedOrders()">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
          contextName = "closure #1 in closure #1 in PlaceNewOrderDetailViewModel.setTargetsAndPlaceNewOrder(targets:type:asset:currency:side:amount:price:buyStopPrice:buyStopLimitPrice:sellStopPrice:sellStopLimitPrice:completion:):PlaceNewOrderDetailViewModel.swift">
+      </ContextState>
+      <ContextState
+         contextName = "TargetCollectionViewCell.awakeFromNib():TargetCollectionViewCell.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "clearButton?.imageView?.image">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "closure #2 in PlaceNewOrderDetailViewModel.setTargetsAndPlaceNewOrder(targets:type:asset:currency:side:amount:price:buyStopPrice:buyStopLimitPrice:sellStopPrice:sellStopLimitPrice:completion:):PlaceNewOrderDetailViewModel.swift">
       </ContextState>
       <ContextState
          contextName = "closure #2 in closure #1 in OrderHandler.sellOrderFullfieled(report:):OrderHandler.swift">
@@ -48,18 +80,10 @@
          </PersistentStrings>
       </ContextState>
       <ContextState
-         contextName = "closure #3 in systemBRAIN.placeSellOrderForExecutedBuyOrder(report:completion:):systemBRAIN.swift">
+         contextName = "RSI.CalculateNormalRSI():Indicators.swift">
          <PersistentStrings>
             <PersistentString
-               value = "self.orderHandler.loadAllQueuedOrders()">
-            </PersistentString>
-         </PersistentStrings>
-      </ContextState>
-      <ContextState
-         contextName = "TargetCollectionViewCell.awakeFromNib():TargetCollectionViewCell.swift">
-         <PersistentStrings>
-            <PersistentString
-               value = "clearButton?.imageView?.image">
+               value = "MovingAverage(period: self.period).calculateSimpleMovingAvarage(list: change[(i - self.period)..&lt;i].filter({ ($0 ?? 0.0) &gt; 0.0 }))">
             </PersistentString>
          </PersistentStrings>
       </ContextState>
@@ -81,7 +105,7 @@
          contextName = "PupmHandler.filterByCandleSticData(candidates:):PupmHandler.swift">
       </ContextState>
       <ContextState
-         contextName = "OrderHandler.insertQueuedOrders(array:):OrderHandler.swift">
+         contextName = "closure #1 in PumpHandler.filterByCandleSticData(candidates:):PupmHandler.swift">
       </ContextState>
       <ContextState
          contextName = "PlaceNewOrderDetailViewController.tableView(_:cellForRowAt:):PlaceNewOrderDetailViewController.swift">
@@ -90,6 +114,12 @@
                value = "datasource">
             </PersistentString>
          </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "OrderHandler.insertQueuedOrders(array:):OrderHandler.swift">
+      </ContextState>
+      <ContextState
+         contextName = "StochasticRSI.calculateStochasticRSI(list:):Logger.swift">
       </ContextState>
       <ContextState
          contextName = "closure #1 in PupmHandler.updateSecondsData():PupmHandler.swift">
@@ -108,10 +138,43 @@
          </PersistentStrings>
       </ContextState>
       <ContextState
+         contextName = "RSI.Calculate():Logger.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "sampleList">
+            </PersistentString>
+            <PersistentString
+               value = "change.filter({ ($0 ?? 0.0) &gt; 0.0 })">
+            </PersistentString>
+            <PersistentString
+               value = "change.filter({ ($0 ?? 0.0) &lt; 0.0 })">
+            </PersistentString>
+            <PersistentString
+               value = "change">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "closure #2 in CandleStickChartViewController.setDataCount(_:):CandleStickChartViewController.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "RSIValues">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
          contextName = "specialized closure #1 in OrderHandler.updateOtherOrdersAndDelete(order:allOrders:):OrderHandler.swift">
          <PersistentStrings>
             <PersistentString
                value = "queuedOrders">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "closure #1 in RSI.Calculate():Logger.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "change">
             </PersistentString>
          </PersistentStrings>
       </ContextState>

@@ -162,8 +162,12 @@ strip_invalid_archs() {
 
 if [[ "$CONFIGURATION" == "Debug" ]]; then
   install_framework "${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework"
+  install_framework "${BUILT_PRODUCTS_DIR}/AppAuth/AppAuth.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/Arcane/Arcane.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/Charts/Charts.framework"
+  install_framework "${BUILT_PRODUCTS_DIR}/GTMAppAuth/GTMAppAuth.framework"
+  install_framework "${BUILT_PRODUCTS_DIR}/GTMSessionFetcher/GTMSessionFetcher.framework"
+  install_framework "${BUILT_PRODUCTS_DIR}/GoogleAPIClientForREST/GoogleAPIClientForREST.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/NVActivityIndicatorView/NVActivityIndicatorView.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/ObjectMapper/ObjectMapper.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/Result/Result.framework"
@@ -173,8 +177,12 @@ if [[ "$CONFIGURATION" == "Debug" ]]; then
 fi
 if [[ "$CONFIGURATION" == "Release" ]]; then
   install_framework "${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework"
+  install_framework "${BUILT_PRODUCTS_DIR}/AppAuth/AppAuth.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/Arcane/Arcane.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/Charts/Charts.framework"
+  install_framework "${BUILT_PRODUCTS_DIR}/GTMAppAuth/GTMAppAuth.framework"
+  install_framework "${BUILT_PRODUCTS_DIR}/GTMSessionFetcher/GTMSessionFetcher.framework"
+  install_framework "${BUILT_PRODUCTS_DIR}/GoogleAPIClientForREST/GoogleAPIClientForREST.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/NVActivityIndicatorView/NVActivityIndicatorView.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/ObjectMapper/ObjectMapper.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/Result/Result.framework"

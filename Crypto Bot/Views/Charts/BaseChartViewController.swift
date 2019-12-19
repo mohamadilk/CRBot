@@ -19,7 +19,7 @@ class BaseChartViewController: UIViewController, ChartViewDelegate {
     var priceType = PriceType.close
     var updateTimer: Timer?
     var candlesArray = [CandleObject]()
-
+    
     let parties = ["Party A", "Party B", "Party C", "Party D", "Party E", "Party F",
                    "Party G", "Party H", "Party I", "Party J", "Party K", "Party L",
                    "Party M", "Party N", "Party O", "Party P", "Party Q", "Party R",
@@ -104,6 +104,14 @@ class BaseChartViewController: UIViewController, ChartViewDelegate {
     }
 
     func chartValueSelected(_ chartView: ChartViewBase, entry: ChartDataEntry, highlight: Highlight) {
+        if entry.isKind(of: CandleChartDataEntry.self) {
+            let candle = entry as! CandleChartDataEntry
+            let string = "X Value: \(entry.x)\nOpen: \(candle.open)\nClose: \(candle.close)\nHigh: \(candle.high)\nLow: \(candle.low)"
+            AlertUtility.showAlert(title: "Data:", message: string)
+        } else {
+            let string = "X Value: \(entry.x)\nY Value: \(entry.y)"
+            AlertUtility.showAlert(title: "Data:", message: string)
+        }
         NSLog("chartValueSelected");
     }
     
@@ -112,11 +120,9 @@ class BaseChartViewController: UIViewController, ChartViewDelegate {
     }
     
     func chartScaled(_ chartView: ChartViewBase, scaleX: CGFloat, scaleY: CGFloat) {
-        
     }
     
     func chartTranslated(_ chartView: ChartViewBase, dX: CGFloat, dY: CGFloat) {
-        
     }
 }
 

@@ -90,7 +90,7 @@ class ChartDetailTableViewController: UITableViewController {
             }
             return
         case 1...15:
-            for i in 1...500 {
+            for i in 0...500 {
                 pickerDatasouce.append(i)
             }
             textField.becomeFirstResponder()
@@ -115,49 +115,109 @@ class ChartDetailTableViewController: UITableViewController {
                 
                 switch index.row {
                 case 1:
-                    MA_Cross_Short = pickerDatasouce[pickerIndex] as? Int
+                    if pickerIndex != 0 {
+                        MA_Cross_Short = pickerDatasouce[pickerIndex] as? Int
+                    } else {
+                        MA_Cross_Short = nil
+                    }
                     break
                 case 2:
-                    MA_Cross_Long = pickerDatasouce[pickerIndex] as? Int
+                    if pickerIndex != 0 {
+                        MA_Cross_Long = pickerDatasouce[pickerIndex] as? Int
+                    } else {
+                        MA_Cross_Long = nil
+                    }
                     break
                 case 3:
-                    RSI_Lenth = pickerDatasouce[pickerIndex] as? Int
+                    if pickerIndex != 0 {
+                        RSI_Lenth = pickerDatasouce[pickerIndex] as? Int
+                    } else {
+                        RSI_Lenth = nil
+                    }
                     break
                 case 4:
-                    Stoch_RSI_Lenth_RSI = pickerDatasouce[pickerIndex] as? Int
+                    if pickerIndex != 0 {
+                        Stoch_RSI_Lenth_RSI = pickerDatasouce[pickerIndex] as? Int
+                    } else {
+                        Stoch_RSI_Lenth_RSI = nil
+                    }
                     break
                 case 5:
-                    Stoch_RSI_Lenth_Stock = pickerDatasouce[pickerIndex] as? Int
+                    if pickerIndex != 0 {
+                        Stoch_RSI_Lenth_Stock = pickerDatasouce[pickerIndex] as? Int
+                    } else {
+                        Stoch_RSI_Lenth_Stock = nil
+                    }
                     break
                 case 6:
-                    Smooth_K = pickerDatasouce[pickerIndex] as? Int
+                    if pickerIndex != 0 {
+                        Smooth_K = pickerDatasouce[pickerIndex] as? Int
+                    } else {
+                        Smooth_K = nil
+                    }
                     break
                 case 7:
-                    Smooth_D = pickerDatasouce[pickerIndex] as? Int
+                    if pickerIndex != 0 {
+                        Smooth_D = pickerDatasouce[pickerIndex] as? Int
+                    } else {
+                        Smooth_D = nil
+                    }
                     break
                 case 8:
-                    Smooth_T = pickerDatasouce[pickerIndex] as? Int
+                    if pickerIndex != 0 {
+                        Smooth_T = pickerDatasouce[pickerIndex] as? Int
+                    } else {
+                        Smooth_T = nil
+                    }
                     break
                 case 9:
-                    Ichimoku_Conversion_Line_Period = pickerDatasouce[pickerIndex] as? Int
+                    if pickerIndex != 0 {
+                        Ichimoku_Conversion_Line_Period = pickerDatasouce[pickerIndex] as? Int
+                    } else {
+                        Ichimoku_Conversion_Line_Period = nil
+                    }
                     break
                 case 10:
-                    Ichimoku_Base_Line_Period = pickerDatasouce[pickerIndex] as? Int
+                    if pickerIndex != 0 {
+                        Ichimoku_Base_Line_Period = pickerDatasouce[pickerIndex] as? Int
+                    } else {
+                        Ichimoku_Base_Line_Period = nil
+                    }
                     break
                 case 11:
-                    Ichimoku_Lagging_Span_2_Period = pickerDatasouce[pickerIndex] as? Int
+                    if pickerIndex != 0 {
+                        Ichimoku_Lagging_Span_2_Period = pickerDatasouce[pickerIndex] as? Int
+                    } else {
+                        Ichimoku_Lagging_Span_2_Period = nil
+                    }
                     break
                 case 12:
-                    Ichimoku_Displacement = pickerDatasouce[pickerIndex] as? Int
+                    if pickerIndex != 0 {
+                        Ichimoku_Displacement = pickerDatasouce[pickerIndex] as? Int
+                    } else {
+                        Ichimoku_Displacement = nil
+                    }
                     break
                 case 13:
-                    BB_Length = pickerDatasouce[pickerIndex] as? Int
+                    if pickerIndex != 0 {
+                        BB_Length = pickerDatasouce[pickerIndex] as? Int
+                    } else {
+                        BB_Length = nil
+                    }
                     break
                 case 14:
-                    BB_Mult = pickerDatasouce[pickerIndex] as? Int
+                    if pickerIndex != 0 {
+                        BB_Mult = pickerDatasouce[pickerIndex] as? Int
+                    } else {
+                        BB_Mult = nil
+                    }
                     break
                 case 15:
-                    Number_of_Candles = pickerDatasouce[pickerIndex] as? Int
+                    if pickerIndex != 0 {
+                        Number_of_Candles = pickerDatasouce[pickerIndex] as? Int
+                    } else {
+                        Number_of_Candles = nil
+                    }
                     break
                 case 16:
                     Candle_Size =  CandlestickChartIntervals(rawValue: "\(pickerDatasouce[pickerIndex])")

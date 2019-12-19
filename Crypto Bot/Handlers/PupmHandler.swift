@@ -41,31 +41,31 @@ class PumpHandler {
     var ignoreForFiveMin = [String: Double]()
     
     init() {
-//        minutesTimer = Timer.scheduledTimer(withTimeInterval: 20, repeats: true, block: { _ in
-//            self.updateMinutesData()
-//        })
-//        minutesTimer?.fire()
-//
-//        secondsTimer = Timer.scheduledTimer(withTimeInterval: 3, repeats: true, block: { _ in
-//            self.updateSecondsData()
-//        })
-//        secondsTimer?.fire()
-//
-//        //TODO: Update everyDay
-//        MarketDataServices.shared.fetchOneDayTickerPriceChangeStatistics { (dayInfo, error) in
-//            guard error == nil, dayInfo != nil else {
-//                return
-//            }
-//
-//            self.dayInfoArray = dayInfo
-//            for symbolInfo in self.dayInfoArray ?? [] {
-//                if let symbol = symbolInfo.symbol {
-//                    if let volume = symbolInfo.volume?.doubleValue {
-//                        self.avarageValumePerSymbol[symbol] = volume / 1440.0
-//                    }
-//                }
-//            }
-//        }
+        minutesTimer = Timer.scheduledTimer(withTimeInterval: 20, repeats: true, block: { _ in
+            self.updateMinutesData()
+        })
+        minutesTimer?.fire()
+
+        secondsTimer = Timer.scheduledTimer(withTimeInterval: 3, repeats: true, block: { _ in
+            self.updateSecondsData()
+        })
+        secondsTimer?.fire()
+
+        //TODO: Update everyDay
+        MarketDataServices.shared.fetchOneDayTickerPriceChangeStatistics { (dayInfo, error) in
+            guard error == nil, dayInfo != nil else {
+                return
+            }
+
+            self.dayInfoArray = dayInfo
+            for symbolInfo in self.dayInfoArray ?? [] {
+                if let symbol = symbolInfo.symbol {
+                    if let volume = symbolInfo.volume?.doubleValue {
+                        self.avarageValumePerSymbol[symbol] = volume / 1440.0
+                    }
+                }
+            }
+        }
     }
         
     private func updateMinutesData() {
@@ -223,7 +223,11 @@ class PumpHandler {
             guard self.candidateIsNotInIgnoreList(symbol: symbol) else { continue }
             guard self.candidateIsNotInActiveOrders(symbol: symbol) else { continue }
             
-            MarketDataServices.shared.fetchCandlestickData(symbol: symbol, interval: CandlestickChartIntervals.oneMin.rawValue, limit: 50) { (candlesArray, error) in
+            // Client ID
+            //511335688174-o9lmjig231hkhcebllc3l0ba2afal7u9.apps.googleusercontent.com
+            //https://min-api.cryptocompare.com/data/histoday?aggregate=1&e=CCCAGG&extraParams=CryptoCompare&fsym=LTC&limit=2000&tryConversion=false&tsym=BTC
+            
+            MarketDataServices.shared.fetchCandlestickData(symbol: symbol, interval: CandlestickChartIntervals.oneMonth.rawValue, limit: 50) { (candlesArray, error) in
                 guard let candlesArray = candlesArray, error == nil else { return }
                 guard let candlesData = CandlesDataContainer(candles: candlesArray, latestPrice: candida.latestPrice!) else { return }
                 
@@ -343,6 +347,7 @@ class PumpHandler {
     private func rsiSlopeIsPositive(rsiValues: [Double?]) -> Bool {
         
         guard let lastRsi = rsiValues.last else { return false }
+        guard rsiValues.count > 3 else { return false }
         guard let twoTolastRsi = rsiValues[rsiValues.count - 3] else { return false }
         
         print("Slope is equal: \(((lastRsi ?? 0) - twoTolastRsi))", to: &logger)

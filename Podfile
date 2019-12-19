@@ -15,4 +15,6 @@ target 'Crypto Bot' do
     pod 'SugarRecord/CoreData'
     pod 'NVActivityIndicatorView'
     pod 'Charts'
+    pod 'GoogleAPIClientForREST/Sheets', '~> 1.2.1'
+    pod 'GoogleSignIn', '~> 5.0'
 end

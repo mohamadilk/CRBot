@@ -167,8 +167,13 @@ class CandleStickChartViewController: BaseChartViewController {
                         break
                     }
                 }
+                
+                guard self.StochRSILenthRSI != nil else {
+                    AlertUtility.showAlert(title: "Please set RSI Lenght")
+                    return
+                }
 
-                let rsi = RSI(period: self.StochRSILenthRSI ?? 14)
+                let rsi = RSI(period: self.StochRSILenthRSI!)
                 rsi.sampleList = samples
                 let rsiResult = rsi.CalculateNormalRSI()
                 
@@ -225,7 +230,7 @@ class CandleStickChartViewController: BaseChartViewController {
         
         updateLeftConstraint()
         
-        let set1 = CandleChartDataSet(entries: yVals1, label: "Data Set")
+        let set1 = CandleChartDataSet(entries: yVals1, label: "")
         set1.axisDependency = .left
         set1.setColor(UIColor(white: 80/255, alpha: 1))
         set1.drawIconsEnabled = false
@@ -294,7 +299,8 @@ class CandleStickChartViewController: BaseChartViewController {
         rsiData.fillColor = UIColor.yellow.withAlphaComponent(200/255)
         rsiData.highlightColor = UIColor(red: 244/255, green: 117/255, blue: 117/255, alpha: 1)
         rsiData.drawCircleHoleEnabled = false
-        
+        rsiData.mode = .cubicBezier
+
         let rdata = LineChartData(dataSets: [rsiData])
         rdata.setValueTextColor(.clear)
         rdata.setValueFont(.systemFont(ofSize: 9))
@@ -310,6 +316,7 @@ class CandleStickChartViewController: BaseChartViewController {
         smoothDstocRsiData.fillColor = UIColor.yellow.withAlphaComponent(200/255)
         smoothDstocRsiData.highlightColor = UIColor(red: 244/255, green: 117/255, blue: 117/255, alpha: 1)
         smoothDstocRsiData.drawCircleHoleEnabled = false
+        smoothDstocRsiData.mode = .cubicBezier
         
         let smoothKstocRsiData = LineChartDataSet(entries: smoothK, label: "")
         smoothKstocRsiData.setColor(UIColor(red: 79/255, green: 143/255, blue: 0/255, alpha: 1))
@@ -320,7 +327,8 @@ class CandleStickChartViewController: BaseChartViewController {
         smoothKstocRsiData.fillColor = UIColor.yellow.withAlphaComponent(200/255)
         smoothKstocRsiData.highlightColor = UIColor(red: 244/255, green: 117/255, blue: 117/255, alpha: 1)
         smoothKstocRsiData.drawCircleHoleEnabled = false
-        
+        smoothKstocRsiData.mode = .cubicBezier
+
         let smoothTstocRsiData = LineChartDataSet(entries: smoothT, label: "")
         smoothTstocRsiData.setColor(UIColor(red: 180/255, green: 60/255, blue: 28/255, alpha: 1))
         smoothTstocRsiData.setCircleColor(.clear)
@@ -330,7 +338,8 @@ class CandleStickChartViewController: BaseChartViewController {
         smoothTstocRsiData.fillColor = UIColor.yellow.withAlphaComponent(200/255)
         smoothTstocRsiData.highlightColor = UIColor(red: 244/255, green: 117/255, blue: 117/255, alpha: 1)
         smoothTstocRsiData.drawCircleHoleEnabled = false
-        
+        smoothTstocRsiData.mode = .cubicBezier
+
         let stocData = LineChartData(dataSets: [smoothDstocRsiData, smoothKstocRsiData, smoothTstocRsiData])
         stocData.setValueTextColor(.clear)
         stocData.setValueFont(.systemFont(ofSize: 9))
@@ -387,5 +396,24 @@ class CandleStickChartViewController: BaseChartViewController {
     
     @IBAction func showStochasticSwitchValueChanged(_ sender: UISwitch) {
         stocRSICahrtView.isHidden = !sender.isOn
+    }
+    
+    override func chartScaled(_ chartView: ChartViewBase, scaleX: CGFloat, scaleY: CGFloat) {
+        if chartView.isKind(of: CandleStickChartView.self)  {
+//            rsiChartView.scaleX = scaleX
+//            rsiChartView.scaleY = scaleY
+        } else if chartView.isKind(of: LineChartView.self) {
+            if let chart = chartView as? LineChartView {
+                if chart == rsiChartView {
+                    
+                } else {
+                    
+                }
+            }
+        }
+    }
+    
+    override func chartTranslated(_ chartView: ChartViewBase, dX: CGFloat, dY: CGFloat) {
+        
     }
 }

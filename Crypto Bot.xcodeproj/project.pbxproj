@@ -85,6 +85,8 @@
 		D13B48E72381644900FDBA3B /* BasicOrderObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = D13B48E62381644900FDBA3B /* BasicOrderObject.swift */; };
 		D14152AA236E09CB00995986 /* BorderedTextfield.swift in Sources */ = {isa = PBXBuildFile; fileRef = D14152A9236E09CB00995986 /* BorderedTextfield.swift */; };
 		D158D40A2370BFC700AAEE04 /* CellModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D158D4092370BFC700AAEE04 /* CellModel.swift */; };
+		D168723B23AFB67800F0BD9F /* GoogleSheetsHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = D168723A23AFB67800F0BD9F /* GoogleSheetsHandler.m */; };
+		D168723E23AFC9EC00F0BD9F /* SheetsHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = D168723D23AFC9EC00F0BD9F /* SheetsHandler.swift */; };
 		D172A78F23684378008701BA /* TargetCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D172A78D23684378008701BA /* TargetCollectionViewCell.swift */; };
 		D172A79023684378008701BA /* TargetCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = D172A78E23684378008701BA /* TargetCollectionViewCell.xib */; };
 		D172A79223684E44008701BA /* BaseTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D172A79123684E44008701BA /* BaseTableViewCell.swift */; };
@@ -189,6 +191,10 @@
 		D13B48E62381644900FDBA3B /* BasicOrderObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BasicOrderObject.swift; sourceTree = "<group>"; };
 		D14152A9236E09CB00995986 /* BorderedTextfield.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BorderedTextfield.swift; sourceTree = "<group>"; };
 		D158D4092370BFC700AAEE04 /* CellModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CellModel.swift; sourceTree = "<group>"; };
+		D168723423AFB56300F0BD9F /* Crypto Bot-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Crypto Bot-Bridging-Header.h"; sourceTree = "<group>"; };
+		D168723A23AFB67800F0BD9F /* GoogleSheetsHandler.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GoogleSheetsHandler.m; sourceTree = "<group>"; };
+		D168723C23AFB68E00F0BD9F /* GoogleSheetsHandler.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GoogleSheetsHandler.h; sourceTree = "<group>"; };
+		D168723D23AFC9EC00F0BD9F /* SheetsHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SheetsHandler.swift; sourceTree = "<group>"; };
 		D172A78D23684378008701BA /* TargetCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TargetCollectionViewCell.swift; sourceTree = "<group>"; };
 		D172A78E23684378008701BA /* TargetCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = TargetCollectionViewCell.xib; sourceTree = "<group>"; };
 		D172A79123684E44008701BA /* BaseTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseTableViewCell.swift; sourceTree = "<group>"; };
@@ -250,6 +256,10 @@
 				D192FE0C23520A630090A194 /* OrderHandler.swift */,
 				CB143EF9236ADE6B00A4E283 /* MarketDataHandler.swift */,
 				D13B48E12381364B00FDBA3B /* DBHandler.swift */,
+				D168723423AFB56300F0BD9F /* Crypto Bot-Bridging-Header.h */,
+				D168723A23AFB67800F0BD9F /* GoogleSheetsHandler.m */,
+				D168723C23AFB68E00F0BD9F /* GoogleSheetsHandler.h */,
+				D168723D23AFC9EC00F0BD9F /* SheetsHandler.swift */,
 			);
 			path = Handlers;
 			sourceTree = "<group>";
@@ -572,6 +582,7 @@
 				TargetAttributes = {
 					CB25717D2345DFB9007DBD6F = {
 						CreatedOnToolsVersion = 11.1;
+						LastSwiftMigration = 1130;
 					};
 				};
 			};
@@ -705,6 +716,8 @@
 				D1C152E1238C6F7C00830C24 /* PupmHandler.swift in Sources */,
 				CBBE8F62236AB8E0004279D6 /* SymbolsListViewModel.swift in Sources */,
 				CBC1BD00234DDC6A009F6E2C /* AccountInformation.swift in Sources */,
+				D168723B23AFB67800F0BD9F /* GoogleSheetsHandler.m in Sources */,
+				D168723E23AFC9EC00F0BD9F /* SheetsHandler.swift in Sources */,
 				D13B48E72381644900FDBA3B /* BasicOrderObject.swift in Sources */,
 				D123E0A82395955C00FE6FB1 /* Logger.swift in Sources */,
 				CB8AACD42350B9B20096DD07 /* ExchangeHandler.swift in Sources */,
@@ -907,6 +920,7 @@
 			baseConfigurationReference = A65E444D5554E7E149D5C999 /* Pods-Crypto Bot.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = AJX4N4T6ZJ;
 				INFOPLIST_FILE = "Crypto Bot/Info.plist";
@@ -917,6 +931,8 @@
 				MARKETING_VERSION = 0.0.1;
 				PRODUCT_BUNDLE_IDENTIFIER = "mamir.Crypto-Bot";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "Crypto Bot/Handlers/Crypto Bot-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -927,6 +943,7 @@
 			baseConfigurationReference = 77699EA74655B965B5F61FCE /* Pods-Crypto Bot.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = AJX4N4T6ZJ;
 				INFOPLIST_FILE = "Crypto Bot/Info.plist";
@@ -937,6 +954,7 @@
 				MARKETING_VERSION = 0.0.1;
 				PRODUCT_BUNDLE_IDENTIFIER = "mamir.Crypto-Bot";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "Crypto Bot/Handlers/Crypto Bot-Bridging-Header.h";
 				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};

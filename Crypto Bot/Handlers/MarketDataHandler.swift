@@ -12,7 +12,7 @@ class MarketDataHandler {
     
     static let shared = MarketDataHandler()
     let dataService = MarketDataServices.shared
-    
+
     func getLatestOrder(symbol: SymbolObject, completion: @escaping(_ order: SymbolOrderBookObject?, _ error: ApiError?) -> Swift.Void) {
         if let symbol = symbol.symbol {
             dataService.fetchSymbolOrderBookTicker(symbol: symbol) { (order, error) in

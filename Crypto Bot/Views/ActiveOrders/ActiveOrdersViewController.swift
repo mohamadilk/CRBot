@@ -40,11 +40,13 @@ class ActiveOrdersViewController: UIViewController, NVActivityIndicatorViewable 
         startAnimating()
         viewModel.getUserQueuedOrders()
         viewModel.getUserActiveOrders()
-        
+
         if UserDefaults.standard.value(forKey: "idToken") == nil {
             if let signInVC = self.storyboard?.instantiateViewController(identifier: "SignInViewController") as? SignInViewController {
                 navigationController?.present(signInVC, animated: true, completion: nil)
             }
+        } else {
+            SheetsHandler.shared.startUpdatingSheets()
         }
     }
     

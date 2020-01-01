@@ -118,51 +118,77 @@ class SheetsHandler: NSObject {
             let ema25 = MovingAverage(period: 25).calculateExponentialMovingAvarage(list: samples)
             let ema99 = MovingAverage(period: 99).calculateExponentialMovingAvarage(list: samples)
             
+            let trix = self.calculateTrixValue(samples: samples)
+            
+            let BB = BollingerBands(period: 20, mult: 2).calculateBollingerBands(samples: samples as! [Double])
+            
             let rsi = RSI(period: 14)
             rsi.sampleList = samples
-            let rsiResult = rsi.CalculateNormalRSI()
+            let rsiResult = rsi.CalculateRSI()
+            
+            for sample in samples {
+                print("\(sample!)")
+            }
             
             let lowRsi = RSI(period: 14)
             lowRsi.sampleList = lowSamples
-            let lowRsiResult = lowRsi.CalculateNormalRSI()
+            let lowRsiResult = lowRsi.CalculateRSI()
             
             let highRsi = RSI(period: 14)
             highRsi.sampleList = highSamples
-            let highRsiResult = highRsi.CalculateNormalRSI()
+            let highRsiResult = highRsi.CalculateRSI()
             
             self.RSIValues = rsiResult.RSI
             self.candidateRSIValues(samples: samples, symbol: self.symbol)
             
             
             var candleValues:[[Any]] = [["Time","Low","Open","Close","High"]]
-            var RSIValues:[[Any]] = [["Time","LowRSI","HighRSI"]]
+            var RSIValues:[[Any]] = [["Time","RSI","Low RSI","High RSI"]]
             var stocRSIValues:[[Any]] = [["Time","SmoothD","SmoothK","SmoothT"]]
             var MAValues:[[Any]] = [["Time","Value"]]
+            
             var crossMAValues:[[Any]] = [["Time","Value1","Value2"]]
-            var EMAValues:[[Any]] = [["Time","Value1","Value2","Value3"]]
-
+            var EMAValues:[[Any]] = [["Time","EMA 7","EMA 25","EMA 99"]]
+            var TRIXValues:[[Any]] = [["Time","TRIX"]]
+            var BBValues:[[Any]] = [["Time","Mid","Upp","Low"]]
+            
             let rsiDiff = candlesArray!.count - self.RSIValues.count
             let stocRSIDiff = candlesArray!.count - self.stocRSISmoothD.count
             let ema7Diff = candlesArray!.count - ema7.count
+            
             let ema25Diff = candlesArray!.count - ema25.count
             let ema99Diff = candlesArray!.count - ema99.count
-
+            let trixDiff = candlesArray!.count - trix.count
+            let BBDiff = candlesArray!.count - BB.upper.count
+            
             for i in 0..<candlesArray!.count {
                 let candle = candlesArray![i]
-                let date = self.formatter.string(from: Date.init(timeIntervalSince1970: candle.closeTime! / 1000))
+                let date = self.formatter.string(from: Date.init(timeIntervalSince1970: (candle.openTime!) / 1000))
                 
                 candleValues.append([date,candle.low!.doubleValue,candle.open!.doubleValue,candle.close!.doubleValue,candle.high!.doubleValue])
                 
                 if i >= rsiDiff {
-                    RSIValues.append([date, lowRsiResult.RSI[i - rsiDiff]!, highRsiResult.RSI[i - rsiDiff]!])
+                    RSIValues.append([date, self.RSIValues[i - rsiDiff]!, lowRsiResult.RSI[i - rsiDiff]!, highRsiResult.RSI[i - rsiDiff]!])
                 } else {
-                    RSIValues.append([date,50,50])
+                    RSIValues.append([date,0,0])
+                }
+                
+                if i >= trixDiff {
+                    TRIXValues.append([date, trix[i - trixDiff]!])
+                } else {
+                    TRIXValues.append([date,0])
+                }
+                
+                if i >= BBDiff {
+                    BBValues.append([date, BB.middle[i - BBDiff]!, BB.upper[i - BBDiff]!, BB.lower[i - BBDiff]!])
+                } else {
+                    BBValues.append([date,0,0,0])
                 }
                 
                 if i >= stocRSIDiff {
                     stocRSIValues.append([date,self.stocRSISmoothD[i - stocRSIDiff]!,self.stocRSISmoothK[i - stocRSIDiff]!,self.stocRSISmoothT[i - stocRSIDiff]!])
                 } else {
-                    stocRSIValues.append([date,50,50,50])
+                    stocRSIValues.append([date,0,0,0])
                 }
                 
                 MAValues.append([date, ma9[i]!])
@@ -172,9 +198,9 @@ class SheetsHandler: NSObject {
                 if i >= ema7Diff {
                     if i >= ema25Diff {
                         if i >= ema99Diff {
-                            EMAValues.append([date, ema7[i - ema99Diff]!, ema25[i - ema99Diff]!, ema99[i - ema99Diff]!])
+                            EMAValues.append([date, ema7[i - ema7Diff]!, ema25[i - ema25Diff]!, ema99[i - ema99Diff]!])
                         } else {
-                            EMAValues.append([date, ema7[i - ema25Diff]!, ema25[i - ema25Diff]!, 0])
+                            EMAValues.append([date, ema7[i - ema7Diff]!, ema25[i - ema25Diff]!, 0])
                         }
                     } else {
                         EMAValues.append([date, ema7[i - ema7Diff]!, 0, 0])
@@ -184,7 +210,6 @@ class SheetsHandler: NSObject {
                 }
             }
 
-//            RSIValues.appe
             self.service.authorizer = GIDSignIn.sharedInstance().currentUser.authentication.fetcherAuthorizer()
 
             let clearValues = GTLRSheets_ClearValuesRequest()
@@ -282,20 +307,62 @@ class SheetsHandler: NSObject {
                      print("")
                  }
             }
+            
+            let clearTRIXValues = GTLRSheets_ClearValuesRequest()
+            let clearTRIXQuery = GTLRSheetsQuery_SpreadsheetsValuesClear.query(withObject: clearTRIXValues, spreadsheetId: self.spreadsheetId, range: "TRIX")
+            
+            self.service.executeQuery(clearTRIXQuery) { (ticket, result, error) in
+                guard error == nil else { return }
+
+                 let valueRange = GTLRSheets_ValueRange()
+                 valueRange.values = TRIXValues
+                 let appendQuery = GTLRSheetsQuery_SpreadsheetsValuesAppend.query(withObject: valueRange, spreadsheetId: self.spreadsheetId, range: "TRIX")
+                 appendQuery.valueInputOption = kGTLRSheetsValueInputOptionRaw
+                
+                 self.service.executeQuery(appendQuery) { (ticket, result, error) in
+                     print("")
+                 }
+            }
+            
+            let clearBBValues = GTLRSheets_ClearValuesRequest()
+            let clearBBQuery = GTLRSheetsQuery_SpreadsheetsValuesClear.query(withObject: clearBBValues, spreadsheetId: self.spreadsheetId, range: "BBAND")
+            
+            self.service.executeQuery(clearBBQuery) { (ticket, result, error) in
+                guard error == nil else { return }
+
+                 let valueRange = GTLRSheets_ValueRange()
+                 valueRange.values = BBValues
+                 let appendQuery = GTLRSheetsQuery_SpreadsheetsValuesAppend.query(withObject: valueRange, spreadsheetId: self.spreadsheetId, range: "BBAND")
+                 appendQuery.valueInputOption = kGTLRSheetsValueInputOptionRaw
+                
+                 self.service.executeQuery(appendQuery) { (ticket, result, error) in
+                     print("")
+                 }
+            }
+
+
         }
     }
     
+    private func calculateTrixValue(samples: [Double?]) -> [Double?] {
+    
+        let EMA1 = MovingAverage(period: 9).calculateExponentialMovingAvarage(list: samples)
+        let EMA2 = MovingAverage(period: 9).calculateExponentialMovingAvarage(list: EMA1)
+        let EMA3 = MovingAverage(period: 9).calculateExponentialMovingAvarage(list: EMA2)
+        
+        return EMA3
+    }
     
     private func candidateRSIValues(samples: [Double?], symbol: String) {
         
         let rsi = RSI(period:14)
         rsi.sampleList = samples
-        let rsiResult = rsi.CalculateNormalRSI()
+        let rsiResult = rsi.CalculateRSI()
         
-        let stoRSIResult = StochasticRSI(period: 12).calculateStochasticRSI(list: rsiResult.RSI)
+        let stoRSIResult = StochasticRSI(period: 14).calculateStochasticRSI(list: rsiResult.RSI)
         stocRSISmoothD = MovingAverage(period: 3).calculateSimpleMovingAvarage(list: stoRSIResult)
         stocRSISmoothK = MovingAverage(period: 3).calculateSimpleMovingAvarage(list: stocRSISmoothD)
-        stocRSISmoothT = MovingAverage(period: 3).calculateSimpleMovingAvarage(list: stocRSISmoothK)
+        stocRSISmoothT = MovingAverage(period: 1).calculateSimpleMovingAvarage(list: stocRSISmoothK)
     }
     
     

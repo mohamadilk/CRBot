@@ -91,6 +91,7 @@
 		D172A79023684378008701BA /* TargetCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = D172A78E23684378008701BA /* TargetCollectionViewCell.xib */; };
 		D172A79223684E44008701BA /* BaseTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D172A79123684E44008701BA /* BaseTableViewCell.swift */; };
 		D172A794236854C9008701BA /* PlaceNewOrderDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D172A793236854C9008701BA /* PlaceNewOrderDetailViewModel.swift */; };
+		D1892A8123BCDDA4002DC90C /* BollingerBands.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1892A8023BCDDA4002DC90C /* BollingerBands.swift */; };
 		D192FE092351D6520090A194 /* UserStreamHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = D192FE082351D6520090A194 /* UserStreamHandler.swift */; };
 		D192FE0B2351DCF10090A194 /* systemBRAIN.swift in Sources */ = {isa = PBXBuildFile; fileRef = D192FE0A2351DCF10090A194 /* systemBRAIN.swift */; };
 		D192FE0D23520A630090A194 /* OrderHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = D192FE0C23520A630090A194 /* OrderHandler.swift */; };
@@ -199,6 +200,7 @@
 		D172A78E23684378008701BA /* TargetCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = TargetCollectionViewCell.xib; sourceTree = "<group>"; };
 		D172A79123684E44008701BA /* BaseTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseTableViewCell.swift; sourceTree = "<group>"; };
 		D172A793236854C9008701BA /* PlaceNewOrderDetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceNewOrderDetailViewModel.swift; sourceTree = "<group>"; };
+		D1892A8023BCDDA4002DC90C /* BollingerBands.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BollingerBands.swift; sourceTree = "<group>"; };
 		D192FE082351D6520090A194 /* UserStreamHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserStreamHandler.swift; sourceTree = "<group>"; };
 		D192FE0A2351DCF10090A194 /* systemBRAIN.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = systemBRAIN.swift; sourceTree = "<group>"; };
 		D192FE0C23520A630090A194 /* OrderHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderHandler.swift; sourceTree = "<group>"; };
@@ -488,6 +490,7 @@
 				D12E3564239FC9AE005297FB /* RSI.swift */,
 				D12E3566239FC9D3005297FB /* MovingAvarage.swift */,
 				D12E3568239FD0A1005297FB /* Ichimoku.swift */,
+				D1892A8023BCDDA4002DC90C /* BollingerBands.swift */,
 			);
 			path = Indicators;
 			sourceTree = "<group>";
@@ -706,6 +709,7 @@
 				CB711F6A234B5BC6008F7A33 /* BidAskObject.swift in Sources */,
 				CB23D500234E13A80053E6DE /* outboundAccountInfoObject.swift in Sources */,
 				CB2571A02345E164007DBD6F /* BaseApiModel.swift in Sources */,
+				D1892A8123BCDDA4002DC90C /* BollingerBands.swift in Sources */,
 				CB143EFA236ADE6B00A4E283 /* MarketDataHandler.swift in Sources */,
 				CBAFCC0C236705B200EA3370 /* DescriptionCell.swift in Sources */,
 				CB2571982345E0B9007DBD6F /* BaseApiServices.swift in Sources */,

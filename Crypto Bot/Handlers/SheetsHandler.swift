@@ -38,6 +38,9 @@ class SheetsHandler: NSObject {
         GIDSignIn.sharedInstance()?.restorePreviousSignIn()
         service.apiKey = "AIzaSyBvQJSZMaSHM7P4x2186XsnHC-lWeUfhkU";
         formatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
+        VirtualTrader().fetchCandles(timeFrame: CandlestickChartIntervals.oneHour, total: 10000)
+//        ShortTermBuyTradesHandler().initialSamples(symbol: "BTCUSDT", timeFrame: CandlestickChartIntervals.oneHour, candleLimit: 1000)
+
     }
     
     func startUpdatingSheets() {
@@ -104,11 +107,6 @@ class SheetsHandler: NSObject {
                     break
                 }
             }
-//
-//            guard self.StochRSILenthRSI != nil else {
-//                AlertUtility.showAlert(title: "Please set RSI Lenght")
-//                return
-//            }
             
             let ma9 = MovingAverage(period: 9).calculateSimpleMovingAvarage(list: samples)
             let ma26 = MovingAverage(period: 26).calculateSimpleMovingAvarage(list: samples)
@@ -118,18 +116,14 @@ class SheetsHandler: NSObject {
             let ema25 = MovingAverage(period: 25).calculateExponentialMovingAvarage(list: samples)
             let ema99 = MovingAverage(period: 99).calculateExponentialMovingAvarage(list: samples)
             
-            let trix = self.calculateTrixValue(samples: samples)
+            let trix = TRIX(period: 4).calculateTrixValues(samples: samples)
             
-            let BB = BollingerBands(period: 20, mult: 2).calculateBollingerBands(samples: samples as! [Double])
-            
+            let BB = BollingerBands(period: 11, mult: 2).calculateBollingerBands(samples: samples as! [Double], highs: highSamples  as! [Double], lows: lowSamples as! [Double])
+                        
             let rsi = RSI(period: 14)
             rsi.sampleList = samples
             let rsiResult = rsi.CalculateRSI()
-            
-            for sample in samples {
-                print("\(sample!)")
-            }
-            
+                        
             let lowRsi = RSI(period: 14)
             lowRsi.sampleList = lowSamples
             let lowRsiResult = lowRsi.CalculateRSI()
@@ -141,6 +135,10 @@ class SheetsHandler: NSObject {
             self.RSIValues = rsiResult.RSI
             self.candidateRSIValues(samples: samples, symbol: self.symbol)
             
+            let candlesTopDowns = self.calculateCandlesTopsAndDowns(samples: candlesArray!, window: 5)
+            let rsiTopDowns = self.calculateTopsAndDowns(samples: self.RSIValues as! [Double], window: 5)
+
+            let isDivergence = self.checkForDivergence(candleTops: candlesTopDowns.tops, candleBottoms: candlesTopDowns.bottoms, indicatorTops: rsiTopDowns.tops, indicatorBottoms: rsiTopDowns.bottoms, diff: candlesArray!.count - self.stocRSISmoothK.count)
             
             var candleValues:[[Any]] = [["Time","Low","Open","Close","High"]]
             var RSIValues:[[Any]] = [["Time","RSI","Low RSI","High RSI"]]
@@ -149,7 +147,7 @@ class SheetsHandler: NSObject {
             
             var crossMAValues:[[Any]] = [["Time","Value1","Value2"]]
             var EMAValues:[[Any]] = [["Time","EMA 7","EMA 25","EMA 99"]]
-            var TRIXValues:[[Any]] = [["Time","TRIX"]]
+            var TRIXValues:[[Any]] = [["Time","BinanceTRIX","TVTRIX"]]
             var BBValues:[[Any]] = [["Time","Mid","Upp","Low"]]
             
             let rsiDiff = candlesArray!.count - self.RSIValues.count
@@ -158,7 +156,7 @@ class SheetsHandler: NSObject {
             
             let ema25Diff = candlesArray!.count - ema25.count
             let ema99Diff = candlesArray!.count - ema99.count
-            let trixDiff = candlesArray!.count - trix.count
+            let trixDiff = candlesArray!.count - trix.0.count
             let BBDiff = candlesArray!.count - BB.upper.count
             
             for i in 0..<candlesArray!.count {
@@ -174,9 +172,9 @@ class SheetsHandler: NSObject {
                 }
                 
                 if i >= trixDiff {
-                    TRIXValues.append([date, trix[i - trixDiff]!])
+                    TRIXValues.append([date, trix.0[i - trixDiff]!, trix.1[i - trixDiff]!])
                 } else {
-                    TRIXValues.append([date,0])
+                    TRIXValues.append([date,0,0])
                 }
                 
                 if i >= BBDiff {
@@ -344,13 +342,199 @@ class SheetsHandler: NSObject {
         }
     }
     
-    private func calculateTrixValue(samples: [Double?]) -> [Double?] {
-    
-        let EMA1 = MovingAverage(period: 9).calculateExponentialMovingAvarage(list: samples)
-        let EMA2 = MovingAverage(period: 9).calculateExponentialMovingAvarage(list: EMA1)
-        let EMA3 = MovingAverage(period: 9).calculateExponentialMovingAvarage(list: EMA2)
+    private func calculateCandlesTopsAndDowns(samples: [CandleObject], window: Int) -> (tops: [Int:Double], bottoms: [Int:Double]) {
         
-        return EMA3
+        var tops = [Int:Double]()
+        var bottoms = [Int:Double]()
+        
+        guard samples.count >= window * 2 + 1 else { return (tops, bottoms) }
+
+        for i in window..<samples.count {
+            let high = samples[i].high!
+            let low = samples[i].low!
+            
+            var isHigh = true
+            var isLow = true
+            
+            for w in 1...window {
+                if high <= samples[i - w].high! {
+                    isHigh = false
+                    break
+                }
+            }
+            
+            if isHigh {
+                if i < samples.count - 1 {
+                    for w in (i + 1)...i + window {
+                        if w < samples.count {
+                            if high <= samples[w].high! {
+                                isHigh = false
+                                break
+                            }
+                        }
+                    }
+                }
+            }
+            
+            if isHigh {
+                tops[i] = high.doubleValue
+            }
+            
+            
+            
+            for w in 1...window {
+                if low >= samples[i - w].low! {
+                    isLow = false
+                    break
+                }
+            }
+            
+            if isLow {
+                if i < samples.count - 1 {
+                    for w in (i + 1)...i + window {
+                        if w < samples.count {
+                            if low >= samples[w].low! {
+                                isLow = false
+                                break
+                            }
+                        }
+                    }
+                }
+            }
+            
+            if isLow {
+                bottoms[i] = low.doubleValue
+            }
+        }
+        
+        return (tops, bottoms)
+    }
+    
+    private func calculateTopsAndDowns(samples: [Double], window: Int) -> (tops: [Int:Double], bottoms: [Int:Double]) {
+        
+        var tops = [Int:Double]()
+        var bottoms = [Int:Double]()
+        
+        guard samples.count >= window * 2 + 1 else { return (tops, bottoms) }
+
+        for i in window..<samples.count {
+            let high = samples[i]
+            let low = samples[i]
+            
+            var isHigh = true
+            var isLow = true
+            
+            for w in 1...window {
+                if high <= samples[i - w] {
+                    isHigh = false
+                    break
+                }
+            }
+            
+            if isHigh {
+                if i < samples.count - 1 {
+                    for w in (i + 1)...i + window {
+                        if w < samples.count {
+                            if high <= samples[w] {
+                                isHigh = false
+                                break
+                            }
+                        }
+                    }
+                }
+            }
+            
+            if isHigh {
+                tops[i] = high
+            }
+
+            for w in 1...window {
+                if low >= samples[i - w] {
+                    isLow = false
+                    break
+                }
+            }
+            
+            if isLow {
+                if i < samples.count - 1 {
+                    for w in (i + 1)...i + window {
+                        if w < samples.count {
+                            if low >= samples[w] {
+                                isLow = false
+                                break
+                            }
+                        }
+                    }
+                }
+            }
+            
+            if isLow {
+                bottoms[i] = low
+            }
+        }
+
+        return (tops, bottoms)
+    }
+    
+    private func checkForDivergence(candleTops: [Int:Double],candleBottoms: [Int:Double],indicatorTops: [Int:Double],indicatorBottoms: [Int:Double], diff: Int) -> Bool {
+        
+        let sortedIndicatorTops =  Array(indicatorTops.keys).sorted(by: <)
+        let sortedCandlesTops =  Array(candleTops.keys).sorted(by: <)
+//        let sortedIndicatorDowns =  Array(indicatorBottoms.keys).sorted(by: <)
+//        let sortedCandlesDowns =  Array(candleBottoms.keys).sorted(by: <)
+
+        let lastCandleIndex = sortedCandlesTops.last!
+        let lastIndicatorIndex = sortedIndicatorTops.last!
+        
+        guard min(candleTops.count,indicatorTops.count) > 1 else { return false }
+        
+        let defaultDivergenceLookup = 10
+        let count = (min(candleTops.count,indicatorTops.count) > defaultDivergenceLookup) ? defaultDivergenceLookup : min(candleTops.count,indicatorTops.count)
+        for i in 1...count {
+            if ((candleTops[lastCandleIndex]! > candleTops[sortedCandlesTops[sortedCandlesTops.count - i - 1]]!) && (indicatorTops[lastIndicatorIndex]! < indicatorTops[sortedIndicatorTops[sortedIndicatorTops.count - i - 1]]!)) ||
+                ((candleTops[lastCandleIndex]! < candleTops[sortedCandlesTops[sortedCandlesTops.count - i - 1]]!) && (indicatorTops[lastIndicatorIndex]! > indicatorTops[sortedIndicatorTops[sortedIndicatorTops.count - i - 1]]!)) {
+                
+                if abs(sortedIndicatorTops[sortedIndicatorTops.count - i - 1] - sortedCandlesTops[sortedCandlesTops.count - i - 1]) > 5 {
+                    print("too much difference!")
+                    break
+                }
+
+                let priceSlope = abs(candleTops[sortedCandlesTops[sortedCandlesTops.count - i - 1]]! - candleTops[lastCandleIndex]!) / Double(sortedCandlesTops[sortedCandlesTops.count - 1] - sortedCandlesTops[sortedCandlesTops.count - i - 1])
+                
+                let indicatorSlope = abs(indicatorTops[sortedIndicatorTops[sortedIndicatorTops.count - i - 1]]! - indicatorTops[lastIndicatorIndex]!) / Double(sortedIndicatorTops[sortedIndicatorTops.count - 1] - sortedIndicatorTops[sortedIndicatorTops.count - i - 1])
+
+                let slopeDiff = priceSlope + indicatorSlope
+                
+                if slopeDiff > 30 {
+                    return true
+                }
+                
+                print(i)
+                print(candleTops[lastCandleIndex]!)
+                print(candleTops[sortedCandlesTops[sortedCandlesTops.count - i - 1]]!)
+                print(indicatorTops[lastIndicatorIndex]!)
+                print(indicatorTops[sortedIndicatorTops[sortedIndicatorTops.count - i - 1]]!)
+                print("\n\n\n\n")
+                
+            }
+        }
+        
+        
+        return false
+    }
+    
+    private func calculateTrixValue(samples: [Double?]) -> (bTRIX: [Double?], tTRIX: [Double?]) {
+    
+        let EMA1 = MovingAverage(period: 18).calculateExponentialMovingAvarage(list: samples)
+        let EMA2 = MovingAverage(period: 18).calculateExponentialMovingAvarage(list: EMA1)
+        let EMA3 = MovingAverage(period: 18).calculateExponentialMovingAvarage(list: EMA2)
+        
+        var tradingTRIX = [0.0]
+        
+        for i in 1..<EMA3.count {
+            tradingTRIX.append(((EMA3[i]! - EMA3[i - 1]!) / EMA3[i - 1]!) * 10000)
+        }
+        return (EMA3, tradingTRIX)
     }
     
     private func candidateRSIValues(samples: [Double?], symbol: String) {

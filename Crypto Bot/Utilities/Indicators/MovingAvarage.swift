@@ -61,6 +61,27 @@ class MovingAverage {
         return emaArray
     }
     
+    public func calculateExponentialMovingAvarageWithEqualCount(list: [Double?]) -> [Double?] {
+
+        if list.count < self.period { return [] }
+
+        var emaArray = [Double?]()
+
+        for i in 0..<list.count {
+            if i >= self.period - 1 {
+                var subArray = [Double?]()
+                subArray.append(contentsOf: list[(i - self.period + 1)...i])
+                emaArray.append(ExponentialMA(list: subArray, price: list[i] ?? 0))
+            }
+        }
+        
+        while emaArray.count < list.count {
+            emaArray.insert(0, at: 0)
+        }
+        
+        return emaArray
+    }
+    
     private func ExponentialMA(list: Array<Double?>, price: Double) -> Double? {
         
         if list.count == 0 { return nil }

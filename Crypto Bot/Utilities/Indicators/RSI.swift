@@ -107,8 +107,8 @@ public class RSI {
                     preAverageGain = (gain ?? 1) * Double(self.period - 1) / Double(self.period)
                     preAverageLoss = ((loss * Double(self.period - 1)) + (change[i]!) * -1.0) / Double(self.period)
                 }
-                
-                rsiSerie.RS.append((preAverageGain ?? 1.0) / (preAverageLoss ?? 1.0))
+                let finalLoss = ((preAverageLoss ?? 0) == 0) ? 1 : (preAverageLoss ?? 0)
+                rsiSerie.RS.append((preAverageGain ?? 1.0) / finalLoss)
             } else {
                 if change[i]! > 0.0 {
                     preAverageGain = (((preAverageGain ?? 1.0) * Double(self.period - 1)) + change[i]!) / Double(self.period)
@@ -119,7 +119,8 @@ public class RSI {
                     preAverageLoss = (a + (change[i]!) * -1.0) / Double(self.period)
                 }
                 
-                rsiSerie.RS.append((preAverageGain ?? 1) / (preAverageLoss ?? 1))
+                let finalLoss = ((preAverageLoss ?? 0) == 0) ? 1 : (preAverageLoss ?? 0)
+                rsiSerie.RS.append((preAverageGain ?? 1) / finalLoss)
 
             }
         }

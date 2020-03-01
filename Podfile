@@ -17,4 +17,5 @@ target 'Crypto Bot' do
     pod 'Charts'
     pod 'GoogleAPIClientForREST/Sheets', '~> 1.2.1'
     pod 'GoogleSignIn', '~> 5.0'
+    pod 'SQLite.swift', '~> 0.12.0'
 end

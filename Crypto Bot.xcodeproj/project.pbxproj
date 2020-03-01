@@ -79,9 +79,10 @@
 		D131C7DE239A9C2D0071CC85 /* coin.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = D131C7DD239A9C2D0071CC85 /* coin.mp3 */; };
 		D131C7E0239A9C350071CC85 /* failed.wav in Resources */ = {isa = PBXBuildFile; fileRef = D131C7DF239A9C350071CC85 /* failed.wav */; };
 		D131C7E2239A9C560071CC85 /* MAudioPlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = D131C7E1239A9C560071CC85 /* MAudioPlayer.swift */; };
+		D13971C0240A7FB9007DCA32 /* DBHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = D13971BE240A7FB9007DCA32 /* DBHelper.swift */; };
+		D13971C1240A7FB9007DCA32 /* Table_candle.swift in Sources */ = {isa = PBXBuildFile; fileRef = D13971BF240A7FB9007DCA32 /* Table_candle.swift */; };
 		D13B48DE238008E000FDBA3B /* QueuedOrderObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = D13B48DD238008E000FDBA3B /* QueuedOrderObject.swift */; };
 		D13B48E0238037BC00FDBA3B /* QueuedOrderTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D13B48DF238037BC00FDBA3B /* QueuedOrderTableViewCell.swift */; };
-		D13B48E22381364B00FDBA3B /* DBHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = D13B48E12381364B00FDBA3B /* DBHandler.swift */; };
 		D13B48E72381644900FDBA3B /* BasicOrderObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = D13B48E62381644900FDBA3B /* BasicOrderObject.swift */; };
 		D14152AA236E09CB00995986 /* BorderedTextfield.swift in Sources */ = {isa = PBXBuildFile; fileRef = D14152A9236E09CB00995986 /* BorderedTextfield.swift */; };
 		D158D40A2370BFC700AAEE04 /* CellModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D158D4092370BFC700AAEE04 /* CellModel.swift */; };
@@ -91,6 +92,13 @@
 		D172A79023684378008701BA /* TargetCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = D172A78E23684378008701BA /* TargetCollectionViewCell.xib */; };
 		D172A79223684E44008701BA /* BaseTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D172A79123684E44008701BA /* BaseTableViewCell.swift */; };
 		D172A794236854C9008701BA /* PlaceNewOrderDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D172A793236854C9008701BA /* PlaceNewOrderDetailViewModel.swift */; };
+		D18660E123C655C4001D5CC4 /* TRIX.swift in Sources */ = {isa = PBXBuildFile; fileRef = D18660E023C655C4001D5CC4 /* TRIX.swift */; };
+		D18660E323C6573F001D5CC4 /* LongTermSellTradesHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = D18660E223C6573F001D5CC4 /* LongTermSellTradesHandler.swift */; };
+		D18660E523C6576D001D5CC4 /* AccountsTradeHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = D18660E423C6576D001D5CC4 /* AccountsTradeHandler.swift */; };
+		D18660E723C657BF001D5CC4 /* ShortTermSellTradesHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = D18660E623C657BF001D5CC4 /* ShortTermSellTradesHandler.swift */; };
+		D18660E923C657FC001D5CC4 /* ShortTermBuyTradesHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = D18660E823C657FC001D5CC4 /* ShortTermBuyTradesHandler.swift */; };
+		D18660EB23C65845001D5CC4 /* LongTermBuyTradesHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = D18660EA23C65845001D5CC4 /* LongTermBuyTradesHandler.swift */; };
+		D18660EE23C79DF4001D5CC4 /* VirtualTrader.swift in Sources */ = {isa = PBXBuildFile; fileRef = D18660ED23C79DF4001D5CC4 /* VirtualTrader.swift */; };
 		D1892A8123BCDDA4002DC90C /* BollingerBands.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1892A8023BCDDA4002DC90C /* BollingerBands.swift */; };
 		D192FE092351D6520090A194 /* UserStreamHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = D192FE082351D6520090A194 /* UserStreamHandler.swift */; };
 		D192FE0B2351DCF10090A194 /* systemBRAIN.swift in Sources */ = {isa = PBXBuildFile; fileRef = D192FE0A2351DCF10090A194 /* systemBRAIN.swift */; };
@@ -186,9 +194,10 @@
 		D131C7DD239A9C2D0071CC85 /* coin.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = coin.mp3; sourceTree = "<group>"; };
 		D131C7DF239A9C350071CC85 /* failed.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = failed.wav; sourceTree = "<group>"; };
 		D131C7E1239A9C560071CC85 /* MAudioPlayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MAudioPlayer.swift; sourceTree = "<group>"; };
+		D13971BE240A7FB9007DCA32 /* DBHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DBHelper.swift; sourceTree = "<group>"; };
+		D13971BF240A7FB9007DCA32 /* Table_candle.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Table_candle.swift; sourceTree = "<group>"; };
 		D13B48DD238008E000FDBA3B /* QueuedOrderObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QueuedOrderObject.swift; sourceTree = "<group>"; };
 		D13B48DF238037BC00FDBA3B /* QueuedOrderTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QueuedOrderTableViewCell.swift; sourceTree = "<group>"; };
-		D13B48E12381364B00FDBA3B /* DBHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DBHandler.swift; sourceTree = "<group>"; };
 		D13B48E62381644900FDBA3B /* BasicOrderObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BasicOrderObject.swift; sourceTree = "<group>"; };
 		D14152A9236E09CB00995986 /* BorderedTextfield.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BorderedTextfield.swift; sourceTree = "<group>"; };
 		D158D4092370BFC700AAEE04 /* CellModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CellModel.swift; sourceTree = "<group>"; };
@@ -200,6 +209,13 @@
 		D172A78E23684378008701BA /* TargetCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = TargetCollectionViewCell.xib; sourceTree = "<group>"; };
 		D172A79123684E44008701BA /* BaseTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseTableViewCell.swift; sourceTree = "<group>"; };
 		D172A793236854C9008701BA /* PlaceNewOrderDetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceNewOrderDetailViewModel.swift; sourceTree = "<group>"; };
+		D18660E023C655C4001D5CC4 /* TRIX.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TRIX.swift; sourceTree = "<group>"; };
+		D18660E223C6573F001D5CC4 /* LongTermSellTradesHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LongTermSellTradesHandler.swift; sourceTree = "<group>"; };
+		D18660E423C6576D001D5CC4 /* AccountsTradeHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountsTradeHandler.swift; sourceTree = "<group>"; };
+		D18660E623C657BF001D5CC4 /* ShortTermSellTradesHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShortTermSellTradesHandler.swift; sourceTree = "<group>"; };
+		D18660E823C657FC001D5CC4 /* ShortTermBuyTradesHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShortTermBuyTradesHandler.swift; sourceTree = "<group>"; };
+		D18660EA23C65845001D5CC4 /* LongTermBuyTradesHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LongTermBuyTradesHandler.swift; sourceTree = "<group>"; };
+		D18660ED23C79DF4001D5CC4 /* VirtualTrader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VirtualTrader.swift; sourceTree = "<group>"; };
 		D1892A8023BCDDA4002DC90C /* BollingerBands.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BollingerBands.swift; sourceTree = "<group>"; };
 		D192FE082351D6520090A194 /* UserStreamHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserStreamHandler.swift; sourceTree = "<group>"; };
 		D192FE0A2351DCF10090A194 /* systemBRAIN.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = systemBRAIN.swift; sourceTree = "<group>"; };
@@ -257,11 +273,12 @@
 				D192FE0A2351DCF10090A194 /* systemBRAIN.swift */,
 				D192FE0C23520A630090A194 /* OrderHandler.swift */,
 				CB143EF9236ADE6B00A4E283 /* MarketDataHandler.swift */,
-				D13B48E12381364B00FDBA3B /* DBHandler.swift */,
 				D168723423AFB56300F0BD9F /* Crypto Bot-Bridging-Header.h */,
 				D168723A23AFB67800F0BD9F /* GoogleSheetsHandler.m */,
 				D168723C23AFB68E00F0BD9F /* GoogleSheetsHandler.h */,
 				D168723D23AFC9EC00F0BD9F /* SheetsHandler.swift */,
+				D18660EC23C65861001D5CC4 /* Strategy */,
+				D18660ED23C79DF4001D5CC4 /* VirtualTrader.swift */,
 			);
 			path = Handlers;
 			sourceTree = "<group>";
@@ -363,6 +380,7 @@
 		CB2571992345E0F2007DBD6F /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				D13971BD240A7FAD007DCA32 /* DB */,
 				D158D4082370BFAA00AAEE04 /* CellModel */,
 				CBC1BCEE234CA4E9009F6E2C /* AccountServiceModels */,
 				CB711F63234B5A93008F7A33 /* MarketDataServiceModels */,
@@ -491,6 +509,7 @@
 				D12E3566239FC9D3005297FB /* MovingAvarage.swift */,
 				D12E3568239FD0A1005297FB /* Ichimoku.swift */,
 				D1892A8023BCDDA4002DC90C /* BollingerBands.swift */,
+				D18660E023C655C4001D5CC4 /* TRIX.swift */,
 			);
 			path = Indicators;
 			sourceTree = "<group>";
@@ -516,12 +535,33 @@
 			path = Charts;
 			sourceTree = "<group>";
 		};
+		D13971BD240A7FAD007DCA32 /* DB */ = {
+			isa = PBXGroup;
+			children = (
+				D13971BE240A7FB9007DCA32 /* DBHelper.swift */,
+				D13971BF240A7FB9007DCA32 /* Table_candle.swift */,
+			);
+			path = DB;
+			sourceTree = "<group>";
+		};
 		D158D4082370BFAA00AAEE04 /* CellModel */ = {
 			isa = PBXGroup;
 			children = (
 				D158D4092370BFC700AAEE04 /* CellModel.swift */,
 			);
 			path = CellModel;
+			sourceTree = "<group>";
+		};
+		D18660EC23C65861001D5CC4 /* Strategy */ = {
+			isa = PBXGroup;
+			children = (
+				D18660E423C6576D001D5CC4 /* AccountsTradeHandler.swift */,
+				D18660E223C6573F001D5CC4 /* LongTermSellTradesHandler.swift */,
+				D18660E623C657BF001D5CC4 /* ShortTermSellTradesHandler.swift */,
+				D18660E823C657FC001D5CC4 /* ShortTermBuyTradesHandler.swift */,
+				D18660EA23C65845001D5CC4 /* LongTermBuyTradesHandler.swift */,
+			);
+			path = Strategy;
 			sourceTree = "<group>";
 		};
 		D1A22593237B36EC0094BB2C /* ActiveOrders */ = {
@@ -696,28 +736,34 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D18660E123C655C4001D5CC4 /* TRIX.swift in Sources */,
 				D192FE0D23520A630090A194 /* OrderHandler.swift in Sources */,
+				D18660EE23C79DF4001D5CC4 /* VirtualTrader.swift in Sources */,
 				D1C6354A23689A7400D9745B /* StepperView.swift in Sources */,
 				D13B48E0238037BC00FDBA3B /* QueuedOrderTableViewCell.swift in Sources */,
 				CBAFCC042366E5B800EA3370 /* PriceCell.swift in Sources */,
 				CBBE8F60236AB8BB004279D6 /* SymbolsListTableViewController.swift in Sources */,
 				CB711F58234B3A87008F7A33 /* UserDataStreamServices.swift in Sources */,
+				D18660E323C6573F001D5CC4 /* LongTermSellTradesHandler.swift in Sources */,
 				CBAFCC082366FCFE00EA3370 /* AmountCell.swift in Sources */,
 				D12E3565239FC9AE005297FB /* RSI.swift in Sources */,
 				CBC1BCE5234C7E0D009F6E2C /* CandleObject.swift in Sources */,
 				D131C7E2239A9C560071CC85 /* MAudioPlayer.swift in Sources */,
+				D18660EB23C65845001D5CC4 /* LongTermBuyTradesHandler.swift in Sources */,
 				CB711F6A234B5BC6008F7A33 /* BidAskObject.swift in Sources */,
 				CB23D500234E13A80053E6DE /* outboundAccountInfoObject.swift in Sources */,
 				CB2571A02345E164007DBD6F /* BaseApiModel.swift in Sources */,
 				D1892A8123BCDDA4002DC90C /* BollingerBands.swift in Sources */,
 				CB143EFA236ADE6B00A4E283 /* MarketDataHandler.swift in Sources */,
 				CBAFCC0C236705B200EA3370 /* DescriptionCell.swift in Sources */,
+				D18660E923C657FC001D5CC4 /* ShortTermBuyTradesHandler.swift in Sources */,
 				CB2571982345E0B9007DBD6F /* BaseApiServices.swift in Sources */,
 				D1A22597237B37710094BB2C /* ActiveOrdersViewModel.swift in Sources */,
 				D1138F07236B46D600766FD1 /* NumbersUtilities.swift in Sources */,
 				CB8AACD2234F741F0096DD07 /* ToolbarPickerView.swift in Sources */,
 				D1C910B5238168E700F374AE /* Model.xcdatamodeld in Sources */,
 				D1C152E1238C6F7C00830C24 /* PupmHandler.swift in Sources */,
+				D13971C0240A7FB9007DCA32 /* DBHelper.swift in Sources */,
 				CBBE8F62236AB8E0004279D6 /* SymbolsListViewModel.swift in Sources */,
 				CBC1BD00234DDC6A009F6E2C /* AccountInformation.swift in Sources */,
 				D168723B23AFB67800F0BD9F /* GoogleSheetsHandler.m in Sources */,
@@ -758,7 +804,6 @@
 				CBC1BCE9234C8A3B009F6E2C /* OneDayTickerPriceChangeObject.swift in Sources */,
 				D1A22595237B372F0094BB2C /* ActiveOrdersViewController.swift in Sources */,
 				CBC1BCF0234CA510009F6E2C /* OrderResponseObject.swift in Sources */,
-				D13B48E22381364B00FDBA3B /* DBHandler.swift in Sources */,
 				CBC1BCE7234C886F009F6E2C /* AvaragePriceObject.swift in Sources */,
 				D1C6354E2368B28700D9745B /* PlaceOrderViewController.swift in Sources */,
 				CBC1BCFE234DC441009F6E2C /* OrderObject.swift in Sources */,
@@ -774,10 +819,13 @@
 				CB711F5E234B3D8B008F7A33 /* RateLimitObject.swift in Sources */,
 				D172A794236854C9008701BA /* PlaceNewOrderDetailViewModel.swift in Sources */,
 				D12E3567239FC9D3005297FB /* MovingAvarage.swift in Sources */,
+				D18660E723C657BF001D5CC4 /* ShortTermSellTradesHandler.swift in Sources */,
+				D13971C1240A7FB9007DCA32 /* Table_candle.swift in Sources */,
 				D131C7D7239A3AB20071CC85 /* LineChart2ViewController.swift in Sources */,
 				CB25719D2345E11D007DBD6F /* ApiError.swift in Sources */,
 				CB711F54234B3A01008F7A33 /* GeneralServices.swift in Sources */,
 				CBC1BCED234C9B40009F6E2C /* SymbolOrderBookObject.swift in Sources */,
+				D18660E523C6576D001D5CC4 /* AccountsTradeHandler.swift in Sources */,
 				CB2571842345DFB9007DBD6F /* SceneDelegate.swift in Sources */,
 				D1C6354C2368AEE900D9745B /* AMDots.swift in Sources */,
 			);

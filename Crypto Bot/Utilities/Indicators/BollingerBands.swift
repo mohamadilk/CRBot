@@ -18,9 +18,15 @@ class BollingerBands {
         self.mult = mult
     }
     
-    public func calculateBollingerBands(samples: [Double]) -> (middle: [Double?], upper: [Double?], lower: [Double?]) {
+    public func calculateBollingerBands(samples: [Double], highs: [Double], lows:[Double]) -> (middle: [Double?], upper: [Double?], lower: [Double?]) {
         
         let mid = MovingAverage(period: period).calculateSimpleMovingAvarage(list: samples)
+        
+        var midLowBand = MovingAverage(period: 5).calculateExponentialMovingAvarageWithEqualCount(list: lows)
+        midLowBand = MovingAverage(period: 5).calculateExponentialMovingAvarageWithEqualCount(list: midLowBand)
+        
+        var midHighBand = MovingAverage(period: 5).calculateExponentialMovingAvarageWithEqualCount(list: highs)
+        midHighBand = MovingAverage(period: 5).calculateExponentialMovingAvarageWithEqualCount(list: midHighBand)
         
         var upperBand = [Double?]()
         var lowerBand = [Double?]()
@@ -28,12 +34,15 @@ class BollingerBands {
         if samples.count >= period {
             for i in 0..<samples.count {
                 if i >= (period - 1) {
-                    let subArray = Array(samples[i - (period - 1)...i])
-                    upperBand.append(mid[i]! + standardDeviation(arr: subArray) * mult)
-                    lowerBand.append(mid[i]! - standardDeviation(arr: subArray) * mult)
+                    let lowsSubArray = Array(lows[i - (period - 1)...i])
+                    let highsSubArray = Array(highs[i - (period - 1)...i])
+
+                    
+                    upperBand.append(midHighBand[i]! + standardDeviation(arr: highsSubArray) * mult)
+                    lowerBand.append(midLowBand[i]! - standardDeviation(arr: lowsSubArray) * mult)
                 } else {
-                    upperBand.append(mid[i]!)
-                    lowerBand.append(mid[i]!)
+                    upperBand.append(midHighBand[i]!)
+                    lowerBand.append(midLowBand[i]!)
                 }
             }
         }

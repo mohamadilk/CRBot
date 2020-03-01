@@ -31,6 +31,9 @@ PODS:
   - NVActivityIndicatorView/Presenter (4.8.0)
   - ObjectMapper (3.5.1)
   - Result (3.2.4)
+  - SQLite.swift (0.12.2):
+    - SQLite.swift/standard (= 0.12.2)
+  - SQLite.swift/standard (0.12.2)
   - Starscream (3.0.6)
   - SugarRecord/CoreData (3.1.2):
     - Result (~> 3.0)
@@ -44,6 +47,7 @@ DEPENDENCIES:
   - GoogleSignIn (~> 5.0)
   - NVActivityIndicatorView
   - ObjectMapper
+  - SQLite.swift (~> 0.12.0)
   - Starscream (~> 3.0.2)
   - SugarRecord/CoreData
   - UICircularProgressRing
@@ -61,6 +65,7 @@ SPEC REPOS:
     - NVActivityIndicatorView
     - ObjectMapper
     - Result
+    - SQLite.swift
     - Starscream
     - SugarRecord
     - UICircularProgressRing
@@ -77,10 +82,11 @@ SPEC CHECKSUMS:
   NVActivityIndicatorView: d24b7ebcf80af5dcd994adb650e2b6c93379270f
   ObjectMapper: 70187b8941977c62ccfb423caf6b50be405cabf0
   Result: d2d07204ce72856f1fd9130bbe42c35a7b0fea10
+  SQLite.swift: d2b4642190917051ce6bd1d49aab565fe794eea3
   Starscream: ef3ece99d765eeccb67de105bfa143f929026cf5
   SugarRecord: be6aa5c18b4a4dec0de4c1f49fc61c85eabb5328
   UICircularProgressRing: 907613633e76e561b972a3868c95517d14c71006
 
-PODFILE CHECKSUM: 4478db0387c5f3fd85cded61c55fe972084f95d1
+PODFILE CHECKSUM: 58d78ccb4d692243cc4a4703457d5c69e40c2502
 
 COCOAPODS: 1.8.1

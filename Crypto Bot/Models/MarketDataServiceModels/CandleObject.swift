@@ -22,6 +22,7 @@ class CandleObject {
     var takerBuyBaseAssetVolume: String?
     var takerBuyquoteAssetVolume: String?
     var ignore: String?
+    var interval = "5m"
     
     init(openTime: TimeInterval?, open: String?, high: String?, low: String?, close: String?, volume: String?, closeTime: TimeInterval?, quoteAssetVolume: String?, numberOfTrades: Int?, takerBuyBaseAssetVolume: String?, takerBuyquoteAssetVolume: String?, ignore: String?) {
         

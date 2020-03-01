@@ -96,7 +96,7 @@ class MarketDataServices: BaseApiServices {
         var params = [Keys.parameterKeys.symbol:symbol, Keys.parameterKeys.limit: limit ?? 500] as [String : Any]
         if let from = fromId { params[Keys.parameterKeys.fromId] = from }
 
-        self.request(endpoint: Keys.endPoints.trades, type: .arrayOfJsonType, method: .get, body: nil, parameters: params) { (result: Any?, error: ApiError?) in
+        self.request(endpoint: Keys.endPoints.historicalTrades, type: .arrayOfJsonType, method: .get, body: nil, parameters: params, embedApiKey: true) { (result: Any?, error: ApiError?) in
             
             if error != nil {
                 completion(nil, error)

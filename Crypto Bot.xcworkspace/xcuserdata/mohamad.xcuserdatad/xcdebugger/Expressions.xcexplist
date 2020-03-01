@@ -14,15 +14,15 @@
          </PersistentStrings>
       </ContextState>
       <ContextState
+         contextName = "SheetsHandler.calculateTopsAndDowns(samples:window:):SheetsHandler.swift">
+      </ContextState>
+      <ContextState
          contextName = "closure #1 in OrderHandler.sellOrderFullfieled(report:):OrderHandler.swift">
          <PersistentStrings>
             <PersistentString
                value = "activeOrders">
             </PersistentString>
          </PersistentStrings>
-      </ContextState>
-      <ContextState
-         contextName = "SheetsHandler.candidateRSIValues(samples:symbol:):SheetsHandler.swift">
       </ContextState>
       <ContextState
          contextName = "TargetsCell.addNewTarget(price:):TargetsCell.swift">
@@ -76,15 +76,15 @@
          </PersistentStrings>
       </ContextState>
       <ContextState
+         contextName = "SheetsHandler.checkForDivergence(candleTops:candleBottoms:indicatorTops:indicatorBottoms:):SheetsHandler.swift">
+      </ContextState>
+      <ContextState
          contextName = "TargetCollectionViewCell.awakeFromNib():TargetCollectionViewCell.swift">
          <PersistentStrings>
             <PersistentString
                value = "clearButton?.imageView?.image">
             </PersistentString>
          </PersistentStrings>
-      </ContextState>
-      <ContextState
-         contextName = "PlaceNewOrderDetailViewController.didRemove(target:):PlaceNewOrderDetailViewController.swift">
       </ContextState>
       <ContextState
          contextName = "PlaceNewOrderDetailViewController.autoSellSwitchValueChanged(isEnable:cellIndex:):PlaceNewOrderDetailViewController.swift">
@@ -95,13 +95,13 @@
          </PersistentStrings>
       </ContextState>
       <ContextState
-         contextName = "OrderHandler.queuedOrdersWith(orderId:):OrderHandler.swift">
+         contextName = "PlaceNewOrderDetailViewController.didRemove(target:):PlaceNewOrderDetailViewController.swift">
       </ContextState>
       <ContextState
          contextName = "closure #2 in PlaceNewOrderDetailViewModel.setTargetsAndPlaceNewOrder(targets:type:asset:currency:side:amount:price:buyStopPrice:buyStopLimitPrice:sellStopPrice:sellStopLimitPrice:completion:):PlaceNewOrderDetailViewModel.swift">
       </ContextState>
       <ContextState
-         contextName = "closure #1 in PumpHandler.filterByCandleSticData(candidates:):PupmHandler.swift">
+         contextName = "OrderHandler.queuedOrdersWith(orderId:):OrderHandler.swift">
       </ContextState>
       <ContextState
          contextName = "RSI.Calculate():Logger.swift">
@@ -119,6 +119,9 @@
                value = "change">
             </PersistentString>
          </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "closure #1 in PumpHandler.filterByCandleSticData(candidates:):PupmHandler.swift">
       </ContextState>
       <ContextState
          contextName = "PlaceNewOrderDetailViewController.targetAddedWith(price:cellIndex:):PlaceNewOrderDetailViewController.swift">
@@ -147,11 +150,6 @@
       </ContextState>
       <ContextState
          contextName = "closure #1 in SheetsHandler.updateCandlesData():SheetsHandler.swift">
-         <PersistentStrings>
-            <PersistentString
-               value = "EMAValues">
-            </PersistentString>
-         </PersistentStrings>
       </ContextState>
       <ContextState
          contextName = "closure #2 in closure #1 in OrderHandler.sellOrderFullfieled(report:):OrderHandler.swift">
@@ -182,7 +180,12 @@
          contextName = "OrderHandler.insertQueuedOrders(array:):OrderHandler.swift">
       </ContextState>
       <ContextState
-         contextName = "StochasticRSI.calculateStochasticRSI(list:):RSI.swift">
+         contextName = "SheetsHandler.checkForDivergence(candleTops:candleBottoms:indicatorTops:indicatorBottoms:diff:):SheetsHandler.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "self.RSIValues">
+            </PersistentString>
+         </PersistentStrings>
       </ContextState>
       <ContextState
          contextName = "TargetsCell.collectionView(_:cellForItemAt:):TargetsCell.swift">
@@ -222,6 +225,14 @@
          <PersistentStrings>
             <PersistentString
                value = "datasource">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "VirtualTrader.didReceiveCandles():VirtualTrader.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "Array(self.candlesArray[0...99])">
             </PersistentString>
          </PersistentStrings>
       </ContextState>

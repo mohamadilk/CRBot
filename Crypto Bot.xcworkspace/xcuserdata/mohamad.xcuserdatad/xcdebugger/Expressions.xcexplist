@@ -143,6 +143,28 @@
          </PersistentStrings>
       </ContextState>
       <ContextState
+         contextName = "ShortTermBuyTradesHandler.runDivergenceCheck():ShortTermBuyTradesHandler.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "candles">
+            </PersistentString>
+            <PersistentString
+               value = "self.lowRsi?.RSI">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "AccountsTradeHandler.checkForDivergence(candleTops:candleBottoms:rsiTops:rsiBottoms:lastPossibleIndex:):AccountsTradeHandler.swift">
+      </ContextState>
+      <ContextState
+         contextName = "AccountsTradeHandler.priceHasValidChange(first:second:):AccountsTradeHandler.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "((first - second) / first) * 100">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
          contextName = "closure #1 in systemBRAIN.placeSellOrderForExecutedBuyOrder(report:response:):systemBRAIN.swift">
       </ContextState>
       <ContextState
@@ -184,6 +206,31 @@
          <PersistentStrings>
             <PersistentString
                value = "self.RSIValues">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "closure #1 in VirtualTrader.runAlgo():VirtualTrader.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "secondTimeframeArray.count">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "VirtualTrader.runAlgo():VirtualTrader.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "Array(arrayToCheck.suffix(100))">
+            </PersistentString>
+            <PersistentString
+               value = "secondTimeframeArray.filter({ $0.close!.doubleValue &lt;= timeStr.doubleValue }">
+            </PersistentString>
+            <PersistentString
+               value = "firstTimeframeArray.filter({ $0.closeTime! == 1582885499999 })">
+            </PersistentString>
+            <PersistentString
+               value = "arrayToCheck.last">
             </PersistentString>
          </PersistentStrings>
       </ContextState>

@@ -24,6 +24,9 @@ class AccountsTradeHandler: NSObject {
     
     func initialCandles(candles: [CandleObject]) {
         self.candles = candles
+        self.closeSamples = []
+        self.highSamples = []
+        self.lowSamples = []
         
         for candle in candles {
             self.closeSamples.append(candle.close?.doubleValue ?? 0)
@@ -169,7 +172,7 @@ class AccountsTradeHandler: NSObject {
             }
         }
         return (tops, bottoms)
-    
+        
     }
     
     
@@ -191,13 +194,12 @@ class AccountsTradeHandler: NSObject {
         let lastBottomCandleIndex = sortedCandlesDowns.last!
         let lastBottomRSIIndex = sortedRSIDowns.last!
         
-        if min(candleTops.count,rsiTops.count) > 1 {
-            let shortDivergenceCheckPeriod = 12
+        if min(candleTops.count,rsiTops.count) > 1  && (lastPossibleIndex - 1 == sortedCandlesTops.last ?? 0) && (lastPossibleIndex - lastTopRSIIndex <= 3) {
+            let shortDivergenceCheckPeriod = 14
             
             let count = (min(candleTops.count,rsiTops.count) > shortDivergenceCheckPeriod) ? shortDivergenceCheckPeriod : min(candleTops.count,rsiTops.count) - 1
             
             for i in 1...count {
-                if (lastPossibleIndex - 1 > sortedCandlesTops.last ?? 0) { break }
                 if ((lastPossibleIndex - 1) - sortedRSITops[sortedRSITops.count - i - 1] <= shortDivergenceCheckPeriod) {
                     if ((candleTops[lastTopCandleIndex]! > candleTops[sortedCandlesTops[sortedCandlesTops.count - i - 1]]!) && (rsiTops[lastTopRSIIndex]! < rsiTops[sortedRSITops[sortedRSITops.count - i - 1]]!)) ||
                         ((candleTops[lastTopCandleIndex]! < candleTops[sortedCandlesTops[sortedCandlesTops.count - i - 1]]!) && (rsiTops[lastTopRSIIndex]! > rsiTops[sortedRSITops[sortedRSITops.count - i - 1]]!)) {
@@ -207,27 +209,22 @@ class AccountsTradeHandler: NSObject {
                             break
                         }
                         
-                        let priceSlope = abs(candleTops[sortedCandlesTops[sortedCandlesTops.count - i - 1]]! - candleTops[lastTopCandleIndex]!) / Double(sortedCandlesTops[sortedCandlesTops.count - 1] - sortedCandlesTops[sortedCandlesTops.count - i - 1])
-                        
-                        let indicatorSlope = abs(rsiTops[sortedRSITops[sortedRSITops.count - i - 1]]! - rsiTops[lastTopRSIIndex]!) / Double(sortedRSITops[sortedRSITops.count - 1] - sortedRSITops[sortedRSITops.count - i - 1])
-                        
-                        let Tangent_of_Angle = (indicatorSlope - priceSlope) / (1+priceSlope*indicatorSlope)
-                        
-                        if atan(Tangent_of_Angle) * 180 / Double.pi > 15 {
+                        if abs(rsiTops[sortedRSITops[sortedRSITops.count - i - 1]]! - rsiTops[lastTopRSIIndex]!) > 6 && priceHasValidChange(first: candleTops[sortedCandlesTops[sortedCandlesTops.count - i - 1]]!, second: candleTops[lastTopCandleIndex]!) {
                             return (true, sortedCandlesTops[sortedCandlesTops.count - i - 1], lastTopCandleIndex)
                         }
                     }
+                } else {
+                    break
                 }
             }
         }
         
-        if min(candleBottoms.count,rsiBottoms.count) > 1 {
-            let shortDivergenceCheckPeriod = 12
+        if min(candleBottoms.count,rsiBottoms.count) > 1 && (lastPossibleIndex - 1 == sortedCandlesDowns.last ?? 0) && (lastPossibleIndex - lastBottomRSIIndex <= 4) {
+            let shortDivergenceCheckPeriod = 14
             
             let count = (min(candleBottoms.count,rsiBottoms.count) > shortDivergenceCheckPeriod) ? shortDivergenceCheckPeriod : min(candleBottoms.count,rsiBottoms.count) - 1
             
             for i in 1...count {
-                if (lastPossibleIndex - 1 > sortedCandlesDowns.last ?? 0) { break }
                 if ((lastPossibleIndex - 1) - sortedRSIDowns[sortedRSIDowns.count - i - 1] <= shortDivergenceCheckPeriod) {
                     if ((candleBottoms[lastBottomCandleIndex]! > candleBottoms[sortedCandlesDowns[sortedCandlesDowns.count - i - 1]]!) && (rsiBottoms[lastBottomRSIIndex]! < rsiBottoms[sortedRSIDowns[sortedRSIDowns.count - i - 1]]!)) ||
                         ((candleBottoms[lastBottomCandleIndex]! < candleBottoms[sortedCandlesDowns[sortedCandlesDowns.count - i - 1]]!) && (rsiBottoms[lastBottomRSIIndex]! > rsiBottoms[sortedRSIDowns[sortedRSIDowns.count - i - 1]]!)) {
@@ -237,20 +234,58 @@ class AccountsTradeHandler: NSObject {
                             break
                         }
                         
-                        let priceSlope = abs(candleBottoms[sortedCandlesDowns[sortedCandlesDowns.count - i - 1]]! - candleBottoms[lastBottomCandleIndex]!) / Double(sortedCandlesDowns[sortedCandlesDowns.count - 1] - sortedCandlesDowns[sortedCandlesDowns.count - i - 1])
-                        
-                        let indicatorSlope = abs(rsiBottoms[sortedRSIDowns[sortedRSIDowns.count - i - 1]]! - rsiBottoms[lastBottomRSIIndex]!) / Double(sortedRSIDowns[sortedRSIDowns.count - 1] - sortedRSIDowns[sortedRSIDowns.count - i - 1])
-                        
-                        let Tangent_of_Angle = (indicatorSlope - priceSlope) / (1+priceSlope*indicatorSlope)
-                        
-                        if atan(Tangent_of_Angle) * 180 / Double.pi > 15 {
-                            return (true, sortedCandlesDowns[sortedCandlesDowns.count - i - 1], lastBottomCandleIndex)
+                        if abs(rsiBottoms[sortedRSIDowns[sortedRSIDowns.count - i - 1]]! - rsiBottoms[lastBottomRSIIndex]!) > 6 && priceHasValidChange(first: candleBottoms[sortedCandlesDowns[sortedCandlesDowns.count - i - 1]]!, second: candleBottoms[lastBottomCandleIndex]!) {
+                            return (true, sortedCandlesTops[sortedCandlesTops.count - i - 1], lastTopCandleIndex)
                         }
                     }
+                }  else {
+                    break
                 }
             }
         }
         
         return (false, 0, 0)
+    }
+    
+    private func priceHasValidChange(first: Double, second: Double) -> Bool {
+        return ((first - second) / first) * 100 > appropriateMultForCurrentInterval()
+    }
+    
+    private func appropriateMultForCurrentInterval() -> Double {
+        guard let interval = candles.last?.interval else { return 10 }
+        switch CandlestickChartIntervals(rawValue: interval) {
+        case .oneMin:
+            return 0.1
+        case .threeMin:
+            return 0.15
+        case .fiveMin:
+            return 0.2
+        case .fifteenMin:
+            return 0.3
+        case .thirtyMin:
+            return 0.5
+        case .oneHour:
+            return 0.9
+        case .twoHour:
+            return 1.5
+        case .fourHour:
+            return 3
+        case .sixHour:
+            return 4
+        case .eightHour:
+            return 5
+        case .twelveHour:
+            return 6
+        case .oneDay:
+            return 7
+        case .threeDay:
+            return 8
+        case .oneWeek:
+            return 9
+        case .oneMonth:
+            return 10
+        default:
+            return 10
+        }
     }
 }

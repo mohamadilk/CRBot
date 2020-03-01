@@ -10,27 +10,30 @@ import Foundation
 
 class ShortTermBuyTradesHandler: AccountsTradeHandler {
     
-    func initialSamples(symbol: String, timeFrame: CandlestickChartIntervals, candleLimit: Int) {
-        initialCandles(symbol: symbol, timeFrame: timeFrame, candleLimit: candleLimit)
+    func initialSamples(candles: [CandleObject]) {
+        initialCandles(candles: candles)
     }
     
     override func updatedSamples() {
-        
         let lowRSI = RSI(period: 4)
         lowRSI.sampleList = lowSamples
         lowRsi = lowRSI.CalculateRSI()
+        lowRsi?.RSI.insert(0, at: 0)
         
         let highRSI = RSI(period: 4)
         highRSI.sampleList = highSamples
         highRsi = highRSI.CalculateRSI()
-        
-//        lowTrix = TRIX(period: 3).calculateTrixValues(samples: lowSamples)
-//        highTrix = TRIX(period: 3).calculateTrixValues(samples: highSamples)
-        
-        let candlesTopDowns = self.calculateCandlesTopsAndDowns(samples: candles, window: 3)
-        
-        let LowRsiTopDowns = self.calculateTopsAndDowns(samples: self.lowRsi?.RSI as! [Double], window: 3)
-        let highRsiTopDowns = self.calculateTopsAndDowns(samples: self.highRsi?.RSI as! [Double], window: 3)
+        highRsi?.RSI.insert(0, at: 0)
+    }
+    
+    func runDivergenceCheck() -> Bool {
+                
+        //        lowTrix = TRIX(period: 3).calculateTrixValues(samples: lowSamples)
+        //        highTrix = TRIX(period: 3).calculateTrixValues(samples: highSamples)
+                
+        let candlesTopDowns = self.calculateCandlesTopsAndDowns(samples: candles, window: 2)
+        let LowRsiTopDowns = self.calculateTopsAndDowns(samples: self.lowRsi?.RSI as! [Double], window: 2)
+        let highRsiTopDowns = self.calculateTopsAndDowns(samples: self.highRsi?.RSI as! [Double], window: 2)
         
         let divInfo = checkForDivergence(candleTops: candlesTopDowns.tops, candleBottoms: candlesTopDowns.bottoms, rsiTops: highRsiTopDowns.tops, rsiBottoms: LowRsiTopDowns.bottoms, lastPossibleIndex: candles.count)
         
@@ -42,11 +45,8 @@ class ShortTermBuyTradesHandler: AccountsTradeHandler {
             print("NOTHING ESPECIAL")
         }
         
-        if divInfo.hasDivergence {
-            print("Start Index: \(divInfo.startIndex), End Index: \(divInfo.endindex)")
-        }
-//        let LowTrixTopDowns = self.calculateTopsAndDowns(samples: self.lowTrix?.tradingViewTRIX as! [Double], window: 3)
-//        let highTrixTopDowns = self.calculateTopsAndDowns(samples: self.highTrix?.tradingViewTRIX as! [Double], window: 3)
-
+        return divInfo.hasDivergence
+        //        let LowTrixTopDowns = self.calculateTopsAndDowns(samples: self.lowTrix?.tradingViewTRIX as! [Double], window: 3)
+        //        let highTrixTopDowns = self.calculateTopsAndDowns(samples: self.highTrix?.tradingViewTRIX as! [Double], window: 3)
     }
 }

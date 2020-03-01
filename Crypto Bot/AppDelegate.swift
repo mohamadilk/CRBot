@@ -21,6 +21,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         GIDSignIn.sharedInstance().clientID = "511335688174-o9lmjig231hkhcebllc3l0ba2afal7u9.apps.googleusercontent.com"
         GIDSignIn.sharedInstance().delegate = self
+        
+        VirtualTrader().start()
+
         return true
     }
     

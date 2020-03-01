@@ -38,9 +38,7 @@ class SheetsHandler: NSObject {
         GIDSignIn.sharedInstance()?.restorePreviousSignIn()
         service.apiKey = "AIzaSyBvQJSZMaSHM7P4x2186XsnHC-lWeUfhkU";
         formatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
-        VirtualTrader().fetchCandles(timeFrame: CandlestickChartIntervals.oneHour, total: 10000)
-//        ShortTermBuyTradesHandler().initialSamples(symbol: "BTCUSDT", timeFrame: CandlestickChartIntervals.oneHour, candleLimit: 1000)
-
+        
     }
     
     func startUpdatingSheets() {

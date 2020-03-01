@@ -47,12 +47,12 @@ class VirtualTrader {
         var detectedElements = [firstDivArray]
 
         while timeframeCandles.count > 0 {
-            var arrayToCheck = timeframeCandles.removeFirst()
+            let arrayToCheck = timeframeCandles.removeFirst()
             var detectedItems = [TimeInterval]()
             
             for time in detectedElements.last! {
-                arrayToCheck = arrayToCheck.filter({ $0.closeTime! <= time })
-                shortTermTrader.initialCandles(candles: Array(arrayToCheck.suffix(100)))
+                let filteredArray = arrayToCheck.filter({ $0.closeTime! <= time })
+                shortTermTrader.initialCandles(candles: Array(filteredArray.suffix(100)))
                 if shortTermTrader.runDivergenceCheck() {
                     detectedItems.append(time)
                 }
@@ -94,7 +94,7 @@ class VirtualTrader {
         case .threeMin:
             return 168000
         case .fiveMin:
-            return 30000
+            return 100800
         case .fifteenMin:
             return 33600
         case .thirtyMin:

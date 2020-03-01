@@ -13,76 +13,58 @@ class VirtualTrader {
     let shortTermTrader = ShortTermBuyTradesHandler()
 
     var timeFramesArray = [CandlestickChartIntervals.fiveMin, CandlestickChartIntervals.fourHour, CandlestickChartIntervals.oneDay]
-    
-    var firstTimeframeArray = [CandleObject]()
-    var secondTimeframeArray = [CandleObject]()
-    var thirdTimeframeArray = [CandleObject]()
-        
+    var timeframeCandles = [[CandleObject]]()
     let infinitTime: Int64 = 1000000000000000
-    let smallestFrameStartIndex = 30000 // for 5 min and 1 day, means that we should start from here to be able to get 1000 1D candle for bigest timeframe
-    
-    func start() {
+    var index = 0
+
+    func start(timeFrames: [CandlestickChartIntervals]) {
+        self.timeFramesArray = timeFrames
         loadAllCandles()
     }
     
     func loadAllCandles() {
-        Table_candle.shared.candle_get(timeInterval: timeFramesArray[0].rawValue, before: infinitTime) { (firstCandles, firstSuccess) in
-            if firstSuccess ?? false {
-                self.firstTimeframeArray = firstCandles
-                
-                Table_candle.shared.candle_get(timeInterval: self.timeFramesArray[1].rawValue, before: self.infinitTime) { (secondCandles, secondSuccess) in
-                    if secondSuccess ?? false {
-                        self.secondTimeframeArray = secondCandles
-                        
-                        Table_candle.shared.candle_get(timeInterval: self.timeFramesArray[2].rawValue, before: self.infinitTime) { (thirdCandles, thirdSuccess) in
-                            if thirdSuccess ?? false {
-                                self.thirdTimeframeArray = thirdCandles
-                                self.didReceiveCandles()
-                            } else {
-                                print("Error loading candles")
-                            }
-                        }
-                    } else {
-                        print("Error loading candles")
-                    }
-                }
+        if index == timeFramesArray.count {
+            runAlgo()
+            return
+        }
+        
+        Table_candle.shared.candle_get(timeInterval: timeFramesArray[index].rawValue, before: infinitTime) { (candles, success) in
+            if success ?? false {
+                self.timeframeCandles.append(candles)
+                self.index += 1
+                self.loadAllCandles()
             } else {
                 print("Error loading candles")
             }
         }
     }
     
-    private func didReceiveCandles() {
-        runAlgo()
-    }
-    
     private func runAlgo() {
+        let baseArray = timeframeCandles.removeFirst()
+        let firstDivArray = checkDivergene(baseIndex: smallestFrameStartIndex(), arrayToCheck: baseArray)
+        
+        guard firstDivArray.count > 0 else { return }
+        var detectedElements = [firstDivArray]
 
-        var detectedTimes = [TimeInterval]()
-        var finalItems = [TimeInterval]()
-        
-        let firstDivArray = checkDivergene(baseIndex: smallestFrameStartIndex, arrayToCheck: firstTimeframeArray)
-        
-        for time in firstDivArray {
-            let arrayToCheck = secondTimeframeArray.filter({ $0.closeTime! <= time })
-            shortTermTrader.initialCandles(candles: Array(arrayToCheck.suffix(100)))
-            if shortTermTrader.runDivergenceCheck() {
-                detectedTimes.append(time)
+        while timeframeCandles.count > 0 {
+            var arrayToCheck = timeframeCandles.removeFirst()
+            var detectedItems = [TimeInterval]()
+            
+            for time in detectedElements.last! {
+                arrayToCheck = arrayToCheck.filter({ $0.closeTime! <= time })
+                shortTermTrader.initialCandles(candles: Array(arrayToCheck.suffix(100)))
+                if shortTermTrader.runDivergenceCheck() {
+                    detectedItems.append(time)
+                }
             }
+            
+            detectedElements.append(detectedItems)
         }
-        
-        for time in detectedTimes {
-            let arrayToCheck = thirdTimeframeArray.filter({ $0.closeTime! <= time })
-            shortTermTrader.initialCandles(candles: Array(arrayToCheck.suffix(100)))
-            if shortTermTrader.runDivergenceCheck() {
-                finalItems.append(time)
-            }
-        }
-        
+
         var finalCandles = [CandleObject]()
         
-        for time in finalItems {
-            if let candle = firstTimeframeArray.filter({ $0.closeTime! == time }).last {
+        for time in detectedElements.last! {
+            if let candle = baseArray.filter({ $0.closeTime! == time }).last {
                 finalCandles.append(candle)
             }
         }
@@ -102,6 +84,42 @@ class VirtualTrader {
             }
         }
         return detectedTimes
+    }
+    
+    private func smallestFrameStartIndex() -> Int {
+        guard let firstTimeFrame = timeFramesArray.first else { return 10 }
+        switch firstTimeFrame {
+        case .oneMin:
+            return 500000
+        case .threeMin:
+            return 168000
+        case .fiveMin:
+            return 30000
+        case .fifteenMin:
+            return 33600
+        case .thirtyMin:
+            return 16800
+        case .oneHour:
+            return 8400
+        case .twoHour:
+            return 4200
+        case .fourHour:
+            return 2100
+        case .sixHour:
+            return 1575
+        case .eightHour:
+            return 1050
+        case .twelveHour:
+            return 700
+        case .oneDay:
+            return 350
+        case .threeDay:
+            return 118
+        case .oneWeek:
+            return 50
+        case .oneMonth:
+            return 12
+        }
     }
 }
 
